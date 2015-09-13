@@ -1,0 +1,66 @@
+\documentclass[a4paper,10pt, landscape]{scrreprt}
+\usepackage[utf8]{inputenc}
+\usepackage{ngerman}
+\usepackage[table]{pstricks}
+\usepackage{pst-node, pst-tree, pst-dbicons, pst-eps}
+
+\renewcommand{\familydefault}{\sfdefault}
+\setkomafont{pageheadfoot}{\normalfont\sffamily}  % Serifenlose Schrift
+\usepackage{helvet}
+\KOMAoptions{DIV=last}
+
+
+\input{pst-erm}
+\input{mycolor}
+%\input{myuml}
+\input{mytabs}
+
+\pagestyle{empty}
+
+\begin{document}
+\newcommand{\tabAutor}{
+ \ERMTable{tabAutor}{\tabName autor}{%
+  \tabDaten \hspace{4mm} & name\\
+  \tabDaten  & vorname\\
+  \tabDaten  & geburtsjahr\\
+  \tabDaten  & todesjahr\\
+  \tabDaten  & land\\
+  }
+}
+\newcommand{\tabBuch}{
+ \ERMTable{tabBuch}{\tabName buch}{%
+  \tabPK   PK & isbn\\
+  \tabDaten   & titel\\
+  \tabDaten   & untertitel\\
+  \tabDaten   & sprache\\
+  \tabDaten   & erscheinungsjahr\\
+  }
+}
+\newcommand{\tabVerlag}{
+ \ERMTable{tabVerlag}{\tabName verlag}{%
+  \tabDaten  \hspace{4mm} & name\\
+  \tabDaten   & ort\\
+  \tabDaten   & spezialgebiet\\
+  }
+}
+
+\TeXtoEPS
+\begin{pspicture}(9.0,9.5)%\psgrid
+\rput[lb](0,6.5){\tabAutor}
+\rput[lb](5.0,6.5){\tabBuch}
+\rput[lb](11.0,6.9){\tabVerlag}
+
+%Verbindung Autor Buch
+\ncE{tabAutor}{tabBuch}
+\ermputicon[npos=0,nrot=90]{N}
+\ermputicon[npos=1,nrot=-90]{N}
+
+%Verbindung Buch Verlag
+\ncE{tabBuch}{tabVerlag}
+\ermputicon[npos=0,nrot=90]{N}
+\ermputicon[npos=1,nrot=-90]{Eins}
+
+\end{pspicture}
+\endTeXtoEPS
+
+\end{document}

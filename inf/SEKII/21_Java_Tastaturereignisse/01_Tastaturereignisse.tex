@@ -1,0 +1,103 @@
+\chapter{Tastaturereignisse}
+\renewcommand{\chaptertitle}{Tastaturereignisse}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+\section{Ereignisbehandlung}
+
+Wenn ein Benutzer eine Taste drückt während das Fenster aktiviert ist, dann
+findet im Fenster ein sogenanntes \emph{Ereignis} (engl. \emph{event}) statt.
+
+Wenn der Programmierer von Tastaturereignissen unterrichtet werden möchte, muss
+er eine Klasse schreiben, die das Interface \myClass{KeyListener} implementiert.
+In diesem Interface sind eine Reihe von Methoden definiert, die das System bei
+Tastaturereignissen aufruft:
+
+\bgroup
+\def\arraystretch{1.2}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Methoden des Interfaces \myClass{KeyListener}} & 
+\textbf{Wir aufgerufen wenn \ldots}
+\\ \hline
+\lstinline|public void keyPressed(KeyEvent e)| &
+\ldots eine Taste gedrückt wurde.
+\\ \hline
+\lstinline|public void keyReleased(KeyEvent e)| &
+\ldots eine Taste losgelassen wurde.
+\\ \hline
+\lstinline|public void keyTyped(KeyEvent e)| &
+\ldots eine Taste gedrückt und wieder losgelassen wurde.
+\\ \hline
+\end{tabular}
+\egroup
+
+Im Normalfall benötigt man nur die Methode \lstinline|keyPressed()|. Die beiden
+anderen Methoden müssen jedoch zumindest mit leeren Methodenrümpfen vorhanden
+sein.
+
+Damit die Tastaturereignisse an die Klasse mit dem implementierten Interface
+weitergeleitet werden, muss man die Klasse beim Anwendungsfenster „anmelden“.
+Dazu besitzt die Klasse \myClass{JFrame} folgende Methode:
+
+\begin{lstlisting}
+public void addKeyListener(KeyListener l)
+\end{lstlisting}
+
+Beim Aufruf einer Methode aus dem Interface KeyListener übergibt das System ein
+Objekt der Klasse \myClass{KeyEvent}. Mit einer Methode dieses Objektes kann man
+in Erfahrung bringen, welche Taste vom Benutzer betätigt wurde:
+
+\begin{lstlisting}
+public char getKeyChar() 
+\end{lstlisting}
+
+Die Methode \lstinline|getKeyChar()| gibt den zur Taste gehörenden Buchstaben
+zurück. Der Buchstabe ist vom Datentyp \lstinline|char|.
+
+Alternativ bekommt man mit
+
+\begin{lstlisting}
+public int getKeyCode() 
+
+\end{lstlisting}
+
+zurückgemeldet, welche Taste gedrückt wurde. Zu jeder Taste gibt es eine
+vordefinierte Konstante der Klasse \myClass{KeyEvent} – etwa \lstinline|VK_UP|
+für Pfeiltaste nach oben oder \lstinline|VK_N| für die Taste mit dem Buchstaben
+N. Im Unterschied zu \lstinline|getKeyChar()| spielt es dabei keine Rolle welche
+Modifier-Taste(n) zusätzlich gedrückt wurden (unter Modifier-Tasten versteht man
+die Tasten \lstinline|<Strg>|, \lstinline|<Alt>|, \lstinline|<AltGr>| und die
+Hochstelltaste zum Umschalten auf Großbuchstaben). Zur Unterscheidung zwischen
+großen und kleinen Buchstaben ist \lstinline|getKeyCode()| folglich ungeeignet.
+
+Achtung: \lstinline|getKeyCode()| liefert nur in \lstinline|keyPressed()| ein
+sinnvolles Ergebnis, nicht aber in \lstinline|keyTyped()|!
+
+\section{Datentyp \lstinline|char|}
+
+Buchstaben werden in Java in zwei Byte großen Speicherbereichen abgespeichert,
+die mit dem Datentyp \lstinline|char| bezeichnet werden. Intern werden die
+Buchstaben als Zahlen von 0 bis 65536 kodiert. Die Unicode-Tabelle weist jeder
+Zahl einen entsprechenden Buchstaben zu.
+
+Man kann mit Charactern wie mit Zahlenvariablen arbeiten und ihnen z.B. den
+Zahlenwert eines Buchstaben zuweisen:
+
+\begin{lstlisting}
+char x = 69;         æ// Buchstabe 'E'
+\end{lstlisting}
+
+Da man meistens die Buchstabencodes nicht im Kopf hat, ist es auch möglich,
+einen Buchstaben direkt anzugeben. Dazu muss man den Buchstaben in Hochkommata
+setzen:
+
+\begin{lstlisting}
+char x = 'E';        æ// Zahlencode 69
+\end{lstlisting}

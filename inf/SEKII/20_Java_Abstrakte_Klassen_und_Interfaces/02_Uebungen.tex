@@ -1,0 +1,69 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{
+\makebox[1.60cm][r]{\thechapter}\\ \makebox[1.60cm][r]{ÜBUNG}}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{\thechapter\\
+ÜBUNG}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{Abstrakte Klassen und Interfaces -- Übungen}
+
+\subsection{Aufgabe 1: Ableitung von Abstrakte Klassen}
+
+Es soll in Gruppenarbeit ein Zug mit verschiedenen Waggons entwickelt werden.
+Jeder programmiert einen Waggon oder eine Lokomotive (Es sollte eine Lokomotive
+mit Blickrichtung nach links und eine mit Blickrichtung nach rechts geben.).
+Hinterher kann sich jeder einen oder mehrere Züge aus den vorhandenen Waggons
+zusammenbauen und sie über den Bildschirm fahren lassen.
+
+\begin{compactenum}[1.]
+\item Waggonbau
+
+Wichtig ist, dass alle Waggons zusammenpassen und dass alle Waggons einheitlich
+angesteuert werden können. Deshalb muss zunächst ein Grundentwurf gemacht
+werden, der für alle Waggons gilt:
+\begin{compactenum}[a)]
+\item Es müssen verbindliche Richtlinien für die Maße des Waggons festgelegt
+werden. Zum Beispiel müssen sich die Puffer aller Waggons auf derselben Höhe
+befinden.
+\item Damit jeder jeden Waggon benutzen kann, müssen die Waggons alle dieselben
+Methoden bereitstellen. Dazu wird gemeinsam eine abstrakte Klasse \myClass{Waggon}
+entwickelt. Jeder leitet seinen eigenen Waggon von der Oberklasse
+\myClass{Waggon} ab.
+\end{compactenum}
+
+\item Zusammenbau der Züge
+
+Damit nicht jeder Waggon einzeln vom Anwendungsfenster aus gesteuert werden
+muss, sollte eine Klasse Zug geschrieben werden, die die Steuerung der
+einzelnen Waggons eines Zuges übernimmt.
+
+Auch hier ist es vorteilhaft, wenn verschiedene Züge gleich angesteuert werden
+können. Deshalb wird auch für die Züge zunächst eine abstrakte Oberklasse
+geschrieben.
+
+\item Steuerung über die Tastatur
+
+Die Züge sollen durch Tastendruck gesteuert werden (diesen AUfgabenteil könnt
+ihr erst im Anschluss an das nächste Kapitel lösen). Für jeden Zug wird eine
+Taste festgelegt, bei deren Drücken der Zug beschleunigt wird und eine weitere
+Taste, durch die der Zug abgebremst wird.
+\end{compactenum}
+
+
+\subsection{Aufgabe 2: Implementierung eines Interfaces}
+
+Gegeben ist ein Interface für geometrische Figuren:
+
+\begin{lstlisting}
+public interface Geometrie {
+    boolean istEckig();         æ// gibt zurück, ob die Figur eckig ist oder nicht 
+æ    int anzahlEcken ();         æ// gibt die Anzahl der Ecken zurück
+}
+\end{lstlisting}
+
+Die geometrischen Figuren Kreis, Dreieck, Rechteck, Trapez und Raute sollen
+dieses Interface implementieren. Suche dir eine Klasse aus, und schreibe für
+diese Klasse den Code.

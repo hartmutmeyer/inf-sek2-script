@@ -1,0 +1,149 @@
+\chapter{Vererbung}
+\renewcommand{\chaptertitle}{Vererbung}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+\section{Wie man eine Klasse ableitet}
+
+Bei der Klassendeklaration kann man mit dem Schlüsselwort \verb|extends| eine
+Oberklasse angeben, von der die neue Klasse alle Variablen und Methoden erbt:
+
+\begin{minipage}{0.65\textwidth}
+\begin{lstlisting}
+[public] class KlassenName [extends Super-Klasse] {æ
+    // ...
+æ}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.25\textwidth}
+\lstinline|[...]| bedeutet, dass die Angaben zwischen den eckigen
+Klammern optional sind.
+\end{minipage}
+
+Wenn man keine Oberklasse angibt, dann wird die Klasse automatisch von der
+Klasse \myClass{Object} aus dem Package \myPackage{java.lang} abgeleitet. Diese
+Klasse stellt einige Java-Standardfunktionalitäten bereit.
+
+
+\section{Überschreiben von Methoden}
+
+Die neue Klasse erbt automatisch alle Methoden der Oberklasse und kann neue
+Methoden dazu definieren. Sie kann jedoch auch die Arbeitsweise von Methoden der
+Oberklasse verändern, in dem sie sie überschreibt. Eine Methode wird
+überschrieben, in dem in der abgeleiteten Klasse exakt dieselbe Methode noch
+einmal deklariert wird. Name, Parameter und Rückgabewert müssen dabei
+übereinstimmen.
+
+\emph{Werden nun beide Methoden ausgeführt (die Methode in der Oberklasse und
+die Methode in der abgeleiteten Klasse)?}
+
+Nein. Es wird nur die Methode in der abgeleiteten Klasse ausgeführt. Wenn ein
+Programmierer eine Methode auf ein Objekt anwendet, dann sucht das Java-System
+zunächst in der Klasse des Objektes nach einer entsprechenden Methode. Wenn es
+diese findet, wird die Methode ausgeführt und die Aufgabe ist erledigt. Wenn
+die Methode jedoch in der eigentlichen Klasse nicht vorhanden ist, dann sucht
+das System in der Oberklasse nach einer entsprechenden Methode und führt diese
+aus. Ist auch dort keine Methode definiert, wird die Ober-Oberklasse
+durchsucht, usw.
+
+\emph{Was ist aber, wenn man die Methode der Oberklasse nur erweitern möchte?
+Muss man den ganzen Code neu schreiben, oder kann man die Methode der
+Oberklasse irgendwie aufrufen?} 
+
+Wenn man die Methode der Oberklasse nicht völlig ändern sondern nur erweitern
+möchte, sollte man auf jeden Fall die Methode aus der Oberklasse aufrufen. Wir
+haben ja gelernt, dass derselbe Code nicht an mehreren Stellen im Programm
+stehen sollte. Mit folgendem Befehl kann man explizit eine Methode aus der
+Oberklasse aufrufen:
+
+\begin{lstlisting}
+super.methode(parameter);
+\end{lstlisting}
+
+
+\subsection{Noch ein paar Besonderheiten}
+
+\begin{compactitem}
+\item Methoden mit dem Schlüsselwort \verb|static| können nicht überschrieben
+werden, da sie sich ja auf die gesamte Klasse und nicht auf einzelne Objekte
+beziehen.
+\item Mann kann eine Methode in der Oberklasse mit \verb|final| markieren, um zu
+verbieten, dass sie in abgeleiteten Klassen überschrieben wird.
+\end{compactitem}
+
+
+\subsection{Konstruktor}
+
+Mit folgendem Befehl kann man innerhalb eines Konstruktors den Konstruktor der
+Oberklasse aufrufen:
+
+\begin{lstlisting}
+super(parameter);
+\end{lstlisting}
+
+Konstruktoren werden nicht wie andere Methoden vererbt. Wenn man in der
+Oberklasse einen Konstruktor mit Parametern definiert hat, so ist dieser nicht
+automatisch in der abgeleiteten Klasse vorhanden.
+
+Die Regeln für Konstruktoren lauten folgendermaßen:
+
+\begin{compactenum}[1.]
+\item Wenn in einer Klasse kein Konstruktor definiert ist, dann erzeugt das
+System automatisch einen Standardkonstruktor ohne Parameter, der folgendermaßen
+aussieht:
+
+\begin{lstlisting}
+Klasse() {
+    super();
+}
+\end{lstlisting}
+
+\item Falls man einen oder mehrere Konstruktoren selbst geschrieben hat, dann
+existiert der parameterlose Konstruktor (Standardkonstruktor) nicht, wenn man
+ihn nicht explizit geschrieben hat.
+\item Wenn man einen eigenen Konstruktor schreibt, dann muss man in der ersten
+Zeile des Konstruktors den gewünschten Konstruktor der Oberklasse aufrufen.
+Wenn man dies nicht tut, dann wird automatisch der parameterlose Konstruktor
+der Oberklasse aufgerufen.
+
+\emph{Achtung:} Falls in der Oberklasse gar kein parameterloser Konstruktor
+definiert ist, erhält man einen Compiler-Fehler!
+\end{compactenum}
+
+
+\section{Datenkapselung: vollständiger Überblick}
+
+Bisher kennen wir für die Datenkapselung nur die Schlüsselworte \verb|public|
+und \verb|private|. Mit \verb|private| gekennzeichnete Methoden können jedoch in
+einer abgeleiteten Klasse nicht benutzt werden. Wie kann man dafür sorgen, dass
+eine Methode zwar von abgeleiteten Klassen benutzt werden kann, aber für andere
+Klassen (zumindest aus anderen Packages) versteckt ist? Antwort: man benutzt
+das Schlüsselwort \verb|protected|.
+
+Die folgende Tabelle gibt einen vollständigen Überblick über die Möglichkeiten
+der Datenkapselung in Java:
+
+\begin{center}
+\bgroup
+\def\arraystretch{1.2}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Attribut (UML-Zeichen)} & \textbf{Klasse} & \textbf{abgeleitete
+Klasse} & \textbf{Package} & \textbf{andere Packages} \\ \hline
+\verb|private| (--)   &  +  & --    & -- & -- \\ \hline
+\verb|protected| (\#) &  +  & + (*) &  + & -- \\ \hline
+\verb|public| (+)     &  +  &  +    &  + & +  \\ \hline
+<kein Angabe>         &  +  & --    &  + & -- \\ \hline
+\end{tabular}
+\egroup
+\end{center}
+
+(*) Ableitung in fremdem Paket: Zugriff nur bei Objekten vom Typ der
+abgeleiteten Klasse nicht in Objekten vom Typ der Basisklasse.

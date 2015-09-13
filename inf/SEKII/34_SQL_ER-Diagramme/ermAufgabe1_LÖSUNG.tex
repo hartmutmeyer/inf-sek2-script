@@ -1,0 +1,81 @@
+\documentclass[a4paper,10pt, landscape]{scrreprt}
+\usepackage[utf8]{inputenc}
+\usepackage{ngerman}
+\usepackage[table]{pstricks}
+\usepackage{pst-node, pst-tree, pst-dbicons, pst-eps}
+
+\renewcommand{\familydefault}{\sfdefault}
+\setkomafont{pageheadfoot}{\normalfont\sffamily}  % Serifenlose Schrift
+\usepackage{helvet}
+\KOMAoptions{DIV=last}
+
+
+\input{pst-erm}
+\input{mycolor}
+%\input{myuml}
+\input{mytabs}
+
+\pagestyle{empty}
+
+\begin{document}
+\newcommand{\tabAutor}{
+ \ERMTable{tabAutor}{\tabName autor}{%
+  \tabPK   PK & autor\_id\\
+  \tabDaten   & name\\
+  \tabDaten   & vorname\\
+  \tabDaten   & geburtsjahr\\
+  \tabDaten   & todesjahr\\
+  \tabDaten   & land\\
+  }
+}
+\newcommand{\tabBuch}{
+ \ERMTable{tabBuch}{\tabName buch}{%
+  \tabPK   PK & isbn\\
+  \tabDaten   & titel\\
+  \tabDaten   & untertitel\\
+  \tabDaten   & sprache\\
+  \tabDaten   & erscheinungsjahr\\
+  }
+}
+\newcommand{\tabVerlag}{
+ \ERMTable{tabVerlag}{\tabName verlag}{%
+  \tabPK   PK & verlag\_id\\
+  \tabDaten   & name\\
+  \tabDaten   & ort\\
+  \tabDaten   & spezialgebiet\\
+  }
+}
+\newcommand{\tabIstAutorVon}{
+ \ERMTable{tabIstAutorVon}{\tabName ist\_autor\_von}{%
+  \tabPK   PK, FK & ist\_autor\_von\_autor\_id\\
+  \tabPK   PK, FK & ist\_autor\_von\_isbn\\
+  }
+}
+
+
+\TeXtoEPS
+\begin{pspicture}(9.0,9.5)%\psgrid
+\rput[lb](0.0,  6.5){\tabAutor}
+\rput[lb](5.0,  7.3){\tabIstAutorVon}
+\rput[lb](12.7, 6.7){\tabBuch}
+\rput[lb](13.0, 3.0){\tabVerlag}
+
+%Verbindung Autor IstAutorVon
+\ncE{tabAutor}{tabIstAutorVon}
+\ermputicon[npos=0,nrot=90]{Eins}
+\ermputicon[npos=1,nrot=-90]{N}
+
+%Verbindung IstAutorVon Buch
+\ncE{tabIstAutorVon}{tabBuch}
+\ermputicon[npos=0,nrot=90]{N}
+\ermputicon[npos=1,nrot=-90]{Eins}
+
+%Verbindung Buch Verlag
+\ncS{tabBuch}{tabVerlag}
+\ermputicon[npos=0,nrot=0]{N}
+\ermputicon[npos=1,nrot=180]{Eins}
+
+\end{pspicture}
+\endTeXtoEPS
+
+\end{document}

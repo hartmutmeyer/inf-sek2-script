@@ -1,0 +1,131 @@
+\chapter{UML-Klassendiagramme}
+\renewcommand{\chaptertitle}{UML-Klassendiagramme}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+\section{Allgemeine Beziehungen: Assoziation}
+
+Beispiel für die Beziehung zwischen der Klasse \myClass{Auto} und der Klasse
+\myClass{Person}:
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{./inf/SEKII/15_UML_Klassendiagramme/Beziehung.png}
+\end{center}
+
+Eine Beziehung zwischen zwei Klassen kennzeichnet man durch eine
+Verbindungslinie. Über die Verbindungslinie schreibt man den Beziehungsnamen
+(im Beispiel „besitzen“). Das UML-Fachwort für eine einfache Verbindung ist
+\emph{Assoziation}.
+
+
+\subsection{Multiplizität}
+
+Die sogenannte Multiplizität gibt an, wie viele Objekte einer Klasse mit einem
+Objekt der gegenüberliegenden Klasse verbunden sein können. Die Multiplizität
+steht oberhalb der Verbindungslinie direkt neben der zugehörigen Klasse.
+
+\subsubsection{Notation}
+
+\begin{tabular}{lll}
+1       & bedeutet & genau 1\\
+0,1     & bedeutet & 0 oder 1\\
+1..4    & bedeutet & 1 bis 4\\
+{}*     & bedeutet & beliebig viele (auch 0)\\
+1..*    & bedeutet & beliebig viele aber mindestens 1\\
+\end{tabular}
+
+\subsubsection{Beispiel}
+
+\includegraphics[width=0.7\textwidth]{./inf/SEKII/15_UML_Klassendiagramme/Multiplizitaet.png}
+
+Die Angabe der Multiplizität ist folgendermaßen zu interpretieren:
+Linke Seite: „Ein Kunde kann beliebig viele Konten besitzen (auch 0).“
+Rechte Seite: „Jedes Konto gehört einem oder zwei Personen.“
+
+
+\section{„Ist-Teil-von“-Beziehung: Aggregation}
+
+\begin{minipage}{0.45\textwidth}
+Sehr häufig sind „Ist-Teil-von“-Beziehungen.
+Zum Beispiel sind Sitzplätze, Vorhang und
+Bühne Teile eines Theaters. Ein anderes
+Beispiel ist eine Adresse, die man in die
+Bestandteile Name, Straße und Ortsangabe
+zerlegen kann. Die „Ist-Teil-von“ Beziehungen
+bezeichnet man als Aggregation.
+
+Weil die „Ist-Teil-von“-Beziehung so häufig
+vorkommt, gibt es für Aggregationen eine
+spezielle Notation. Die Beziehungslinie wird an
+der Seite des „Ganzen“ mit einer Raute
+versehen.
+\end{minipage}
+\begin{minipage}{0.55\textwidth}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{./inf/SEKII/15_UML_Klassendiagramme/Aggregationsbeziehung.png}
+\end{center}
+\end{minipage}
+
+
+\section{„Ist-ein“-Beziehung: Vererbung}
+
+\begin{minipage}{0.25\textwidth}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{./inf/SEKII/15_UML_Klassendiagramme/Vererbungsbeziehung.png}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.75\textwidth}
+Häufig kommt es vor, dass eine Klasse einen Spezialfall einer anderen Klasse
+darstellt. Z.B. sind die Klassen „Säugetier“ und „Fisch“ Spezialfälle der Klasse
+„Tier“. Die Klassen „Löwe“ und „Giraffe“ sind wiederum Spezialisierungen der
+Klasse „Säugetier“. Gleichzeitig sind sie natürlich auch Spezialisierungen der
+darüber liegenden Klasse „Tier“. Zwischen der Spezialklasse und der
+allgemeineren Klasse besteht also eine „ist-ein“-Beziehung. In UML kennzeichnet
+man eine solche Beziehung, indem man einen Pfeil von der spezielleren Klasse zu
+der allgemeineren Klasse zieht. Die spezielle Klasse bezeichnet man als
+\emph{Unterklasse}, die allgemeine Klasse als \emph{Oberklasse}.
+\end{minipage}
+
+
+\subsection{Klassenhierarchie}
+
+Beispiel für die \emph{Klassenhierarchie} der Tiere in einem Zoo:
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{./inf/SEKII/15_UML_Klassendiagramme/Zoo.png}
+\end{center}
+
+In der Oberklasse Tier sind alle Attribute, Methoden und Assoziationen
+eingetragen, die für alle Tiere gemeinsam gelten. In den Unterklassen brauchen
+diese gemeinsamen Eigenschaften nicht noch einmal eingetragen werden. In den
+Unterklassen werden nur die Eigenschaften eingetragen, die für den
+entsprechenden Spezialfall zutreffen. Z.B. besitzen alle Tiere ein Gewicht und
+ein Alter. Jedes Tier wird von einem Tierpfleger betreut. Säugetiere und Fische
+unterscheiden sich jedoch dadurch, dass sie in unterschiedlichen „Unterkünften“
+leben. Ein Säugetier besitzt daher das zusätzliche Attribut „Gehege“, während
+ein Fisch das Attribut „Aquarium“ besitzt. Ein Löwe erbt von der Oberklasse
+„Tier“ die Attribute Gewicht und Alter und die Assoziation mit dem Tierpfleger.
+Er besitzt auch das Attribut „Gehege“, das er durch seine direkte Oberklasse
+„Säugetier“ erbt. Ein Löwe hat jedoch nicht das Attribut „Aquarium“, da er kein
+Fisch ist.
+
+Da Attribute, Methoden und Beziehungen von der Oberklasse an die Unterklasse
+vererbt werden, bezeichnet man „ist-ein“-Beziehungen auch als
+\emph{Vererbungsbeziehungen}.
+
+
+\subsection{Abstrakte Klassen}
+
+Ein UML-Diagramm wird dadurch übersichtlich, dass man die Gemeinsamkeiten von
+verschiedenen Klassen in Oberklassen zusammen fasst. Häufig gibt es jedoch
+keine konkreten Objekte von den angelegten Oberklassen. In dem Zoo-Beispiel
+gibt es z.B. kein Objekt von der Klasse Säugetier, weil die konkreten Objekte
+immer den spezielleren Klassen „Löwe“, „Giraffe“, usw. zugeordnet werden
+können. Wenn keine konkreten Objekte für eine Oberklasse existieren, sagt man
+die Klasse ist abstrakt.

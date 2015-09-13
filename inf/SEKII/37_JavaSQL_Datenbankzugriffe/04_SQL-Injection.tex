@@ -1,0 +1,87 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+
+\section{SQL-Injection}
+
+Unter \emph{SQL-Injection} versteht man das Einschleusen von SQL-Befehlen
+in eine Datenbankanwendung durch einen Angreifer. Dabei handelt es sich um eine
+der populärsten Angriffsmethoden (nicht nur) im Internet.
+
+Der Angreifer nutzt dabei aus, dass bei Benutzereingaben Metazeichen wie etwa
+das Hochkomma oder auch Kommentarzeichen nicht überprüft bzw.\ maskiert werden.
+
+Auf diese Weise kann er 
+
+\begin{compactitem}
+\item direkt oder indirekt Informationen über die Struktur der
+Datenbank erhalten.
+\item Zugang zu einem System erlangen.
+\item Daten in der Datenbank verändern.
+\item Daten, Tabellen oder Datenbanken löschen.
+\item Dateien im Dateisystem des Datenbankservers erzeugen oder überschreiben.
+\end{compactitem}
+
+Ein hoffentlich anschauliches Beispiel findest du im Kursrepository, im Ordner
+\myFile{37\_JavaSQL\_Datenbankzugriffe} findet ihr einen weiteren Ordner:
+\myFile{sqlinjection}. Wenn ihr dessen Inhalt in euer eigenes Repository
+kopiert, könnt ihr mit dem Programm \myUserInput{OnlineBanking} ein wenig \glqq spielen
+\grqq . Zuvor müsst ihr allerdings das SQL-Skript \myFile{online-banking.sql}
+einmal ausführen.
+
+In der kleinen Datenbank ist genau ein Datensatz vorhanden. Das Konto mit der
+Kontonummer 1234567 ist mit dem Passwort 1234 versehen. Kontoinhaber ist Frau
+Monika Mustermann. Der aktuelle Kontostand beträgt -703,28 \texteuro .
+
+Mit dem kleinen Programm könnt ihr nur zwei Sachen tun: Ihr könnt euch anmelden
+und ihr könnt das Passwort ändern. Wenn ihr angemeldet seid, wird euch der
+aktuelle Kontostand angezeigt.
+
+In der Datei \myFile{Angriffsmöglichkeiten.txt} öffnet, findet ihr einige
+Beispiel dafür, wie ihr mit Hilfe von SQL-Injections das Programm missbrauchen
+könnt!
+
+Wenn du es dir genauer anschaust, wirst du erkennen, warum die beschriebenen
+Angriffe erfolgreich sind.
+
+Glücklicherweise, kannst du als Java-Programmierer solche Angriffe leicht
+abwehren. Dazu musst du nur die Klasse \myClass{PreparedStatement}, statt der
+Klasse \myClass{Statement} verwenden:
+
+Aus
+
+\begin{lstlisting}
+Statement stmt = conn.createStatement();
+String kontonummer = tfKontonummer.getText();
+String passwort = tfPasswort.getText();
+String sql = "SELECT * FROM konto WHERE kontonummer = " 
+        + kontonummer + " AND passwort = '" + passwort + "'";
+System.out.println(sql);
+ResultSet rs = stmt.executeQuery(sql);
+\end{lstlisting}
+
+wird
+
+\begin{lstlisting}
+æString sql = æ"SELECT * FROM konto WHERE kontonummer = ? AND passwort = ?"æ;
+æPreparedStatement ps = conn.prepareStatement(sql); 
+ps.setString(1, tfKontonummer.getText());
+ps.setString(2, tfPasswort.getText());
+æSystem.out.println(æps.toString()æ);
+ResultSet rs = æps.executeQuery()æ;
+\end{lstlisting}
+
+Dem vorbereiteten SQL-Befehl mussten vor der Ausführung nur noch die passenden
+Argumente an Stelle der Fragezeichen verpasst werden.
+
+Die Arbeit mit \lstinline|executeUpdate()| funktioniert analog zu diesem
+Beispiel. Du kannst dir die entsprechend korrigierten Java-Klassen im
+Unterordner \myFile{preparedstatement} anschauen. Damit laufen die SQL-Injection
+Angriffe alle ins Leere.

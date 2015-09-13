@@ -1,0 +1,94 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+\section{Thread-Synchronisation}
+
+\subsection{Beispiel}
+
+Zwei Threads benutzen einen gemeinsamen Zähler. Dadurch, dass das Betriebssystem
+die Ausführung des Codes an jeder beliebigen Stelle unterbrechen kann,
+entstehen jedoch Fehler. Die ausgegebenen Zahlen entsprechen nicht der
+gewünschten Reihenfolge.
+
+\subsubsection{Haupt-Klasse}
+
+\begin{lstlisting}
+public class Synchronisation {
+    static int zaehler = 0;
+    
+    public static void main(final String[] args) {
+        MeinThread thread_1 = new MeinThread(1);
+        MeinThread thread_2 = new MeinThread(2);
+        thread_1.start();
+        thread_2.start();
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Thread-Klasse}
+
+\begin{lstlisting}
+public class MeinThread extends Thread {
+    int threadNummer;
+
+    public MeinThread(int threadNummer) {
+        this.threadNummer = threadNummer;
+    }
+
+    @Override
+    public void run() {
+        for (int i=0; i<100; i++) {
+            Synchronisation.zaehler++;
+            int help = Synchronisation.zaehler;
+            æ// Simulation einer aufwändigen Berechnung:
+æ            for (long x = 0; x<1000000; x++) {
+                Math.sin(x);
+            }
+            System.out.println("Thread" + threadNummer + ": " + help);
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Lösung des Problems}
+
+Anweisungen, während deren Ausführung eine Unterbrechung (\emph{Task-Wechsel}
+durch den \emph{Scheduler} des Betriebssystems) zu unerwünschten Ergebnissen
+führen, werden als \emph{kritische Anweisungen} bezeichnet.
+
+Anweisungen bzw.\ Anweisungsfolgen sind dann kritisch, wenn auf eine gemeinsam
+genutzte Ressource (etwa eine Datei, ein Gerät oder auch ein Textfeld) nicht nur
+lesend, sonderen auch schreibend zugegriffen wird.
+
+Mann kann einen Block mit kritischen Anweisungen vor Unterbrechungen schützen,
+indem man die entsprechenden Anweisungen in einen \emph{synchronisierten Block}
+einfasst. Dazu benutzt man das Schlüsselwort \lstinline|synchronized|. Über ein
+\emph{Monitor-Objekt} (oft auch einfach \emph{Monitor} genannt) wird der
+exklusive Zugriff verwaltet.
+
+Als Monitor-Objekt ist grundsätzlich jedes Objekt geeignet, auf das alle
+Threads zugreifen können. Ein Thread kann den synchronisierten Block nur
+betreten, wenn kein anderer Thread den entsprechenden Monitor bereits belegt.
+
+\pagebreak
+
+Syntax:
+
+\begin{lstlisting}
+synchronized (monitorObjekt) {
+    æ//Anweisungen, die nicht unterbrochen werden dürfen
+æ}
+\end{lstlisting}
+
+
+Wichtig ist, dass alle Threads das gleiche Objekt als Monitor benutzen!
+
+Achtung: Damit alle Threads zum Zug kommen, sollten immer so wenig Befehle wie
+möglich in einem \lstinline|synchronized|-Block stehen!

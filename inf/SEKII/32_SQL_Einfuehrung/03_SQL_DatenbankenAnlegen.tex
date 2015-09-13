@@ -1,0 +1,178 @@
+\lstset{style=mySQL}
+%\lstset{language=SQL,basicstyle=\ttfamily,commentstyle=\ttfamily,moredelim=*[s][\itshape]{§}{$}}
+
+\section{SQL -- Anlegen von Datenbanken}
+
+\subsection{Groß- und Kleinschreibung}
+
+SQL-Schlüsselwörter sind \textit{nicht} groß- und kleinschreib-gebunden. Ob
+Datenbanken und Tabellennamen der Groß- und Kleinschreibung unterliegen hängt
+bei MySQL vom Betriebssystem ab! Ihr solltet euch von Anfang an daran gewöhnen,
+Groß- und Kleinschreibung bei Namen von Bezeichnern zu unterscheiden!
+
+Empfehlung: Gewöhnt euch an SQL-Schlüsselwörter immer in GROSSBUCHSTABEN und
+Bezeichner von Tabellen und Feldern immer in kleinbuchstaben zu schreiben!
+
+
+\subsection{Datenbank erstellen}
+
+\begin{lstlisting}[language=SQL]
+CREATE SCHEMA `\slshape{datenbankname}`;
+\end{lstlisting}
+
+Das Ergebnis überprüft man mit dem Befehl
+
+\begin{lstlisting}
+SHOW SCHEMA;
+\end{lstlisting}
+
+
+\subsection{Datenbank auswählen}
+
+\begin{lstlisting}
+USE `\slshape{datenbankname}`;
+\end{lstlisting}
+
+Alle nachfolgenden Anweisungen (z.B. zum Anlegen oder Abfragen von Tabellen)
+beziehen sich auf die ausgewählte Datenbank.
+
+
+\subsection{Den verwendeten Zeichensatz festlegen}
+
+Beim Anlegen einer neuen Datenbank sollte man festlegen, mit welchem Zeichensatz gearbeitet wird. Wir
+werden immer den UTF-8 Zeichensatz verwenden:
+
+\begin{lstlisting}
+CREATE SCHEMA `\slshape{datenbankname}` DEFAULT CHARACTER SET utf8;
+\end{lstlisting}
+
+
+\subsection{Tabelle erstellen}
+
+\begin{lstlisting}
+CREATE TABLE [IF NOT EXISTS] `\slshape{tabellenname}`
+(
+  `\slshape{Spalten-Definition1}`,
+  ...  
+  `\slshape{Spalten-DefinitionN}`
+);
+\end{lstlisting}
+
+Ausdrücke in eckigen Klammern sind optional. Bei Eingabe der Schlüsselwörter
+\lstinline{IF NOT EXISTS} wird die Tabelle nur dann angelegt, wenn sie noch
+nicht existiert.
+
+Eine \textit{Spalten-Definition} hat folgendes Schema:
+
+\begin{lstlisting}
+`\slshape{spaltenname} typ` [NOT NULL] [DEFAULT `\slshape{wert}`] [AUTO_INCREMENT]
+\end{lstlisting}
+
+\textit{Typ} gibt den Datentyp der Spalte an (siehe Tabelle
+\ref{tab:mysql-datentypen}).
+
+Mit \lstinline{NOT NULL} kann man festlegen, dass der Datenwert der Spalte nicht
+leer bleiben darf. „Leere“ Datenwerte werden als \lstinline{NULL} bezeichnet.
+
+Mit \lstinline{DEFAULT} kann man einen Standard-Wert für die Spalte festlegen.
+
+Mit \lstinline{AUTO_INCREMENT} kann man MySQL beauftragen, die Datenwerte
+automatisch durch zu nummerieren. Die erste Zeile erhält die Nummer 1. Es darf
+nur eine Spalte pro Tabelle auf \lstinline{AUTO_INCREMENT} gesetzt werden. Eine
+Spalte darf nur auf \lstinline{AUTO_INCREMENT} gesetzt werden, wenn sie einen
+Index besitzt (eine Art Suchregister für besonders schnelle Zugriffe auf die
+Einträge). Einen Index kann man manuell anlegen. Wenn man die Spalte zum
+\lstinline{PRIMARY KEY} erklärt, wird sie automatisch indiziert:
+
+\begin{lstlisting}
+PRIMARY KEY (`\slshape{spaltenname}`);
+\end{lstlisting}
+
+Mit \lstinline{PRIMARY KEY} erklärt man eine Spalte zum Primär-Schlüssel, der
+jede Zeile eindeutig identifiziert. Der Primär-Schlüssel bestimmt zum Beispiel
+die Standard-Sortierreihenfolge der Tabelle.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{11cm}|}
+\hline
+\bf{Typ} & \bf{Bedeutung}\\
+\hline
+{\lstinline!INT!} & 4-Byte großer Ganzzahlwert\\
+\hline
+{\lstinline!FLOAT!} & Fließkommazahl mit einfacher Genauigkeit\\
+\hline
+{\lstinline!DOUBLE!} & Fließkommazahl mit doppelter Genauigkeit\\
+\hline
+{\lstinline!VARCHAR(!}\tt{\slshape{maximale Länge}}{\lstinline!)!} &
+Zeichenkette. In Klammern gibt man die maximale Anzahl der Zeichen an.
+Höchstmöglicher Wert ist 255.\\
+\hline
+{\lstinline!ENUM(!}\tt{\slshape{Wert1, Wert2, \ldots}}{\lstinline!)!} & 
+ermöglicht die Aufzählung einer Werteliste, z.B.:\\
+& {\lstinline!ENUM('rot', 'blau', '!}\tt{grün}{\lstinline!')!}\\
+\hline
+{\lstinline!DATE!} & Datum im Format YYYY-MM-DD\\
+\hline
+{\lstinline!TIME!} & Uhrzeit im Format HH:MM:SS\\
+\hline
+{\lstinline!DATETIME!} & Datum und Uhrzeit im Format YYYY-MM-DD HH:MM:SS\\
+\hline
+\end{tabular}
+\caption{Datentypen von MySQL (Auswahl)}
+\label{tab:mysql-datentypen}
+\end{table}
+
+\subsubsection{Überprüfung der eingegebenen Tabellen}
+
+\begin{lstlisting}
+SHOW TABLES;               # Zeigt alle Tabellen der Datenbank an.
+DESCRIBE `\slshape{tabellenname}`;     # Zeigt den Aufbau einer Tabelle an.
+\end{lstlisting}
+
+\subsection{Datenbanken und Tabellen löschen}
+
+\begin{lstlisting}
+DROP SCHEMA [IF EXISTS] `\slshape{datenbankname}`;
+DROP TABLE [IF EXISTS] `\slshape{tabellenname}`;
+\end{lstlisting}
+
+
+\subsection{Tabellenstruktur ändern}
+
+Mit der Anweisung \lstinline{ALTER TABLE} \ldots kann man die Struktur einer
+existierenden Tabelle verändern. Dabei gibt es zahllose Varianten, z.B.:
+
+\begin{lstlisting}
+ALTER TABLE `\slshape{tabellenname}` ADD COLUMN (`\slshape{Spalten-Definition1,Spalten-Definition2,\ldots}`); 
+ALTER TABLE `\slshape{tabellenname}` DROP COLUMN `\slshape{spaltenname}`;
+\end{lstlisting}
+
+
+Es können auch mehrere Änderungen in einer \texttt{ALTER}-Anweisung zusammen
+gefasst werden. Wie in diesem Beispiel:
+
+\begin{lstlisting}[numbers=left, xleftmargin=7mm]
+æDROP SCHEMA IF EXISTS stammbaum;
+CREATE SCHEMA stammbaum DEFAULT CHARACTER SET utf8;
+USE stammbaum;
+CREATE TABLE person (
+  vorname VARCHAR(20) NOT NULL,
+  nachname VARCHAR(20) NOT NULL,
+  geschlecht ENUM('männlich', 'weiblich') DEFAULT 'männlich', 
+  anzahl_kinder INT NOT NULL DEFAULT 0
+);
+INSERT INTO person VALUES
+('Hartmut', 'Meyer', 'männlich', 3);æ
+ALTER TABLE person
+  DROP COLUMN anzahl_kinder,
+  ADD COLUMN (
+    person_id INT AUTO_INCREMENT,
+    anzahl_töchter INT NOT NULL DEFAULT 0,
+    anzahl_söhne INT NOT NULL DEFAULT 0
+  ),
+  ADD PRIMARY KEY (person_id)
+;æ
+UPDATE person SET anzahl_töchter=1, anzahl_söhne=2
+WHERE vorname='Hartmut' AND nachname='Meyer';
+\end{lstlisting}

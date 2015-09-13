@@ -1,0 +1,144 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{Tabellen verknüpfen: Primär- und Fremdschlüssel}
+
+\subsection{Primärschlüssel}
+
+Um Datensätze einer Tabelle eindeutig identifizieren zu können, braucht man
+einen sogenannten \emph{Schlüssel}. Als Schlüssel kann jedes einzelne Attribut
+oder -- wenn nötig -- auch eine Kombination mehrerer Attribute der Tabelle
+dienen. Wichtig ist nur, dass sich der Schlüssel \emph{konzeptionell} zur
+eindeutigen Identifizierung eines jeden Datensatzes der Tabelle eignet.
+So reicht es etwa nicht, zu sehen, dass in unserer Haustierdatenbank keine
+Kombination aus Tiername und Tierart doppelt vorkommt. Denn niemand kann
+garantieren, dass in Zukunft nicht doch noch ein weiteres Tier mit einer zuvor
+bereits existierenden Kombination aus Tierart und Tiername hinzukommen wird.
+Tiername und Tierart sind also zusammen kein geeigneter Schlüssel für die
+Tabelle \lstinline|tier|!
+
+An einen Schlüssel wird zudem die Anforderung gestellt, dass er \emph{minimal}
+sein soll: alle Attribute, die man zum Schlüssel dazu zählt müssen auch wirklich
+\emph{nötig} sein, um die eindeutige Identifizierung aller Datensätze (auch
+konzeptionell) sicher zu stellen.
+
+Bei einer gegebenen Tabelle können durchaus verschiedene Attribute oder
+Kombinationen aus Attributen als Schlüssel in Frage kommen. Den Schlüssel, den
+man aus der Menge der möglichen Schlüsselkandidaten zur weiteren Verwendung
+auswählt, bezeichnet man als \emph{Primärschlüssel} (engl.\ \emph{Primary Key}).
+
+Als Primärschlüssel sind besonders gut extra für diesen Zweck erzeugte Attribute
+vom Typ \lstinline|INT| geeignet, die von der Datenbank mit Hilfe des
+Schlüsselwortes \lstinline|AUTO_INCREMENT| beim Erzeugen eines neuen Datensatzes
+automatisch mit einem bisher noch nicht vergebenen Wert belegt werden.
+
+Überhaupt ist es empfehlenswert, als Primärschlüssel ein Attribut zu benutzen,
+welches keine sonstigen Information trägt! Damit umgeht man so manche Falle!
+Beispielsweise könnte man annehmen, das die ISBN-Nummer ein geeigneter
+Primärschlüssel für eine \lstinline|buch|-Tabelle wäre. Oder das die
+Postleitzahl ein ebenso geeigneter Primärschlüssel für eine
+\lstinline|ort|-Tabelle wäre. Beides stellt sich bei näherer Betrachtung als
+falsch heraus (es gibt Postleitzahlen, aus denen nicht eindeutig auf einen
+bestimmten Ort geschlossen werden kann und es gibt auch ISBN-Nummern auf die
+nicht eindeutig auf eine bestimmte Ausgabe eines Buches geschlossen werden
+kann). Durch die Verwendung eines nicht-informationstragenden Primärschlüssels,
+umgeht man solche Fallen. Zudem muss man sich keine Sorgen machen, dass es in
+Zukunft aus inhaltlichen Gründen notwendig werden könnte die Werte des
+Primärschlüsselattributes zu ändern -- so wie es beispielsweise bei den
+Postleitzahlen mehrfach (zuletzt 1993) geschehen ist.
+
+\begin{lstlisting}
+æCREATE TABLE besitzer
+(æ
+	`\textbf{\texttt{besitzer\_id INT AUTO\_INCREMENT,}}`
+æ	anrede ENUM('Herr', 'Frau', 'Firma') DEFAULT 'Herr',
+	vorname VARCHAR(20),
+	nachname VARCHAR(20) NOT NULL,æ
+	`\textbf{\texttt{PRIMARY KEY (besitzer\_id)}}`
+æ);
+\end{lstlisting}
+
+
+\subsection{Fremdschlüssel}
+
+Als \emph{Fremdschlüssel} (engl.\ \emph{Foreign Key}) bezeichnet man ein
+Attribut einer Tabelle, welches auf die Werte eines Primärschlüssels einer
+anderen Tabelle verweist. Genau genommen muss der Primärschlüssel noch nicht
+einmal aus einer anderen Tabelle stammen: auch Verweise auf den Primärschlüssel
+der eigenen Tabelle sind möglich!
+
+\begin{lstlisting}
+æCREATE TABLE tier
+(
+	name VARCHAR(20) NOT NULL,
+	tierart VARCHAR(20) NOT NULL,
+	lebendig ENUM('ja','nein') DEFAULT 'ja',
+	geschlecht ENUM('weiblich','männlich') DEFAULT 'weiblich',
+	geburtstag DATE,
+	todestag DATE,æ
+	`\textbf{\texttt{tier\_besitzer\_id INT,}}`
+	`\textbf{\texttt{FOREIGN KEY (tier\_besitzer\_id) REFERENCES besitzer (besitzer\_id)}}` 
+æ);
+\end{lstlisting}
+
+Hinter \lstinline|REFERENCES| wird dabei die Tabelle und das entsprechende
+Attribut benannt, auf welches sich der Fremdschlüssel bezieht. Dadurch ist es
+auch sehr leicht, in einem gegebenen SQL-Skript die entsprechenden Beziehungen
+zwischen den Tabellen zu erkennen.
+
+
+\subsection{Referentielle Integrität}
+
+Indem man der Datenbank mitteilt, dass es sich bei einem Attribut um einen
+Fremdschlüssel handelt, versetzt man sie auch in die Lage über die sogenannte
+\emph{referentielle Integrität} der Datenbank zu wachen. Die Datenbank
+verhindern, dass ein neuer Datensatz so angelegt wird, dass der Wert für den
+Fremdschlüssel nicht durch einen bereits existierenden Wert im
+Primärschlüsselfeld der referenzierten Tabelle gedeckt ist. Im Beispiel unserer
+Haustierdatenbank: Nachdem wir das Attribut \lstinline|tier_besitzer_id| in der
+\lstinline|tier|-Tabelle als Fremdschlüssel definiert haben, der auf den
+Primärschlüssel der \lstinline|besitzer|-Tabelle verweist, wird es die Datenbank
+nicht erlauben, dass wir ein neues Tier anlegen, mit einem Wert für
+\lstinline|tier_besitzer_id|, den es so noch nicht als Wert für den
+Primärschlüssel der \lstinline|besitzer|-Tabelle gibt. Ebenso würde verhindert,
+dass ein Datensatz aus der \lstinline|besitzer|-Tabelle gelöscht oder so
+verändert würde, dass in der Folge ein Datensatz in der \lstinline|tier|-Tabelle
+mit einem Verweis auf einen nicht länger existierenden Wert im Primärschlüssel
+der \lstinline|besitzer|-Tabelle resultieren würde.
+
+
+
+\subsection{Verknüpfung von Tabellen}
+
+Nicht immer, aber sehr oft, werden bei Datenbankabfragen (\lstinline|SELECT|)
+Daten aus mehreren Tabellen verknüpft. Diese Verknüpfung erfolgt über die
+Verbindung von Primär- und Fremdschlüsseln.
+
+In der Ergebnisliste der Abfrage interessieren uns nur solche Ergebnisse, die
+sich aus zusammengehörigen Datensätzen der beteiligten Tabellen ergeben. Wenn
+beispielsweise eine Ausgabe aller Tiere und ihrer Besitzer verlangt ist, dann
+sollen natürlich für jedes Tier auch wirklich nur die passenden Besitzer
+ausgegeben werden und nicht irgendwelche Datensätze aus der
+\lstinline|besitzer|-Tabelle. Und genau dies erreichen wir über eine geeignete
+Bedingung, die den Fremdschlüssel der einen Tabelle mit dem passenden
+Primärschlüssel der anderen Tabelle verknüpft:
+
+\begin{lstlisting}
+æSELECT tier.name, tier.tierart, besitzer.vorname, besitzer.nachname
+FROM tier, besitzeræ
+`\textbf{\texttt{WHERE tier.tier\_besitzer\_id = besitzer.besitzer\_id}}`;
+\end{lstlisting}
+
+Bisher kennen wir nur den Fall mit maximal zwei beteiligten Tabellen. Sobald in
+einer Abfrage noch weitere Tabellen hinzukommen, ist es nötig, die
+entsprechenden Primärschlüssel-Fremdschlüssel-Beziehungen aller beteiligter
+Tabellen in der \lstinline|WHERE|-Klausel zu benennen. Das kann bei mehr als
+drei beteiligten Tabellen durchaus unübersichtlich werden. Wenn ihr in der
+Ergebnisliste zu viele (und dabei auch unsinnige Kombinationen) erhaltet, ist
+das ein sicherer Hinweis darauf, dass ihr nicht alle Beziehungen in der
+\lstinline|WHERE|-Klausel berücksichtigt habt!

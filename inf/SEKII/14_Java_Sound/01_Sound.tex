@@ -1,0 +1,149 @@
+\chapter{Sound}
+\renewcommand{\chaptertitle}{Sound}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+Analog zum Laden von Bildern können in Java auch Sound-Dateien geladen werden.
+
+\section{Wiedergabe von *.wav Dateien}
+
+\begin{lstlisting}
+import java.applet.Applet;
+import java.applet.AudioClip;
+AudioClip sound = Applet.newAudioClip(getClass().getResource("ok.wav"));
+\end{lstlisting}
+
+Anschließend kann man das \myClass{AudioClip} Objekt wahlweise mit
+\lstinline|play()| einmalig, oder mit \lstinline|loop()| sich ständig
+wiederholend abspielen lassen. 
+
+Mit \lstinline|stop()| lässt sich die Wiedergabe stoppen. Der Programmablauf
+wartet nicht auf \lstinline|play()| bzw. \lstinline|loop()| sondern wird sofort
+fortgesetzt.
+
+Komplettes Beispiel:
+
+\begin{lstlisting}
+import java.applet.Applet;
+import java.applet.AudioClip;æ
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+public class PlayWAV extends JFrame {
+  private JPanel contentPane;
+
+  public PlayWAV() {
+    super("PlayWAV");
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 450, 300);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    contentPane.setLayout(new BorderLayout(0, 0));
+    setContentPane(contentPane);
+    æAudioClip sound = Applet.newAudioClip(getClass().getResource("ok.wav"));
+    sound.play();
+    //sound.loop();
+æ  }
+
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          PlayWAV frame = new PlayWAV();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+}
+\end{lstlisting}
+
+
+\begin{minipage}{1.0\textwidth}
+\section{Wiedergabe von *.mp3 Dateien}
+
+\begin{lstlisting}
+æimport java.awt.BorderLayout;
+import java.awt.EventQueue;æ
+import java.util.concurrent.CountDownLatch;æ
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;æ
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;æ
+
+public class PlayMP3 extends JFrame {
+  private JPanel contentPane;
+
+  public PlayMP3() {
+    super("PlayMP3");
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 450, 300);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    contentPane.setLayout(new BorderLayout(0, 0));
+    setContentPane(contentPane);
+    playClip();
+  }
+
+  public void playClip() {
+    æMedia clip = new
+         Media(getClass().getResource("Every_OS_Sucks.mp3").toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(clip);
+    mediaPlayer.play();æ
+  }
+
+  public static void main(String[] args) {
+    æfinal CountDownLatch latch = new CountDownLatch(1);
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        new JFXPanel(); // initializes JavaFX environment
+        latch.countDown();
+      }
+    });
+    try {
+      latch.await();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }æ
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          PlayMP3 frame = new PlayMP3();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+}
+\end{lstlisting}
+\end{minipage}
+
+
+Für die MP3-Wiedergabe muss auf das noch recht neue JavaFX-Framework
+zurückgegriffen werden. Die nötige Laufzeitumgebung wird erst seit JDK 7 Update
+6 standardmäßig mit installiert. Die Bibliothek \myFile{jfxrt.jar} muss in
+Eclipse noch in das Projekt eingebunden werden. Seit JDK 8 ist das nicht mehr
+nötig.
+
+So können übrigens nicht nur \myFile{*.mp3} sondern auch \myFile{*.wav} Dateien
+wiedergegeben werden. Wenn man vorab also noch nicht weiß welches Dateiformat
+später zum Einsatz kommt, ist man so auf der sicheren Seite.
+
+Wenn es andererseits klar ist, dass man mit \myFile{*.wav} Dateien auskommt,
+dann ist der zuerst vorgestellte Weg über \myClass{AudioClip} der deutlich
+einfachere.

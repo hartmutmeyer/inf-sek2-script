@@ -1,0 +1,125 @@
+\section{Software}
+
+Im Folgenden wird die Software von PCs betrachtet.
+
+\subsection{BIOS}
+
+Startet man den Rechner (\glqq hochfahren\grqq , booten), wird, bevor das
+Betriebssystem in Aktion tritt, das sogenannte \emph{BIOS} (Basic Input Output
+System) gestartet. Das BIOS ist ein Ein- und Ausgabesystem, welches unabhängig
+vom nachfolgend installierten Betriebssystem vom Hersteller mitgeliefert wird.
+
+Das BIOS steht schreibgeschützt in einem Speicherbaustein auf dem Mainboard
+(ROM-Baustein, engl. für Read Only Memory). Es testet bei jedem Computerstart
+alle Hardwarekomponenten, startet den Rechner und lädt das Betriebssystem von
+der Festplatte. Während des laufenden Betriebs kann das BIOS elementare
+Aufgaben zur Ansteuerung von Hardwarekomponenten wie Tastatur, Maus, Festplatte
+und Grafikkarte übernehmen und arbeitet damit dem Betriebssystem
+zu.\footnote{Moderne Betriebssysteme nutzen diese Funktionalität allerdings nur
+noch während der ersten Phase des Bootens. Denn dort gibt es ein
+klassisches Henne-Ei-Problem: Zum Booten muss das Betriebssystem
+Daten von der Festplatte laden und gegebenenfalls auch auf
+Tastatureingaben des Benutzers reagieren können. Ebenso sollen
+Ausgaben auf dem Bildschirm erscheinen. Aber das Betriebssystem
+läuft ja noch gar nicht \ldots Anschließend werden diese BIOS-Funktionen dann
+nicht mehr benutzt.}
+
+\subsection{Betriebssystem}
+
+Das Betriebssystem ist eine spezielle Software zur Steuerung der
+Grundfunktionen eines Computers und zur Verwaltung der Hardware. Es besteht aus
+einer Reihe von Systemprogrammen (Systemsoftware), die den Umgang mit CPU,
+Hardwarekomponenten und Anwendungsprogrammen ermöglichen, und ist damit die
+Schnittstelle zwischen Mensch und Computer sowie zwischen Anwendungsprogrammen
+und Hardware.
+
+\subsubsection{Aufgaben eines Betriebssystems}
+
+Das Betriebssystem steuert alle zum Betrieb des Rechners notwendigen
+Verwaltungsaufgaben. Ein Betriebssystem gehört in der Regel zur
+Grundausstattung des Computers. Es ist jedoch prinzipiell austauschbar. Die
+wichtigsten Aufgaben des Betriebssystems sind:
+
+\begin{compactitem}
+\item[\textbf{Speicherverwaltung}]
+Verwaltung des Hauptspeichers
+\item[\textbf{Dateiverwaltung}]
+Organisation der Daten auf Festplatten und anderen Datenträgern. Dazu gehört z.B. die
+Vorbereitung der Datenträger (Partitionieren von Festplatten, Formatieren und Benennen von
+Datenträgern), die Erstellung von Verzeichnissen, das Kopieren, Löschen, Verschieben und
+Umbenennen von Dateien.
+\item[\textbf{Programmverwaltung} (Fachwort: \emph{Prozessverwaltung})]
+Ausführung von Anwendungsprogrammen und Aufteilung der Rechenzeit der CPU zwischen allen
+momentan laufenden Programmen.
+\item[\textbf{Geräteverwaltung}]
+Steuerung der Arbeit aller angeschlossenen internen und externen Geräte.
+\end{compactitem}
+
+\subsubsection{Bestandteile eines Betriebssystems}
+
+Betriebssysteme vereinen sogenannte residente und transiente Bestandteile:
+
+Residente Bestandteile werden nach dem Start sofort in den Arbeitsspeicher
+(RAM) geladen und verbleiben dort während der gesamten Betriebszeit des
+Computers. Diese Bestandteile ermöglichen die Kommunikation zwischen Nutzer und
+Rechner sowie das Laden und Starten von Anwendungsprogrammen.
+
+Transiente Bestandteile befinden sich in eigenständigen Dateien, die auf der
+Festplatte in einem gesonderten Verzeichnis gespeichert sind und nur in den
+Arbeitsspeicher geladen werden, wenn es notwendig ist.
+
+\subsubsection{Grafische Benutzeroberfläche}
+
+Die Benutzeroberfläche ist der Teil eines Programms, den der Benutzer auf dem
+Bildschirm sehen kann. Sie bildet die Schnittstelle zwischen dem Programm und
+seinem Benutzer, welcher über die Tastatur oder die Maus Dienste anfordern
+kann.
+
+Die einfachste Version einer Benutzeroberfläche zeigt eine Kommandozeile. Der
+Benutzer hat die Möglichkeit zeilenweise Text einzugeben und erhält als Antwort
+vom Programm wieder eine Textausgabe. Moderne Programme und Betriebssysteme
+haben eine sogenannte grafische Benutzeroberfläche, die dem Benutzer ein
+Fenstersystem mit vielen bunten Bildern präsentiert.
+
+Die Benutzeroberfläche des Betriebssystems eines PCs ist der sogenannte
+\emph{Desktop} (deutsche Übersetzung: \glqq Schreibtisch\grqq ).
+
+
+\subsection{Treiber}
+
+Treiber sind Programme zur Ansteuerung einer Software- oder
+Hardware-Komponente. Ein Treiber ermöglicht einem Anwendungsprogramm die
+Benutzung einer Komponente, ohne deren detaillierten Aufbau zu kennen.
+
+Zum Beispiel kann ein Textverarbeitungsprogramm nicht im Voraus alle
+verschiedenen Drucker kennen, die es vielleicht einmal bedienen soll. Wenn der
+Benutzer aus dem Datei-Menü den Befehl „Drucken“ auswählt, soll der Druck
+funktionieren, egal welcher Drucker angeschlossen ist. Die Druckbefehle des
+Textverarbeitungsprogramms (z.B. \glqq Drucke ein kursives 'a'\grqq , \glqq Neue
+Zeile anfangen\grqq\ oder \glqq Seitenumbruch\grqq ) werden deshalb vom
+Betriebssystem an ein sogenanntes Treiberprogramm (kurz Treiber) weitergeleitet, das vom Hersteller
+des ausgewählten Druckers geschrieben wurde. Das Treiberprogramm weiß genau,
+wie der spezielle Drucker angesteuert werden soll und übersetzt die Befehle der
+Textverarbeitung in geeignete Drucker-Befehle.
+
+Treiber für gängige Geräte sind meist schon im Betriebssystem vorhanden. Wenn
+aber ein neues Gerät, das dem Betriebssystem noch nicht bekannt ist, an einen
+Rechner angeschlossen wird, so muss auch ein zugehöriges Treiberprogramm
+installiert werden.
+
+
+\subsection{Anwendungssoftware}
+
+Die Art der Aufgaben, die ein Computer erledigen kann, ist nicht von
+vornherein festgelegt. Für den Computer können beliebig viele
+Anwendungsprogramme generiert werden. Auf einem PC können mehrere
+Anwendungsprogramme parallel laufen. Ein ausführbares Programm besteht aus
+einem für den Rechner zugeschnittenen Maschinencode und kann daher immer nur
+auf einem bestimmten Betriebssystem laufen. Unter Windows werden ausführbare
+Programme mit der Endung \myFile{*.exe} gekennzeichnet. \glqq exe\grqq\ steht
+dabei für das englische Wort \emph{executable} (auf deutsch: ausführbar).
+
+Typische Aufgaben für Anwendungsprogramme sind:
+
+Textverarbeitung, Tabellenkalkulation, Buchhaltung, Spiele, Internet Browser,
+usw.

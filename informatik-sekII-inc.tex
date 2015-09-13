@@ -1,0 +1,249 @@
+%%----------------------------------------------------------------------
+% (c) 2008 by
+%   Raoul Rubien - rubienr-at-sbox-dot-tugraz-dot-at
+%   Thomas Quaritsch - tq-qt-sbox-dot-tugraz-dot-at
+%
+% Template Version 0.36 (April 2008)
+%%----------------------------------------------------------------------
+\newcommand{\templateVersion}    {0.36/Apr. 2008}     % template version
+
+%%----------------------------------------------------------------------
+%
+% ToDo: Adjust this details
+% Switch to non draft mode when your document is ready. Note that images
+% are not shown while \documentclass - draft is on, wheras overfull
+% boxes are.
+%
+%\documentclass[a4paper, 11pt, fleqn, parskip, draft]{scrartcl}
+\documentclass[BCOR=20mm,DIV=20,twoside,parskip=half,headinclude,ngerman,fontsize=10pt]{scrreprt}
+\newcommand{\isDraft}          {false} % true | false
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel} 
+%\defaulthyphenchar=127
+\renewcommand{\familydefault}{\sfdefault}
+%\usepackage[headsepline]{scrpage2}  % Lade Linie zw Kopf und Text
+\usepackage{scrpage2}
+\pagestyle{empty}
+\cfoot[]{\pagemark}   % Seitenzahl zentriert im Seitenfuss, bei plain 
+\rofoot[]{}
+\lefoot[]{}		   % keine Seitenzahl aussen im Seitenfuss
+%\lehead{\Large\textbf{Eclipse als Java-Entwicklungsumgebung}}
+%\rehead{AvHG, Inf, My}
+%\lohead{\Large\textbf{Eclipse als Java-Entwicklungsumgebung}}
+%\rohead{AvHG, Inf, My}
+\setkomafont{pageheadfoot}{\normalfont\sffamily}  % Serifenlose Schrift
+\usepackage{helvet}
+\usepackage[lighttt]{lmodern}
+\KOMAoptions{DIV=last}
+%\usepackage{xcolor}
+\usepackage{ifthen}                   % controllflow
+\usepackage{xcolor}
+%\definecolor{lightblue}{cmyk}{0.346, 0.114, 0, 0.106}
+%%----------------------------------------------------------------------
+%
+% useful color definitions
+%
+\definecolor{white}              {rgb}{1,1,1}                % R:255 G:255 B:255
+\definecolor{paleblue}           {rgb}{0.211,0.373,0.603}    % R: 76 G:129 B:178
+\definecolor{lightblue}          {rgb}{0.3,0.5,0.7}          % R: 54 G: 96 B:154
+\definecolor{mauve}{rgb}         {0.58,0,0.82}
+
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{microtype}
+%\usepackage{amsmath}
+\usepackage{textcomp}
+
+\usepackage{framed} 
+\colorlet{shadecolor}{gray!25} 
+
+\usepackage{paralist}        % compactenum und compactitem:
+\setlength{\pltopsep}{2mm}   % Abstände vor erstem item
+\setlength{\plitemsep}{1mm}  % zwischen items und
+\setlength{\plparsep}{1mm}   % zwischen absätzen innerlb eines items
+
+\usepackage{array}
+\usepackage{footnote}  % footnotes in tabular
+
+\usepackage{tabularx}
+
+\usepackage{caption}
+
+%\usepackage[table]{pstricks}
+%\usepackage{pst-node, pst-tree, pst-dbicons, pst-eps}
+
+%\usepackage[user,titleref]{zref} 
+ 
+
+\usepackage[
+    pdftex=true,             %% sets up hyperref for use with the pdftex program
+    plainpages=false,        %% set it to false, if pdflatex complains: 
+                             %%``destination with same identifier already exists''
+    backref,                 %% adds a backlink text to the end of each biblio item
+    pagebackref=false,       %% if true, creates backward references as a list of 
+                             %% page numbers in the bibliography
+    colorlinks=true,         %% turn on colored links (true is better for on-screen
+                             %% reading, false is better for printout versions)
+    bookmarks=true,          %% if true, generate PDF bookmarks (requires two passes 
+                             %% of pdflatex)
+    bookmarksopen=false,     %% if true, show all PDF bookmarks expanded
+    bookmarksnumbered=false, %% if true, add the section numbers to the bookmarks
+    %pdfstartpage={1},       %% determines, on which page the PDF file is opened
+    %pdfpagelayout=TwoPageRight,
+    %pdfpagemode=FullScreen,        %% None, UseOutlines (=show bookmarks),
+    % UseThumbs
+                             %% (show thumbnails), FullScreen
+    linkcolor=black, 
+    urlcolor=black,
+    citecolor=black,
+    anchorcolor=black,
+    pagecolor=black,
+    unicode=true,
+    pdftitle={AvHG -- Informatik Oberstufe},
+    pdfauthor={Hartmut Meyer <h.meyer6@schule.bremen.de>}
+  ]{hyperref}
+  
+%%----------------------------------------------------------------------
+%
+% section styles
+%
+\makeatletter
+\renewcommand{\chapter}{                          % the style
+  \@startsection {chapter}                        % the name
+  {1}                                             % the level
+  {0mm}                                           % the indent
+  {0mm}                                           % the before skip
+  {0.1\baselineskip}                              % the after skip
+  {\rm\LARGE\bfseries\textcolor{paleblue}}        % fontstyle
+}
+
+\renewcommand{\section}{                          % the style
+  \@startsection {section}                        % the name
+  {2}                                             % the level
+  {0mm}                                           % the indent
+  {-1.6\baselineskip}                             % the before skip
+  {0.1\baselineskip}                              % the after skip
+  {\rm\Large\bfseries\textcolor{paleblue}}        % fontstyle
+}
+
+\renewcommand{\subsection}{                       % subsection style
+  \@startsection {subsection}                     % the name
+  {3}                                             % the level
+  {0mm}                                           % the indent
+  {-1.6\baselineskip}                             % the before skip
+  {0.1\baselineskip}                              % the after skip
+  {\rmfamily\bfseries\Large\textcolor{lightblue}} % fontstyle
+}
+
+\renewcommand{\subsubsection}{                    % subsection style
+  \@startsection {subsubsection}                  % the name
+  {4}                                             % the level
+  {0mm}                                           % the indent
+  {-0.8\baselineskip}                             % the before skip
+  {0.1\baselineskip}                              % the after skip
+  {\normalfont\normalsize\sffamily\textbf}        % fontstyle
+}
+\makeatother
+
+
+%%----------------------------------------------------------------------
+% some helper
+%%----------------------------------------------------------------------
+% insert highlighted TODOs
+% \toDo {text}
+\newcommand{\toDo}[1]
+{
+  \textcolor{red}{#1}
+}
+
+\usepackage{listings}
+
+% Program Menu Item
+\newcommand{\myPMI}[1]{\textit{#1}}
+
+% File Name
+\newcommand{\myFile}[1]{\texttt{#1}}
+
+% Class Name
+\newcommand{\myClass}[1]{\texttt{\textbf{#1}}}
+
+% Package Name
+\newcommand{\myPackage}[1]{\texttt{#1}}
+
+% Kommando Name
+\newcommand{\myCmd}[1]{\texttt{#1}}
+
+% User Input
+\newcommand{\myUserInput}[1]{\texttt{#1}}
+
+\newcommand{\leadingzero}[1]{\ifnum #1<10 0\the#1\else\the#1\fi}
+\newcommand{\todayI}{\the\year-\leadingzero{\month}-\leadingzero{\day}}
+
+
+\lstdefinestyle{mySQL}{
+	backgroundcolor=\color{gray!10},
+	basewidth={0.5em},
+	basicstyle=\ttfamily\small,
+	commentstyle=\ttfamily\small,
+	emph={IF,SCHEMA,SHOW,USE,AUTO_INCREMENT,DOUBLE,ENUM,DATETIME,TABLES,IS,XOR,REFERENCES},
+	emphstyle={\bfseries},
+	escapeinside=\`\`,
+	language=SQL,
+	literate=
+		{Ö}{{\"O}}1
+		{Ä}{{\"A}}1
+		{Ü}{{\"U}}1
+		{ß}{{\ss}}2
+		{ü}{{\"u}}1
+		{ä}{{\"a}}1
+		{ö}{{\"o}}1,
+	moredelim=**[is][\color{gray}]{æ}{æ},
+	numberstyle=\footnotesize,
+	showspaces=false,
+	showstringspaces=false,
+	%stringstyle=\color{mauve},
+	tabsize=2,
+}
+
+\lstdefinestyle{myJava}{
+	backgroundcolor=\color{gray!10},
+	basewidth={0.5em},
+	basicstyle=\ttfamily\bfseries\normalsize,
+	commentstyle=\ttfamily\normalsize,
+	emph={},
+	emphstyle={\bfseries},
+	escapeinside=\`\`,
+	language=Java,
+	literate=
+		{Ö}{{\"O}}1
+		{Ä}{{\"A}}1
+		{Ü}{{\"U}}1
+		{ß}{{\ss}}2
+		{ü}{{\"u}}1
+		{ä}{{\"a}}1
+		{ö}{{\"o}}1,
+	moredelim=**[is][\color{gray}]{æ}{æ},
+	numberstyle=\footnotesize,
+	showspaces=false,
+	showstringspaces=false,
+	%stringstyle=\color{gray},
+	tabsize=2,
+}
+
+%%----------------------------------------------------------------------
+%
+% author details
+% ToDo: Adjust this details
+%
+\newcommand{\Author}             {Vera Lüthje, Hartmut Meyer}          % author
+% details \newcommand{\AuthorMatnum}       {0123456}                   % author's matricula number
+\newcommand{\AuthorEmail}       {h.meyer6@schule.bremen.de}       
+% author's email address
+\newcommand{\course} {AvHG, Inf, My} %
+\newcommand{\method}             {Scientific Writer}         % mode is shown within top header
+\newcommand{\lang}               {ger}                       % language (ger|eng)
+\newcommand{\toc}                {true}                     % table of contents
+% before \tof (true | false)
+\newcommand{\tof}                {false}                     % table of figures at the very last page (true | false)
+

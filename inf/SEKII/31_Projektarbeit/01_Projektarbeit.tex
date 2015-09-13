@@ -1,0 +1,124 @@
+\chapter{Projektarbeit}
+\renewcommand{\chaptertitle}{Projektarbeit}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+Die Projektarbeit wird als Ersatz für eine der beiden Klausuren des Halbjahres
+gewertet. Wenn ihr zu zweit oder dritt programmiert, soll jeder einen Teil des
+Codes alleine schreiben (einige Code-Abschnitte schreibt man sicher am besten
+zusammen). Im Quellcode muss gekennzeichnet sein, wer welchen Code programmiert
+hat.
+
+Für die Projektarbeit sollt ihr ein eigens dafür anzulegendes Repository
+benutzen, auf das die am Projekt beteiligten schreibenden Zugriff und ich
+Leserechte habe.
+
+Da ihr nun nicht mehr alleine in einem Repository arbeitet, ist es \emph{sehr}
+zu empfehlen, jeden Commit durch einen knappen, aber aussagekräftigen Kommentar
+zu versehen (der Commit-Dialog in Eclipse bietet das an). Der Commit-Kommentar
+sollte für jede geänderte/hinzugefügte Datei entsprechende Hinweise geben. Etwa
+so:
+
+\begin{lstlisting}
+Spieler.java:
+- Klasse neu angelegt
+
+Spielfeld.java: 
+- Wert für Breite ist nun abhängig von der gegebenen Höhe (Seitenverhältnis 4:3)
+- neue Methode: resize()
+\end{lstlisting}
+
+Auch wenn euch dies zunächst lästig erscheinen mag: Im Laufe der Projektarbeit
+werdet ihr so viel effizienter zusammen arbeiten können. Denn mit Hilfe dieser
+Commit-Kommentare lässt sich auch im Nachhinein schnell überblicken, wer wann
+was geändert hat. Bei der Fehlersuche kann dies ein unschätzbarer Vorteil sein!
+
+\section{Programm-Planung}
+
+Abgabetermin:       spätestens \ldots (wird festgelegt)
+
+Abzugeben sind:
+
+\begin{compactitem}
+\item Ein Text, der beschreibt, was das Programm leisten und wie es aussehen
+soll. Dies kann eventuell eine Vorversion der Programm-Anleitung sein.
+
+\item Eine Skizze von der geplanten Programm-Oberfläche.
+
+\item Ein Programmentwurf mit einem UML-Klassendiagramm und eventuell einem oder
+mehreren Zustandsdiagrammen. Im Klassendiagramm soll gekennzeichnet sein, wer
+welche Klasse programmiert.
+\end{compactitem}
+
+\textbf{Tipp}: Denkt daran, dass das Programm auch fertig werden muss! Plant
+deshalb lieber erst mal eine ganz einfache Version des Programms. Falls am Ende
+noch Zeit vorhanden ist, könnt ihr das Programm dann noch weiter ausbauen.
+
+
+\section{Programmierung und Test}
+
+Abgabetermin: ca.\ drei bis vier Wochen nach dem Termin für die Abgabe der
+Programm-Planung (wird festgelegt)
+
+Abzugeben sind:
+
+\begin{compactitem}
+\item Der Quellcode des Programms (im Repository). Der Quellcode muss
+folgendermaßen mit Javadoc kommentiert sein:
+
+\begin{compactitem}
+\item In jeder Datei muss ein Javadoc-Kommentar stehen, der angibt, welchem
+Zweck die Klasse dient.
+\item Jede Methode und jede globale Variable einer Klasse müssen mit einem
+Javadoc-Kommentar versehen werden, der ihren Zweck erklärt (es sei denn, der
+Name ist selbsterklärend).
+\item Hilfsvariablen, die innerhalb einer Methode deklariert sind, brauchen
+nicht kommentiert werden.
+\item Es muss gekennzeichnet sein, wer welchen Code programmiert hat.
+\end{compactitem}
+
+\item Ein UML-Klassendiagramm, das alle tatsächlich programmierten Klassen und
+die Beziehungen zwischen den Klassen darstellt. Attribute und Methoden dürfen
+in diesem Diagramm weggelassen werden (Das Klassendiagramm, das zur Planung
+dient, soll dagegen auch die wichtigen Attribute und Methoden enthalten).
+
+\item Eine Bedienungsanleitung (am besten in Form eines Dialogs als Teil des
+Programms).
+
+\end{compactitem}
+
+\textbf{Wichtig}: Sobald ihr mich über die Fertigstellung per e-Mail informiert,
+spätestens aber zum vereinbarten Abgabetermin, dürft ihr solange keine weiteren
+Änderungen am Repository mehr vornehmen, bis ich euch entsprechend informiert
+habe.
+
+
+\section{Benotung}
+
+\begin{compactenum}[a)]
+\item  Programmiertechnik (50\% der Endnote)
+
+Übersichtlichkeit, Effizienz und Schwierigkeitsgrad der Programmierung.
+Angemessener Einsatz der im Unterricht besprochenen Konzepte (Klassen,
+Vererbung, Arrays, Fehlerbehandlung, usw.). Selbständige Arbeitsweise.
+Am wichtigsten: Das Programm muss fehlerfrei arbeiten.
+
+\item Spiel-Gestaltung (25\% der Endnote)
+
+Programmidee; klar verständliche Bedienoberfläche (Bedienungsfreundlichkeit);
+optische Wirkung.
+
+\item Dokumentation (25\% der Endnote)
+
+Vollständigkeit, Korrektheit und Verständlichkeit der Dokumentation. Dies
+bezieht sich sowohl auf die Planung wie auch auf die Endversion.
+\end{compactenum}
+
+
+

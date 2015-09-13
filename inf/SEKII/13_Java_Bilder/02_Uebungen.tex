@@ -1,0 +1,94 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{
+\makebox[1.60cm][r]{\thechapter}\\ \makebox[1.60cm][r]{ÜBUNG}}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{\thechapter\\
+ÜBUNG}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{Grafik-Dateien -- Übungen}
+
+\subsection{Aufgabe 1: Himmel mit Vögeln und Wolken}
+
+\begin{compactenum}[a)]
+\item Erstelle ein Anwendungsfenster mit einem blauen Hintergrund. Das
+ Anwendungsfenster soll eine Breite von 800 Pixeln und eine Höhe von 600 Pixeln
+ erhalten.
+
+\item Suche dir aus dem Kursverzeichnis ein Wolkenbild aus, das dir gefällt, und
+kopiere es in dein Arbeitsverzeichnis. Lade dieses Wolkenbild im Anwendungsfenster.
+Programmiere eine eigene Klasse Wolke, die eine einzelne Wolke an einer
+bestimmten Stelle zeichnet.
+
+Im Konstruktor der Klasse werden als Parameter die x- und y-Position der Wolke
+und ein Verweis auf das Anwendungsfenster übergeben. Programmiere eine Methode
+\lstinline|zeichnen()|, die die Wolke zeichnet.
+
+Erzeuge im Anwendungsfenster mehrere Objekte der Klasse \myClass{Wolke}.
+
+\item Füge in das Anwendungsfenster ein Objekt der Klasse \myClass{Timer} ein
+und stelle eine Wiederholungsrate von 150 Millisekunden ein.
+
+\item Kopiere alle Gans-Bilder aus dem Kursverzeichnis in dein
+Arbeitsverzeichnis und lade die Bilder im Anwendungsfenster.
+
+Programmiere eine Klasse \myClass{Gans}, die eine einzelne Gans wiederholt von
+links nach rechts durch das Fenster fliegen lässt. Die Klasse erhält im
+Konstruktor die x-Position, die y-Position, die Geschwindigkeit und einen
+Verweis auf das Anwendungsfenster als Parameter. Sie besitzt außerdem eine
+Methode \lstinline|zeichnen()|, die die Gans zeichnet und bewegt. Verwende zum
+Zeichnen immer abwechselnd eines der vier verschiedenen Gänse-Bilder. Dann wirkt
+es so, als würde die Gans mit den Flügeln schlagen.
+
+Erzeuge im Anwendungsfenster mehrere Objekte der Klasse \myClass{Gans}.
+
+\item Kopiere die beiden Vogel-Bilder aus dem Kursverzeichnis in dein
+Arbeitsverzeichnis und lade die Vogel- Bilder im Anwendungsfenster.
+
+Programmiere ein Klasse \myClass{Vogel}. Im Konstruktor wird als Parameter nur
+ein Verweis auf das Anwendungsfenster übergeben. Die anfängliche x-Position
+wird automatisch auf den Wert 500 eingestellt. Die anfängliche y-Position wird
+auf 500 gestellt. In der Methode \lstinline|zeichnen()| wird immer abwechselnd
+eines der beiden Vogel-Bilder angezeigt, so dass es so wirkt, als würde der
+Vogel mit den Flügeln schlagen. Verschiebe außerdem die x-Position bei jedem
+Aufruf von \lstinline|zeichnen()| um 15 Pixel nach links und die y-Position um
+drei Pixel nach oben. Dann fliegt der Vogel nach links oben. Wenn der Vogel
+links aus dem Fenster heraus geflogen ist, soll seine x-Position auf den Wert
+800 gesetzt werden, so dass er erneut in das Fenster hinein fliegen kann. Die
+y-Position wird nicht verändert.
+
+Erzeuge im Anwendungsfenster ein einzelnes Objekt der Klasse \myClass{Vogel}.
+\end{compactenum}
+
+
+\subsection{Aufgabe 2: Schiffe auf dem Meer}
+
+\begin{compactenum}[a)]
+\item Kopiere die drei Schiff-Bilder aus dem Kursverzeichnis in dein
+Arbeitsverzeichnis. Erstelle ein Anwendungsfenster mit weißem Hintergrund und
+lade die drei Schiff-Bilder.
+
+Programmiere eine Klasse \myClass{Schiff}. Im Konstruktor erhält die Klasse die
+x- und y-Position eines Schiffes, die Geschwindigkeit, das Anwendungsfenster
+und ein bestimmtes Schiff-Bild als Parameter übergeben. Programmiere eine
+\lstinline|zeichnen()|-Methode, die das Schiff mit seinem speziellen Bild
+zeichnet (zunächst noch ohne Bewegung).
+
+Erzeuge im Anwendungsfenster mindestens drei verschiedene Objekte der Klasse
+\myClass{Schiff}, die unterschiedliche Bilder besitzen. Die Schiffe, die nach
+links zeigen, erhalten einen negativen Geschwindigkeitswert.
+
+\item Erweitere die Klasse \myClass{Schiff} so, dass sich die Schiffe je nach
+Ausrichtung entweder nach links oder nach rechts bewegen. Wenn ein Schiff aus
+dem Fenster hinaus fährt, soll es auf der gegenüberliegenden Seite wieder in
+das Fenster hinein gleiten.
+
+\item Erweitere die Klasse \myClass{Schiff} so, dass die Schiffe
+Wellenbewegungen ausführen. Dies kann man simulieren in dem man die Schiffe
+pixelweise zuerst zehn Pixel nach oben verschiebt und anschließend wieder zehn
+Pixel nach unten. Dadurch fahren die Schiffe in einer Zickzacklinie, die wie
+eine Wellenbewegung wirkt.
+\end{compactenum}
+

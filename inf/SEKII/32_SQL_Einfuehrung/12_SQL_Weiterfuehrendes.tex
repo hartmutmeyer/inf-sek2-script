@@ -1,0 +1,88 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section[\hspace{1mm} SQL -- Weiterführendes]{SQL -- Weiterführendes}
+
+SQL bietet noch eine ganze Reihe weiterer Sprachelementen, die wir aus
+Zeitgründen aber nicht alle behandeln können. Hier nur ein kurzer Überblick über das, was
+wir nicht behandelt haben:
+
+\subsection{Ähnlichkeitssuche mit \texttt{LIKE}}
+
+Bisher weißt du, wie du den Wert eines Datenfeldes auf Gleichheit (oder auch
+Ungleichheit) mit einem Vergleichswert überprüfen kannst. Etwa in diesem
+Beispiel:
+
+\begin{lstlisting}
+SELECT * FROM schueler WHERE klasse = '7a';
+\end{lstlisting}
+
+Aber was, wenn du nicht nur alle Schüler der 7a, sondern alle Schüler aus allen
+siebten Klassen suchst?
+
+\begin{lstlisting}
+SELECT * FROM schueler WHERE klasse LIKE '7%';
+\end{lstlisting}
+
+Das Prozent-Zeichen ist ein sogenanntes \emph{Wildcard}-Zeichen. \lstinline|%|
+steht für beliebig viele (auch kein) beliebige Zeichen.
+
+Als weiteres Wildcard-Zeichen kann der Unterstrich benutzt werden. \lstinline|_|
+steht  für genau ein beliebiges Zeichen.
+
+\subsection{\texttt{MAX()}, \texttt{MIN()}, \texttt{AVG()} und \texttt{SUM()}}
+
+Mit \lstinline|MAX(|\emph{ausdruck}\lstinline|)| lässt sich der größte Wert in
+Ausdruck ermitteln.
+
+Analoges gilt für \lstinline|MIN(|\emph{ausdruck}\lstinline|)| (liefert den
+kleinsten Wert), \lstinline|AVG(|\emph{ausdruck}\lstinline|)| (liefert das
+arithmetische Mittel) und \lstinline|SUM(|\emph{ausdruck}\lstinline|)| (liefert
+die Summe aller Werte).
+
+
+\subsection{Mathematische Funktionen}
+
+Man kann in SQL auch rechnen. Wenn in der Tabelle \myUserInput{artikel} in dem
+Feld \myUserInput{preis} die jeweiligen Nettopopreise der Artikel gespeichert
+sind, so kann man die Bruttopreise direkt in SQL berechnen lassen:
+
+\begin{lstlisting}
+SELECT nummer, bezeichnung, preis "Netto-Preis", (preis*1.19) "Brutto-Preis" FROM artikel;
+\end{lstlisting}
+
+Neben den Gruzndrechenarten kennt SQL aber auch eine große Anzahl von weiteren
+mathematischen Funktionen, wie etwa \lstinline|SIN()|, \lstinline|COS()|,
+\lstinline|TAN()|, \lstinline|LN()| usw.
+
+\subsection{Datentyp \texttt{BLOB}}
+
+In Datenbanken können nicht nur Text oder Zahlenwerte abgespeichert werden,
+sondern beliebige Daten. Etwa Grafik-Dateien, Musik oder PDF-Dokumente. Für
+solche Daten stehen in MySQL spezielle Datentypen zur Verfügung:
+Von \myUserInput{BLOB} (maximal 64kB) über \myUserInput{MEDIUMBLOB} (maximal
+16MB), bis hin zu \myUserInput{LONGBLOB} (bis zu 4GB).
+
+Um die entsprechenden Daten in der Datenbank zu speichern, oder auch von dort
+auszulesen, muss man allerdings ein Programm schreiben (etwa in Java).
+
+Ein Beispiel findest du im Kurs-Repository in
+\myUserInput{37\_JavaSQL\_Datenbankzugriffe} im Ordner \myUserInput{blob}.
+
+\subsection{Unterabfragen}
+
+Man kann die Ergebnisse von Abfragen direkt in anderen Abfragen benutzen.
+
+\begin{lstlisting}
+SELECT * FROM konto WHERE kontonummer = (SELECT kontonummer FROM konto WHERE konto_id = 1);
+\end{lstlisting}
+
+\subsection{Stored Procedures}
+
+Ähnlich wie in Java kann man auch in SQL programmieren. Dazu kann man (wie in
+Java) Variablen, Schleifen und Verzweigungen benutzen.

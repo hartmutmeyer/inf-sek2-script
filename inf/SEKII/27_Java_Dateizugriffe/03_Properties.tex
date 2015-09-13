@@ -1,0 +1,94 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{Konfigurations-Dateien (\myClass{java.util.Properties})}
+
+Mit der Klasse \myClass{Properties} aus dem Package \myPackage{java.util} kann
+man in einer Datei Einträge unter einem Stichwort abspeichern. Zum Beispiel
+könnten die Punktzahl und der Namen des Highscore-Inhabers in einer Datei
+folgendermaßen gespeichert werden:
+
+\begin{lstlisting}
+#Sun Jun 06 18:01:53 CEST 2010
+Name=Daniela
+Punkte=3015
+\end{lstlisting}
+
+Die Klasse \myClass{Properties} übernimmt die Verwaltung der Eigenschaften (im
+Beispiel heißen die Eigenschaften \myUserInput{Name} und \myUserInput{Punkte}).
+
+Zum Abspeichern der Einträge in einer Datei benötigt man außerdem ein
+Objekt der Klasse \myClass{FileOutputStream}, das die Ausgabedatei
+erzeugt\footnote{In der von uns verwendeten Form muss die Datei bereits vorab
+existieren -- soll es auch mit noch nicht existierenden Dateien funktionieren,
+darf man die Datei nicht mit \lstinline|getClass().getResource()| bestimmen.}
+und das eigentliche Schreiben der Daten in die Datei übernimmt. Falls die
+Ausgabedatei schon existiert, wird sie überschrieben.
+
+Zum Einlesen der Einträge aus einer Datei, benötigt man zusätzlich ein Objekt
+der Klasse \myClass{FileInputStream}, das die Datei zum Lesen öffnet und die
+Daten einliest und sie anschließend zur Interpretation an die Klasse
+\myClass{Properties} weiterleitet.
+
+\begin{compactenum}[a)]
+\item Highscore in Datei speichern
+
+Der folgende Code-Auszug liest den Namen und die Punktzahl des Besten aus zwei
+Textfeldern aus und speichert sie in der Datei
+\myFile{highscore.properties}\footnote{Die Dateiendung \myFile{*.properties}
+ist nicht zwingend, aber üblich. Grundsätzlich darf die Datei beliebig benannt
+werden.} ab:
+
+\begin{lstlisting}
+public void laden() {
+    URL url = getClass().getResource("highscore.properties");
+    if (url == null) {
+        System.out.println("Fehler beim Lesen: Die Datei existiert nicht!");
+        return;
+    }
+    try (InputStream is = new FileInputStream(url.getFile());
+            InputStreamReader in = new InputStreamReader(is, "UTF-8")) {
+        Properties properties = new Properties();	
+        properties.load(in);
+        String name = properties.getProperty("Name");
+        String punkte = properties.getProperty("Punkte");
+        tfName.setText(name);
+        tfPunkte.setText(punkte);
+    } catch (IOException e) {
+        System.out.println(e.getMessage());
+    }
+}
+\end{lstlisting}
+
+\item Highscore aus Datei einlesen
+
+Der folgende Code-Auszug liest den Namen und die Punktzahl aus der der Datei
+\myFile{highscore.properties} aus und schreibt sie in zwei Textfelder:
+
+\begin{lstlisting}
+public void speichern() {
+    URL url = getClass().getResource("highscore.properties");
+    if (url == null) {
+        System.out.println("Fehler beim Schreiben: Die Datei existiert nicht!");
+        return;
+    }
+    try (OutputStream os = new FileOutputStream(url.getFile());
+            OutputStreamWriter out = new OutputStreamWriter(os, "UTF-8")) {
+        Properties properties = new Properties();
+        String name = tfName.getText();
+        String punkte = tfPunkte.getText();
+        properties.setProperty("Name", name);
+        properties.setProperty("Punkte", punkte);
+        properties.store(out, null);
+        out.flush();
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+    }
+}
+\end{lstlisting}
+\end{compactenum}

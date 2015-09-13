@@ -1,0 +1,56 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{
+\makebox[1.60cm][r]{\thechapter}\\ \makebox[1.60cm][r]{ÜBUNG}}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{\thechapter\\
+ÜBUNG}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{Normalisierung -- Übung}
+
+\subsection{Aufgabe 1}
+
+Die folgende Tabelle beschreibt in welcher Abteilung die Mitarbeiter einer Firma
+arbeiten und an welchem Projekt sie wie viele Stunden gearbeitet haben:
+
+\begin{tabular}{|r|r|r|r|r|r|r|r|}\hline
+\textbf{personal\_id} & \textbf{name} & \textbf{vorname} & \textbf{abt\_id} &
+\textbf{abteilung} & \textbf{proj\_id} & \textbf{proj-beschreibung} &
+\textbf{zeit}
+\\ \hline
+1 & Lorenz & Sophia & 1 & Personal & 2 & Verkaufspromotion & 83
+\\ \hline 
+2 & Hohl & Tatjana & 2 & Einkauf & 3 & Konkurrenzanalyse & 29
+\\ \hline
+3 & Willschrein & Theodor & 1 & Personal & 1, 2, 3 & Kundenumfrage, & 140,
+\\
+ & & & & & & Verkaufspromotion, & 92,
+\\
+ & & & & & & Konkurenzanalyse & 110
+\\ \hline
+4 & Richter & Hans-Otto & 3 & Verkauf & 2 & Verkaufspromotion & 67
+\\ \hline
+5 & Wiesenland & Brunhilde & 2 & Einkauf & 1 & Kundenumfrage & 160
+\\ \hline
+\end{tabular}
+
+Wandle das Datenbankschema nacheinander in die erste, zweite und dritte
+Normalform um.
+
+
+\subsection{Aufgabe2}
+
+Gegeben ist die Tabelle \myUserInput{bestellung} mit den folgenden Spalten:
+
+\myUserInput{kunde\_id}, \myUserInput{kunde\_name},
+\myUserInput{kunde\_adresse}, \myUserInput{bestellung\_id},
+\myUserInput{bestellung\_datum}, \myUserInput{artikel\_id},
+\myUserInput{artikel\_name}, \myUserInput{artikel\_anzahl}.
+
+In einer Bestellung können mehrere Artikel gleichzeitig bestellt werden. Die
+Artikel-Anzahl gibt an, wie viele Artikel einer Sorte in einer Bestellung
+angefordert werden.
+
+Überführe das Datenbankschema in die dritte Normalform.

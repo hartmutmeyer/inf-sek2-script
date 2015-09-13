@@ -1,0 +1,322 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+\section[Allgemeines zur Implementierung von Event-Listenern
+(Ereignisbehandlung)]{Allgemeines zur Implementierung von Event-Listenern\\
+(Ereignisbehandlung)}
+
+In den Musterlösungen findet ihr zwei verschiedene Ansätze um Ereignisse zu behandeln:
+
+\begin{compactenum}[1.] 
+\item (Beispiele: \myFile{Fahne.java} und \myFile{Anrede.java}) Implementierung
+eines Interfaces
+
+Dies entspricht dem Vorgehen, welches auch auf im Abschnitt
+\glqq Einfache Dialogelemente\grqq\ beschrieben ist: Ein zur jeweiligen
+Komponente passender EventListener wird implementiert. Dass sieht man dann schon im Kopf der 
+Klasse
+
+\begin{lstlisting}
+public class ... implements ... 
+\end{lstlisting}
+
+Wie immer bei der Verwendung eines Interfaces müssen dann alle Methoden des 
+Interfaces implementiert werden (in den Beispielen hier ist dies praktischer
+Weise jeweils nur eine einzige Methode).
+
+Damit die Komponente dann etwas von diesem EventListener hat, muss er auf die 
+jeweilige Komponente noch \glqq angesetzt\grqq\ werden:
+
+Beispiel aus \myFile{Anrede.java}:  
+
+\begin{lstlisting}
+btnAuswerten.addActionListener(this);
+\end{lstlisting}
+
+Beispiel aus \myFile{Fahne.java}:
+
+\begin{lstlisting}
+cbWindVonLinks.addItemListener(this);
+\end{lstlisting}
+
+  
+\item (Beispiel: \myFile{FarbenMischen.java}): Ableiten von einer passenden
+Wrapper-Klasse bzw. einem Interface in einer anonymen Klasse:
+   
+\begin{lstlisting}
+button.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(final ActionEvent evt) {
+        æ// Was auch immer getan werden soll ...
+æ    }
+});
+\end{lstlisting}
+   		
+   
+Auf den ersten Blick etwas verwirrend, aber sehr praktisch:
+
+In der unter 1. beschriebenen Methode wurde der EventListener auf die
+Klasse der Anwendung (\lstinline|this|) registriert. Wenn die
+Anwendungsklasse aber das entsprechende Interface nicht implementiert, kann der
+EventListener auch nicht auf diese Klasse registriert werden. Vielmehr muss
+er auf eine andere Klasse registriert werden, die solch einen EventListener zur
+Verfügung stellt. Da es diese Klasse noch nicht gibt, muss sie noch erschaffen
+werden. Die sehr kompakte Schreibweise mit der anonymen Klasse oben ist eine
+Abkürzung für
+
+\begin{lstlisting}
+button.addActionListener(MyActionListener());
+   		
+æ...
+æ   		
+class MyActionListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        æ// Was auch immer getan werden soll ...
+    æ}
+});
+\end{lstlisting}
+
+In der kompakten Schreibweise mit der anonymen Klasse spart man es also überhaupt 
+eine neue Klasse zu benennen (im gegebenen Beispiel:
+\myClass{MyActionListener}). Wenn diese Klasse nur ein einziges Mal benutzt
+werden soll (also nicht mehrere Objekte dieser Klasse erzeugt werden müssen),
+dann bietet die Verwendung von anonymen Klassen die kompakteste Schreibweise.
+
+Diese Art der Implementierung eines EventListeners für eine Komponente erhält
+man auch, wenn den WindowBuilder in Eclipse benutzt und dort per Rechtsklick
+auf eine Komponente $\rightarrow$ \myPMI{Add event handler} $\rightarrow$
+\myPMI{action} $\rightarrow$ \myPMI{actionPerformed} wählt.
+\end{compactenum}
+
+
+\section{Typkonvertierung}
+
+In Java besitzen alle Variablen einen Datentyp. Neben den primitiven (im
+Sprachkern fest implementierten) Datentypen \lstinline|int|, \lstinline|short|,
+\lstinline|long|, \lstinline|float|, \lstinline|double|, \lstinline|boolean|,
+\lstinline|char| und \lstinline|byte| gibt es weitere Datentypen, die in Klassen
+definiert sind bzw.\ werden.
+
+Java erlaubt dabei die Umwandlung (\emph{type casting}) von einem Datentyp in
+einen anderen. Allerdings nicht beliebig. Dabei wird unterschieden zwischen
+impliziten und expliziten Typumwandlungen.
+
+\subsection{Beispiel}
+
+In einer Ereignis-Behandlungsroutine wird immer ein \myClass{Event}-Objekt
+übergeben, das Informationen über die Art des aufgetretenen Ereignisses
+besitzt. Mit Hilfe der Methode
+
+\begin{lstlisting}
+public Object getSource()
+\end{lstlisting}
+
+kann man erfragen, in welcher Komponente das Ereignis aufgetreten ist. Als
+Rückgabewert erhält man ein Objekt, das keinen speziellen Typen besitzt. Wenn
+man weiß, dass das Ereignis zum Beispiel in einem Button aufgetreten sein muss,
+kann man das System zwingen, das allgemeine Objekt vom Typ \myClass{Object} in
+ein \myClass{JButton}-Objekt umzuwandeln. Die Umwandlung geschieht jedoch „auf
+eigene Gefahr“. Falls das Ereignis doch in einer anderen Komponente ausgelöst
+wurde, z.B. in einem \myClass{JTextField}, gibt es einen Programmabsturz.
+
+Der folgende Code demonstriert, wie man in einem \myClass{JFrame} mit drei
+Buttons herausfinden kann, welcher der Buttons gedrückt wurde:
+
+\begin{lstlisting}
+æimport java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+public class WelcherButton extends JFrame æimplements ActionListeneræ {
+    private static final int WIDTH = 300;
+    private static final int HEIGHT = 120;
+    private JButton eins, zwei, drei;
+    private JLabel text, text2;
+
+    public WelcherButton(final String title) {
+        super(title);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel contentPane = new JPanel();
+        contentPane.setLayout(new FlowLayout());
+        setContentPane(contentPane);
+        setSize(WIDTH, HEIGHT);
+        eins = new JButton("1");
+        contentPane.add(eins);
+æ        eins.addActionListener(this);
+æ        zwei = new JButton("2");
+        contentPane.add(zwei);
+æ        zwei.addActionListener(this);
+æ        drei = new JButton("3");
+        contentPane.add(drei);
+æ        drei.addActionListener(this);
+æ        text = new JLabel("Es wurde Button _ gedrückt.");
+        contentPane.add(text);
+        text2 = new JLabel("Es wurde Button _ gedrückt.");
+        contentPane.add(text2);
+        setVisible(true);
+    }
+
+æ    public void actionPerformed(ActionEvent e) {
+        JButton button = (JButton) e.getSource();
+
+        // 1. Alternative: lange Variante
+        if (button == eins) {
+            text.setText("Es wurde Button 1 gedrückt.");
+        }
+        if (button == zwei) {
+            text.setText("Es wurde Button 2 gedrückt.");
+        }
+        if (button == drei) {
+            text.setText("Es wurde Button 3 gedrückt.");
+        }
+
+        // 2. Alternative: kurze Variante
+        text2.setText("Es wurde Button " + button.getText() + " gedrückt.");
+    }
+æ
+    public static void main(final String[] args) {
+        new WelcherButton("WelcherButton");
+    }
+}
+\end{lstlisting}
+
+
+\subsection{Regeln für die Typkonvertierungen}
+
+\subsubsection{Schema}
+
+Eine Variable \lstinline|var1| vom Typ \myClass{Typ1} wird mit folgendem Befehl
+explizit in eine Variable \lstinline|var2| vom Typ \myClass{Typ2} umgewandelt
+(explizite Typumwandlung bzw.\ \emph{explicit type cast}):
+
+\begin{lstlisting}
+Typ2 var2 = (Typ2) var1;
+\end{lstlisting}
+
+In einigen wenigen fällen erledigt Java diese Typumwandlung für uns sogar
+automatisch (implizite Typumwandlung bzw.\ \emph{implicit type cast}). Dann kann
+auf den \emph{type cast operator} (im Beispiel oben \lstinline|(Typ2)| )
+verzichtet werden.
+
+In Berechnungen, in denen Ganzzahl- und Fließkommazahl-Variablen gemischt
+verwendet werden geschieht dies häufig (und oft mit \glqq überraschenden\grqq\
+Ergebnissen).
+
+\subsubsection{Beispiel für die implizite Typumwandlung}
+
+Schon bei der Umwandlung von \glqq ähnlichen\grqq\ Datentypen
+(etwa \lstinline|int| $\leftrightarrow$ \lstinline|long|, oder auch
+\lstinline|float| $\leftrightarrow$ \lstinline|double|) kann es Probleme geben:
+Die Umwandlung des \glqq kleineren\grqq\ in den \glqq größeren\grqq\ Datentyp
+ist problemlos und kann deshalb implizit erfolgen:
+
+\begin{lstlisting}
+int  i = 12345;
+long l = i;
+\end{lstlisting}
+
+Für den umgekehrten Weg ist aber ein expliziter Type Cast notwendig, da hier ein
+Informationsverlust stattfinden kann (der Wertebereich des \glqq größeren\grqq\
+Datentyps lässt sich nicht komplett auf den \glqq kleineren\grqq\ Datentyp
+abbilden). Das kann nicht automatisch passieren, sondern muss durch den
+Programmierer explizit angewiesen (und damit verantwortet) werden:
+
+\begin{lstlisting}
+long l = 12345678901L;
+int  i = (int) l;      æ// ergibt -539222987, weil die oberen Bytes abgeschnitten werden
+\end{lstlisting}
+
+\pagebreak
+
+Aber auch die Umwandlung von nicht-ähnlichen Datentypen geschieht teils
+implizit:
+
+\begin{lstlisting}
+int i = 5;
+int j = 4;
+float x = 0.2f;
+System.out.println("" + x * i);              æ// ergibt 1.0
+æSystem.out.println("" + i / j);              æ// ergibt 1
+\end{lstlisting}
+
+Das Ergebnis der ersten Berechnung überrascht nicht. Und trotzdem war hierfür
+eine implizite Typumwandlung nötig, um die Datentypen der beiden Operanden
+aneinander anzupassen. Das Ganzzahl-Objekt wurde dabei in ein Fließkomma-Objekt
+umgewandelt.
+
+Für die zweite Berechnung hätten wir intuitiv eine Typumwandlung erwartet. Aber
+sie findet nicht statt. Da beide Operanden Ganzzahl-Objekte sind, sieht Java
+keine Notwendigkeit für eine Umwandlung. Und das Ergebnis einer
+Ganzzahl-Division ist dann eben wieder eine Ganzzahl und nicht etwa eine
+Fließkommazahl (der Nachkommateil des von uns erwarteten Ergebnisses wird dabei
+einfach ignoriert).
+
+Um bei der zweiten Berechnung das von uns erwartete Ergebnis zu bekommen, müssen
+wir per explizitem Type Cast zumindest einen der beiden Operanden in eine
+Fließkommazahl konvertieren:
+
+\begin{lstlisting}
+System.out.println("" + ((float) i) / j);    æ// ergibt 1.25
+\end{lstlisting}
+
+\subsubsection{Regeln}
+
+\begin{compactitem}
+\item Konvertierungen zwischen \lstinline|int| und \lstinline|boolean| sind
+nicht möglich. Weder implizit noch explizit.
+
+\item Konvertierung zwischen \lstinline|int| und \lstinline|char| sind möglich:
+
+\begin{lstlisting}
+c = (char) i;     æ// explicit type cast ist nötig
+æi = c;            æ// explicit type cast ist nicht nötig
+\end{lstlisting}
+
+Dies folgt der zuvor beschriebenen Logik, dass eine Umwandlung vom \glqq
+größeren\grqq\ zum \glqq kleineren\grqq Datentyp einen expliziten Type Cast
+benötigt (möglicher Informationsverlust!), der umgekehrte Weg aber implizit
+möglich ist (keine Gefahr von Informationsverlust).
+
+\item Konvertierung zwischen \lstinline|int| und \lstinline|String| sind
+mit Type Cast nicht möglich. Weder implizit noch explizit.
+
+\item Konvertierung zwischen \lstinline|char| und \lstinline|String| sind
+mit Type Cast nicht möglich. Weder implizit noch explizit.
+
+\item Konvertierung zwischen \lstinline|int| und einer Klasse
+(zum Beispiel \myClass{JButton}) sind mit Type Cast nicht möglich. Weder
+implizit noch explizit.
+
+\item Eine Konvertierung zwischen zwei verschiedenen Klassen (zum Beispiel
+\myClass{Component} und \myClass{JTextField}) ist erlaubt, wenn die eine Klasse
+eine Oberklasse der anderen Klasse ist. Falls die Objekte nicht zueinander
+passen, gibt es während des Programmablaufs einen Absturz.
+\end{compactitem}
+
+\subsubsection{Sonderrolle von \myClass{String}}
+
+Die Klasse \myClass{String} nimmt in Java eine Sonderrolle ein: Einerseits
+gehört sie nicht zu den primitiven Datentypen sondern ist als Klasse
+implementiert. Andererseits sind ihre Eigenschaften im Java-Kern bekannt und
+erlauben so einige Sachen, die mit anderen Objekten \glqq normaler\grqq\ Klassen
+nicht möglich wäre. So ist es indirekt doch möglich, Zahlenwerte in Strings
+umzuwandeln:
+
+\begin{lstlisting}
+int i = 10;
+String text = "";
+text = (String) i;                     æ// Direkte Typumwandlung nicht(!) möglich 
+ætext = "Du hast " + i + " Finger.";    æ// ergibt: "Du hast 10 Finger."
+ætext = "";
+text += i;                             æ// ergibt: den String "10"
+ætext = "Der Schreiner hat nur noch " + (i - 1) + " Finger.";
+\end{lstlisting}

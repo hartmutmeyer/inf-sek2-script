@@ -1,0 +1,122 @@
+\chapter{Abstrakte Klassen und Interfaces}
+\renewcommand{\chaptertitle}{Abstrakte Klassen und Interfaces}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+\section{Abstrakte Klassen}
+
+Abstrakte Klassen kennst du bereits aus dem UML-Design. Mit einer abstrakten
+Klasse kann man Gemeinsamkeiten einer Reihe verwandter Klassen zusammen fassen
+(Variablen, Methoden und Assoziationen). Zum Beispiel ist Fahrzeug eine
+abstrakte Oberklasse für die Klassen Auto, Fahrrad und Zug.
+
+Abstrakte Klassen werden in Java durch das Schlüsselwort \lstinline|abstract|
+gekennzeichnet. Der Compiler sorgt dafür, dass für eine abstrakte Klasse keine
+Objekte erzeugt werden können.
+
+Eine abstrakte Klasse kann nicht nur fertig ausprogrammierte Methoden
+enthalten. Es dürfen auch reine „Methodeköpfe“ geschrieben werden. Diese müssen
+mit dem Schlüsselwort \lstinline|abstract| gekennzeichnet sein. Jede
+abgeleitete Klasse ist verpflichtet, alle aufgelisteten abstrakten Methoden zu
+programmieren.
+
+Beispiel:
+
+\begin{lstlisting}
+abstract public class Fahrzeug {
+    protected int geschwindigkeit = 0;
+
+    public Fahrzeug() {
+        geschwindigkeit = 50;
+    }
+
+    public abstract void bewegen();
+    public abstract void zeichnen(Graphics g);
+    
+    public int getGeschwindigkeit() {
+        return geschwindigkeit;
+    }
+}
+\end{lstlisting}
+
+
+\section{Interfaces}
+
+Wenn man von einer Klasse aus auf die Methoden einer fremden Klasse zugreifen
+will, muss man wissen, welche Methoden die fremde Klasse bereit stellt.
+
+Aber wie kann man ein Programm erstellen, das den Code einer fremden Klasse
+verwendet, die zum aktuellen Zeitpunkt noch gar nicht existiert?
+
+Beispiele:
+
+\begin{compactitem}
+\item Das Betriebssystem muss die Druckertreiber unterschiedlicher Hersteller
+ansprechen können. Nach Fertigstellung des Betriebssystems werden eventuell
+neue Drucker hergestellt, für die es auch geeignete Druckertreiber geben muss.
+
+\item Das Java-System soll eine bestimmte Methode eines Anwendungsprogramms
+aufrufen, wenn der Benutzer eine Taste gedrückt hat. Das Anwendungsprogramm wird
+jedoch erst nach Fertigstellung der Java-Entwicklungsumgebung programmiert.
+\end{compactitem}
+
+Lösung:
+
+Es werden eine Reihe von Methodenköpfen definiert, die beide Seiten kennen.
+Wenn man nur den Kopf einer Methode hinschreibt, bezeichnet man die Methode als
+\emph{abstrakt}. Die Methodenköpfe bilden die \emph{Schnittstelle} (engl.
+\emph{Interface}), die beide Seiten kennen müssen, um miteinander kommunizieren
+zu können. Zum Beispiel legen Methodenköpfe fest, wie das Betriebssystem einen
+Druckertreiber ansprechen muss, und sie sagen dem Hersteller des
+Druckertreibers, welche Methoden er programmieren muss.
+
+Formal sieht eine Schnittstelle so ähnlich aus wie eine Klasse. Ein Interface
+wird mit dem Schlüsselwort \lstinline|interface| gekennzeichnet. Im Unterschied
+zu Klassen dürfen Interfaces nur Methodenköpfe und Konstanten (Variablen mit
+dem Schlüsselwort \lstinline|final|) enthalten und sie besitzen keinen
+Konstruktor.
+
+Alle aufgelisteten Methoden sind automatisch \lstinline|abstract| und
+\lstinline|public|. Deshalb kann man diese beiden Schlüsselwörter bei der
+Definition der Methoden auch weglassen.
+
+Beispiel für ein Interface:
+
+\begin{lstlisting}
+public interface Drucker {
+    public abstract String hersteller();
+}
+\end{lstlisting}
+   
+Beispiel für eine Klasse, die dieses Interface implementiert:
+
+\begin{lstlisting}
+public class Epson_V12 implements Drucker {
+
+    @Override
+    public String hersteller() {
+        return "Firma Epson 19.01.2007";
+    }
+}
+\end{lstlisting}
+
+Eine Klasse, die ein Interface implementiert (zum Beispiel der Druckertreiber,
+der das Drucker-Interface implementiert), muss alle definierten Methoden in Code
+umsetzen (Fachwort: implementieren). Wenn eine Klasse ein Interface umsetzen
+möchte, gibt sie dies durch das Schlüsselwort \lstinline|implements| an. Der
+Compiler achtet darauf, dass die Klasse alle Methoden des Interfaces besitzt.
+Vor allen Methoden, die aus dem Interface „geerbt“ werden, muss zwingend das
+Schlüsselwort \lstinline|public| stehen.
+
+Eine Klasse darf gleichzeitig ein oder mehrere Interfaces implementieren und
+sich von einer anderen Klasse ableiten. Schema:
+
+\begin{lstlisting}
+public class Name extends Superklasse implements Interface1, Interface2
+\end{lstlisting}

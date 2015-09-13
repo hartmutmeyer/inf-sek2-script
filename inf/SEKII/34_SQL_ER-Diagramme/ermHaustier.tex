@@ -1,0 +1,72 @@
+\documentclass[a4paper,10pt, landscape]{scrreprt}
+\usepackage[utf8]{inputenc}
+\usepackage{ngerman}
+\usepackage[table]{pstricks}
+\usepackage{pst-node, pst-tree, pst-dbicons, pst-eps}
+
+\renewcommand{\familydefault}{\sfdefault}
+\setkomafont{pageheadfoot}{\normalfont\sffamily}  % Serifenlose Schrift
+\usepackage{helvet}
+\KOMAoptions{DIV=last}
+
+
+\input{pst-erm}
+\input{mycolor}
+%\input{myuml}
+\input{mytabs}
+
+\pagestyle{empty}
+
+\begin{document}
+\newcommand{\tabTier}{
+ \ERMTable{tabTier}{\tabName tier}{%
+  \tabPK PK  & tier\_id\\
+  \tabDaten  & name\\
+  \tabDaten  & tierart\\
+  \tabDaten  & geschlecht\\
+  \tabDaten  & lebendig\\
+  \tabDaten  & geburtstag\\
+  \tabDaten  & todestag\\
+  }
+}
+\newcommand{\tabBesitzer}{
+ \ERMTable{tabBesitzer}{\tabName besitzer}{%
+  \tabPK   PK & besitzer\_id\\
+  \tabDaten   & anrede\\
+  \tabDaten   & vorname\\
+  \tabDaten   & nachname\\
+  \tabDaten   & straße\\
+  \tabDaten   & plz\\
+  \tabDaten   & ort\\
+  \tabDaten   & telefonnr\\
+  }
+}
+\newcommand{\tabBeziehung}{
+ \ERMTable{tabBeziehung}{\tabName beziehung}{%
+  \tabPK PK, FK  & beziehung\_besitzer\_id\\
+  \tabPK PK, FK  & beziehung\_tier\_id\\
+  }
+}
+
+\TeXtoEPS
+\begin{pspicture}(9.0,9.5)%\psgrid
+\rput[lb](0,5.3){\tabTier}
+\rput[lb](5.0,6.5){\tabBeziehung}
+\rput[lb](12.5,5.1){\tabBesitzer}
+
+%Verbindung Tier Beziehung
+\ncE{tabTier}{tabBeziehung}
+\ermputicon[npos=0,nrot=90]{Eins}
+\ermputicon[npos=1,nrot=-90]{ON}
+%\ermputicon[npos=1,nrot=-90]{N}
+
+
+%Verbindung Besitzer Beziehung
+\ncW{tabBesitzer}{tabBeziehung}
+\ermputicon[npos=0,nrot=-90]{Eins}
+\ermputicon[npos=1,nrot=90]{ON}
+
+\end{pspicture}
+\endTeXtoEPS
+
+\end{document}

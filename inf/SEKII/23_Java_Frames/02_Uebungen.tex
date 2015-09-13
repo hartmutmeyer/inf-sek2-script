@@ -1,0 +1,147 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{
+\makebox[1.60cm][r]{\thechapter}\\ \makebox[1.60cm][r]{ÜBUNG}}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{\thechapter\\
+ÜBUNG}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{Fenster -- Übungen}
+
+\subsection{Aufgabe 1: \lstinline|windowClosing()|}
+
+\begin{compactenum}[a)]
+\item Erzeuge in Eclipse über Rechtsclick auf das aktuelle Package im Package
+Explorer und \myPMI{New} $\rightarrow$ \myPMI{Class} eine Anwendung mit einem
+eigenen Programmfenster, in dem du dein Programm von der Klasse \myClass{JFrame}
+ableitest. Die Hilfsklasse \myClass{HJFrame} darf von heute an nicht mehr
+verwendet werden!!!
+
+Fange das Fenster-Ereignis \lstinline|windowClosing| ab, damit die Anwendung
+vom Benutzer geschlossen werden kann (Damit Swing nicht mit seinem
+Standard-Verhalten dazwischen-funkt musst du im Konstruktor
+\lstinline|setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE)| benutzen).
+
+\item Erweitere deinen Eventhandler für das Ereignis \lstinline|windowClosing|
+so, dass der Benutzer zuerst mit einem \lstinline|showConfirmDialog()| der
+Klasse \myClass{JOptionPane} (siehe unten) gefragt wird, ob er die Anwendung
+wirklich schließen möchte. Wenn er bejaht, wird die Anwendung geschlossen,
+andernfalls nicht.
+
+\item Fange die Ereignisse \lstinline|windowActivated| und
+\lstinline|windowDeactivated| ab. Wenn das Anwendungsfenster aktiviert ist (das
+erkennt man an der blau markierten Titelleiste), soll die Hintergrundfarbe des
+Fensters gelb sein. Wenn das Fenster deaktiviert ist (graue Titelleiste), ist
+die Hintergrundfarbe blau.
+
+\item Wenn das Fenster aktiviert ist, wird in der Titelzeile der Text
+\glqq Schön, dass du da bist!\grqq\ ausgegeben. Wenn das Fenster deaktiviert ist
+wird der Text \glqq Warum hast du mich verlassen?\grqq\ ausgegeben.
+\end{compactenum}
+
+\subsubsection{Bestätigungs-Dialoge}
+
+Die Klasse \myClass{JOptionPane} aus der Swing-Bibliothek besitzt die Methode
+\lstinline|showConfirmDialog()| zur Abfrage einer Benutzerbestätigung:
+
+\begin{lstlisting}
+public static int showConfirmDialog(Component parentComponent, Object message)
+\end{lstlisting}
+
+Als Parameter werden die Vater-Komponente (das ist das Anwendungsfenster) und
+ein Text angegeben.
+
+Der Rückgabewert zeigt an, welchen Button der Benutzer gedrückt hat. Es sind
+folgende Rückgabewerte definiert:
+
+\bgroup
+\def\arraystretch{1.2}
+\begin{tabular}{ll}
+\lstinline|JOptionPane.YES_OPTION| \hspace{15mm} &
+(Ja-Button gedrückt)
+\\
+\lstinline|JOptionPane.NO_OPTION| \hspace{15mm} &
+(Nein-Button gedrückt)
+\\
+\lstinline|JOptionPane.CANCEL_OPTION| \hspace{15mm} &
+(Abbrechen-Button gedrückt)
+\\
+\end{tabular}
+\egroup
+
+Swing ist nicht Thread-Safe. Das bedeutet, dass der Programmierer selbst dafür
+sorge tragen muss, dass nicht mehrere Threads gleichzeitig versuchen auf ein
+Objekt zuzugreifen. Es ist im Zweifelsfall sinnvoll, Swing-Methoden nicht
+direkt auszuführen, sondern diese an den sogenannten \emph{Event Dispatch
+Thread} (EDT) zu übergeben.
+
+Im Anwendungsfenster könnte zum Beispiel folgender Code stehen:
+
+\begin{lstlisting}
+EventQueue.invokeLater(new Runnable() {
+    public void run() {
+        int erg = JOptionPane.showConfirmDialog(null, 
+                           "Anwendung wirklich beenden?");
+        if (erg == JOptionPane.YES_OPTION) {
+            æ// ...
+æ        }
+    }
+});
+\end{lstlisting}
+
+Hinweis: Wenn du \lstinline|showConfirmDialog()| in einer anonymen inneren
+Klasse (wie oben) benutzt, dann musst du als erstes Argument \lstinline|null|
+anstelle von \lstinline|this| benutzen!
+
+
+\subsection{Aufgabe 2: Beleidigtes Fenster}
+
+\begin{compactenum}[a)]
+\item Programmiere ein \myClass{JFrame} mit einem eigenen Eventhandler für
+Fenster-Ereignisse. Die Fenster-Ereignisse können entweder in der
+\myClass{JFrame}-Klasse abgefangen werden (indem das entsprechende Interface
+implementiert wird) oder in einer eigenen Klasse, die sich von der Klasse
+\myClass{WindowAdapter} ableitet.
+
+Das Fenster soll zu Beginn eine Breite und eine Höhe von 500 Pixel haben. Es
+hat einen gelben Hintergrund und eine schwarze Schriftfarbe. Im Fenster wird
+mit Hilfe der \lstinline|paintComponent()|-Methode der Text \glqq Wehe du gehst
+weg.\grqq\ angezeigt.
+
+Im ersten Schritt wird der Eventhandler so programmiert, dass das Fenster bei
+einem Klick auf den „Schließen“-Knopf geschlossen wird.
+
+\item Fange die Fenster-Ereignisse \lstinline|windowActivated| und
+\lstinline|windowDeactivated| ab.
+
+Wenn das Fenster  deaktiviert wird, nimmt es eine rote Hintergrundfarbe an (es
+wird sozusagen rot vor Ärger). Wenn es aktiviert wird, nimmt es wieder eine
+gelbe Hintergrundfarbe an.
+
+\item Wenn das Fenster deaktiviert ist, wird der Text im Fenster durch den neuen
+Text \glqq Verräter, wieso gehst du einfach weg?\grqq\ ersetzt. Wenn das
+Fenster aktiviert ist wird wieder der alte Text \glqq Wehe du gehst weg.\grqq\
+angezeigt.
+
+\item Wenn das Fenster deaktiviert wird, schrumpft es vor Ärger zusammen.
+Reduziere die aktuelle Fensterbreite und Fensterhöhe bei jeder Deaktivierung
+jeweils um 100 Pixel. Wenn die Breite des Fensters dadurch kleiner als 100
+Pixel wird, beendet sich die Anwendung selbständig.
+
+Hinweis: Es darf vereinfacht davon ausgegangen werden, dass der Benutzer die
+Fenstergröße nicht manuell verstellt.
+\end{compactenum}
+
+
+\subsection{Aufgabe 3: \myClass{JFrame}-Template von Eclipse benutzen}
+
+Eclipse erstellt das Grundgerüst für eine Anwendung, die von einem
+\myClass{JFrame} abgeleitet wird, wenn man sich statt \myPMI{New} $\rightarrow$
+\myPMI{Class} für \myPMI{New} $\rightarrow$ \myPMI{Other \ldots}
+$\rightarrow$ \myPMI{Window Builder} $\rightarrow$ \myPMI{Swing Designer}
+$\rightarrow$ \myPMI{JFrame} entscheidet.
+
+Erzeuge auf diese Art und Weise eine neue Anwendung und versuche den
+Programmcode zu verstehen.

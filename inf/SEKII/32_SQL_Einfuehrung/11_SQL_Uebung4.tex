@@ -1,0 +1,79 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{
+\makebox[1.60cm][r]{\thechapter}\\ \makebox[1.60cm][r]{ÜBUNG}}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{\thechapter\\
+ÜBUNG}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section[\hspace{1mm} SQL -- Übung 4: Die Haustierdatenbank (Fortsetzung)]{SQL -- Übung 4: Die Haustierdatenbank (Fortsetzung)}
+
+\subsection{Aufgabe 1: Datenbank erweitern}
+
+Sandra und Mirco Sandelmann haben sich nach einer langen Trennungsphase wieder
+versöhnt. Sandra zieht wieder zu Mirco in das gemeinsame Haus zurück. Aber wem
+gehören nun die Tiere? Beiden natürlich. Erweitere die Datenbank entsprechend!
+Und korrigiere die Adresse von Sandra.
+
+Die Kinder von Sandra Anderson haben sich übrigens beschwert, dass nur ihre
+Mutter als Besitzerin in der Datenbank eingetragen ist. Sie möchten ebenfalls
+verzeichnet werden:
+
+Anka und Max Anderson wohnen beide bei der Mutter. Kai Anderson wohnt in der
+Unsinnstraße 65, 28245 Bremen.
+
+
+\subsection{Aufgabe 2: Daten abfragen}
+
+Führe auf der erweiterten Datenbank die folgenden Abfragen durch:
+
+\begin{compactenum}[a)]
+\item Zeige eine Liste aller Besitzer (Vor- und Nachname) und ihrer Tiere (Name
+und Tierart) an. Sortiere die Liste absteigend nach dem Namen der Tiere.
+
+\item Liste alle Besitzer von Maja auf (Vor- und Nachname).
+
+\item Zähle die Anzahl der Besitzer von Blacky.
+
+\item Erstelle eine Liste, die angibt, wie viele Tiere jede einzelne Person
+besitzt (Ausgabe: Anzahl, Vor- und Nachname).
+
+\item Liste die vollständigen Daten aller Besitzer auf, deren Telefonnummer
+nicht bekannt ist.
+
+\item Liste Straße, PLZ und Ort aller Besitzer auf. Dabei soll jede Adresse nur
+ einmal ausgegeben werden.
+\end{compactenum}
+
+\subsection{Aufgabe 3: Daten verändern}
+\begin{compactenum}[a)]
+\item Die Katze Mausi ist weggelaufen und hat nun offensichtlich keinen Besitzer
+ mehr. Lösche die Beziehung von Mausi zu ihren beiden Besitzern Sandra und
+ Mirco Sandelmann, aber lösche nicht die Katze selbst aus der Datenbank.
+\item Johanna Sonntag wünscht sich sehnlich einen Hund und möchte schon vor der
+ Anschaffung eines Tieres in die Datenbank eingetragen werden. Füge in die
+ Besitzer-Tabelle die folgenden Daten ein:\\
+ \myUserInput{Frau, Johanna, Sonntag, Glücksweg 13, 28333, Bremen}
+\end{compactenum}
+
+\subsection{Aufgabe 4: Daten abfragen 2}
+
+Führe auf der erweiterten Datenbank die folgenden Abfragen durch:
+
+\begin{compactenum}[a)]
+\item Liste die Personen, die momentan kein Tier besitzen, mit Ihrem Vor- und
+ Nachnamen auf.
+\item Liste die Tiere mit Namen auf, die keinen Besitzer haben.
+\item Liste alle Personen, die mit Anka Anderson zusammen wohnen (d.h. alle, die
+ dieselbe Strasse haben) mit ihren vollständigen Daten auf. Anka selbst darf
+ auch in der Liste erscheinen.
+\item Liste alle Tiere mit Namen auf, die am selben Tag geboren wurden wie Maja.
+ Maja selbst soll nicht in der Liste erscheinen.
+\item Liste die Namen der Tiere auf, die am selben Tag geboren wurden wie Maja,
+und den Vor- und Nachnamen ihrer Besitzer. Maja selbst soll nicht in der Liste
+erscheinen.
+\item Liste alle Tiere mit Namen auf, die denselben Besitzer haben wie Hasso.
+Hasso darf ebenfalls in der Liste erscheinen.
+\end{compactenum}

@@ -1,0 +1,127 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{
+\makebox[1.60cm][r]{\thechapter}\\ \makebox[1.60cm][r]{ÜBUNG}}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{\thechapter\\
+ÜBUNG}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{Sortierverfahren -- Übungen}
+
+\subsection{Aufgabe 1: Sortieren der Zahlenreihe \glqq 8 3 2 1\grqq}
+
+\subsubsection{Sortieren durch Einfügen (Insertion Sort)}
+
+Zuerst wird überprüft, ob das zweite Element vor das erste geschoben werden
+muss.
+
+Nachdem die ersten beiden Elemente in der richtigen Reihenfolge sind, wird das
+dritte Element in die bereits sortierte Teilliste eingefügt.
+
+Nachdem die ersten drei Elemente in der richtigen Reihenfolge sind, wird das
+vierte Element in die bereits sortierte Teilliste eingefügt.
+
+Und so weiter.
+
+\subsubsection{Sortieren durch Auswählen (Selection Sort)}
+
+Es wird zuerst das kleinste Elemente herausgesucht und mit dem Element an der
+ersten Stelle vertauscht. Damit ist das vorderste Element korrekt sortiert.
+
+Anschließend wird aus der unsortierten Restliste das zweit kleinste Element
+herausgesucht und mit dem Element an der zweiten Position vertauscht. Damit
+sind die beiden vordersten Elemente korrekt sortiert.
+
+Danach wird aus der Restliste das dritt kleinste Element herausgesucht und mit
+dem Element an der dritten Position vertauscht, und so weiter.
+
+\subsubsection{Bubble Sort}
+
+Zuerst wird das erste Element mit dem zweiten Element verglichen und
+gegebenenfalls vertauscht. Dann wird das zweite Element mit dem dritten Element
+verglichen und gegebenenfalls vertauscht. Anschließend wird das dritte Element
+mit dem vierten Element verglichen und gegebenenfalls vertauscht, und so weiter
+bis das vorletzte Element mit dem letzten Element verglichen und (bei Bedarf)
+vertauscht wurde.
+
+Das oben beschriebene Verfahren wird so lange wiederholt, bis bei einem
+Zeilendurchgang keine Vertauschungen mehr durchgeführt werden mussten. Dann
+befinden sich alle Zahlen in der richtigen Reihenfolge.
+
+
+\subsection{Aufgabe 2: Namen sortieren}
+
+Du sollst die folgenden Namen alphabetisch ordnen: Meier, Zeller, Müller, Egger
+
+Beginne mit dieser Reihenfolge. Schreibe für alle drei Sortierverfahren die
+Reihen nach jedem Sortierschritt auf.
+
+
+\subsection{Aufgabe 3: Welches Verfahren sortiert am schnellsten?}
+
+Um die Zeit für ein Sortierverfahren exakt zu bestimmen, müsste man die Anzahl
+der Vergleiche zwischen zwei Elementen zählen und mit der dafür benötigten
+Rechenzeit multiplizieren. Des weiteren müsste die Anzahl der Vertauschungen
+von zwei Elementen gezählt werden und wiederum mit der dafür benötigten
+Rechenzeit multiplizieren werden. Wenn man beide Werte zusammenaddiert, kann
+man die Rechenzeit ziemlich exakt bestimmen.
+
+Wir wollen vereinfacht davon ausgehen, dass ein Verfahren dann besonders
+schnell ist, wenn nur wenige „Zeilen“ für die Lösung benötigt werden. Für jede
+der unten stehenden Zahlenreihen gibt es nach dieser vereinfachten
+Betrachtungsweise ein Sortierverfahren, das optimal ist. Welches ist es jeweils?
+
+\begin{compactenum}[a)]
+\item 4  1  2  3
+\item 3  2  1  4
+\item 2  1  3  4
+\end{compactenum}
+
+
+\subsection{Aufgabe 4: Programmierübung}
+
+\begin{compactenum}[a)]
+\item Erstelle ein neues Java-Anwendungsfenster. Erzeuge im Konstruktor der
+Anwendung eine Zufallszahl zwischen eins und zehn, die die Länge der
+Zahlenliste festlegt. Gib die Zahl zum Test in einem Dialog aus.
+
+\item Erzeuge im Konstruktor ein Array mit Zufallszahlen vom Typ Integer. Das
+Array soll die unter a) festgelegte Länge erhalten. Schreibe in die Felder des
+Arrays Zufallszahlen zwischen 10 und 99.
+
+\item Schreibe eine Methode, die ein Zahlen-Array in einer bestimmten Zeile auf
+dem Bildschirm ausgibt. Die Methode erhält als Parameter das
+\myClass{Graphics}-Objekt, das Zahlen-Array und die y-Koordinate der Zeile.
+Rufe die Methode in der \lstinline|myPaint()|-Methode des Anwendungsfensters
+auf.
+
+\item Schreibe eine Methode, die die größte Zahl der Liste ermittelt. Die
+Methode erhält als Parameter das Array und gibt als Rückgabewert die größte
+Zahl zurück. Rufe die Methode im Konstruktor auf und gib das Ergebnis der
+Methode in einer Messagebox aus.
+
+\item Schreibe eine Methode, die ein Array von Integer-Zahlen als Parameter
+erhält und die Zahlen-Liste mit dem Bubble-Sort Verfahren sortiert. Die Methode
+gibt keinen Rückgabewert zurück. Ein Rückgabewert ist nicht nötig, da nur die
+Speicheradresse der Zahlenliste übergeben wird und das als Parameter übergebene
+Array deshalb automatisch mit verändert wird.
+
+Rufe in der \lstinline|myPaint()|-Methode des Anwendungsfensters die
+Sortier-Methode für das in Teil b) erzeugte Array auf und gib die sortierte
+Liste mit der Ausgabe-Methode aus Teilaufgabe c) aus. Du kannst die
+Ausgabe-Methode auch in die Sortiermethode einbauen, um Teilschritte 
+des Sortierverfahrens auszutesten.
+\end{compactenum}
+
+Zusatzaufgaben:
+
+\begin{compactenum}[a)]
+\setcounter{enumi}{5}
+\item Programmiere eine Methode, die eine Zahlenliste nach dem Verfahren
+Sortieren durch Auswählen sortiert.
+
+\item Programmiere eine Methode, die eine Zahlenliste nach dem Verfahren
+Sortieren durch Einfügen sortiert.
+\end{compactenum}

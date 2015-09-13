@@ -1,0 +1,115 @@
+\section{SQL -- Daten eingeben}
+
+\subsection{Zeichenketten und Datum- / Zeit-Angaben}
+
+\ldots werden in einfache Anführungsstriche gesetzt, z.B.
+\myUserInput{’2004-08-14’}
+
+
+\subsection{Daten einfügen}
+
+\begin{compactenum}[a)] 
+  \item Eingabe von vollständigen Tabellen-Zeilen:
+
+\begin{lstlisting}
+INSERT INTO `\slshape{tabellenname}` VALUES
+(`\slshape{Wert1, Wert2, \ldots, WertN}`),
+`\slshape{\ldots}`
+(`\slshape{WertX1, WertX2, \ldots, WertXN}`);
+\end{lstlisting}
+  
+  \item Eingabe von unvollständigen Tabellen-Zeilen:
+  
+\begin{lstlisting}
+INSERT INTO `\slshape{tabellenname}` (`\slshape{spaltenname1, spaltenname2, \ldots}`) VALUES 
+(`\slshape{Wert1, Wert2, \ldots}`),
+`\slshape{\ldots}`
+(`\slshape{WertX1, WertX2, \ldots}`);
+\end{lstlisting}
+\end{compactenum}
+
+
+\subsection{Daten der Tabelle ansehen}
+
+Sämtliche Einträge einer Tabelle erhält man mit der Anweisung:
+
+\begin{lstlisting}
+SELECT * FROM `\slshape{tabellenname}`;
+\end{lstlisting}
+
+\subsection{Daten löschen}
+
+Mit folgender Anweisung löscht man alle Zeilen einer Tabelle:
+
+\begin{lstlisting}
+DELETE FROM `\slshape{tabellenname}`;
+\end{lstlisting}
+
+Ausgewählte Zeilen löscht man mit der Anweisung:
+
+\begin{lstlisting}
+DELETE FROM `\slshape{tabellenname}` WHERE `\slshape{Bedingung}`;
+\end{lstlisting}
+
+Beispiel:
+
+\begin{lstlisting}
+DELETE FROM adresse WHERE vorname='Michael' AND nachname='Mustermann';
+\end{lstlisting}
+
+
+\subsection{Daten aktualisieren}
+
+\begin{lstlisting}
+UPDATE `\slshape{tabellenname}` SET `\slshape{spaltenname1=Wert1, spaltenname2=Wert2, \ldots}`
+WHERE `\slshape{bedingung}`;
+\end{lstlisting}
+
+Beispiel:
+
+\begin{lstlisting}
+UPDATE adresse SET nachname='Meier' WHERE nachname='Mustermann';
+\end{lstlisting}
+
+%\pagebreak
+
+\subsection{Vergleichsoperatoren}
+
+Ähnlich wie in Java gibt es auch in SQL alle gängigen Vergeichsoperatoren:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Operator} & \textbf{Bedeutung}\\ \hline
+{\lstinline|=|} & gleich \\ \hline
+{\lstinline|!=|} oder {\lstinline|<>|} & ungleich \\ \hline
+{\lstinline|<|} & kleiner \\ \hline
+{\lstinline|>|} & größer \\ \hline
+{\lstinline|<=|} & kleiner oder gleich \\ \hline
+{\lstinline|>=|} & größer oder gleich \\ \hline
+{\lstinline|x IS NULL|} & testet ob x den Wert {\lstinline|NULL|} hat \\ \hline
+{\lstinline|AND|} oder {\lstinline|&&|} & und \\ \hline
+{\lstinline|OR|} oder {\lstinline!||!} & oder \\ \hline
+{\lstinline|XOR|} & entweder oder (exklusives oder) \\ \hline
+{\lstinline|NOT|} oder {\lstinline|!|} & nicht \\ \hline
+\end{tabular}
+\caption{SQL Vergleichsoperatoren}
+\label{tab:sql-vergleichsoperatoren}
+\end{table}
+
+
+\subsection{SQL-Anweisungen aus einer Datei einfügen}
+
+Man kann sämtliche SQL-Anweisungen auch in eine Textdatei schreiben. Wenn
+einzelne Zeilen in der Datei beim Test nicht ausgeführt werden sollen, fügt man
+an den Anfang der Zeile das \glqq Hash\grqq -Zeichen (\#) ein, um aus dem Code
+einen Kommentar zu machen.
+
+Wenn MySQL noch nicht gestartet ist, wird die Datei folgendermaßen ausgeführt:
+
+\lstinline{c:\mysql\bin\mysql -u root < c:/Anna/Datei.txt}
+
+Wenn MySQL bereits läuft, führt man die Datei mit diesem Kommando aus:
+
+\lstinline{source c:/Anna/Datei.txt}

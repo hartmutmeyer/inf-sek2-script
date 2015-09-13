@@ -1,0 +1,89 @@
+\documentclass[a4paper,10pt, landscape]{scrreprt}
+\usepackage[utf8]{inputenc}
+\usepackage{ngerman}
+\usepackage[table]{pstricks}
+\usepackage{pst-node, pst-tree, pst-dbicons, pst-eps}
+
+
+\input{pst-erm}
+\input{mycolor}
+%\input{myuml}
+\input{mytabs}
+
+\pagestyle{empty}
+
+\begin{document}
+\newcommand{\tabBankverbindung}{
+ \ERMTable{tabBankverbindung}{\tabName bankverbindung}{%
+  \tabPK   PK & kunde\_id\\
+  \tabPK   PK & bankverbindung\_nr\\
+  \tabFK   FK & bank\_id\\
+  \tabDaten   & kontonummer\\
+  \tabDaten   & iban\\
+  \tabDaten   & deleted\\
+  }
+}
+\newcommand{\tabBank}{
+ \ERMTable{tabBank}{\tabName bank}{%
+  \tabPK PK  & bank\_id\\
+  \tabDaten  & bankname\\
+  \tabDaten  & lkz\\
+  \tabDaten  & deleted\\
+  }
+}
+\newcommand{\tabAdresse}{
+ \ERMTable{tabAdresse}{\tabName adresse}{%
+  \tabPK     PK & adresse\_id\\
+  \tabDaten     & strasse\\
+  \tabDaten     & hnr\\
+  \tabDaten     & lkz\\
+  \tabDaten     & plz\\
+  \tabDaten     & ort\\
+  \tabDaten     & deleted\\
+  }
+}
+\newcommand{\tabKunde}{
+ \ERMTable{tabKunde}{\tabName kunde}{%
+  \tabPK    PK & kunde\_id\\
+  \tabFK    FK & rechnung\_adresse\_id\\
+  \tabFK    FK & liefer\_adresse\_id\\
+  \tabDaten    & nachname\\
+  \tabDaten    & vorname\\
+  \tabDaten    & bezahlart\\
+  \tabDaten    & art\\
+  \tabDaten    & deleted\\
+  }
+}
+
+\TeXtoEPS
+\begin{pspicture}(9.0,9.5)%\psgrid
+\rput[lb](0,5.5){\tabKunde}
+\rput[lb](5.6,6.13){\tabBankverbindung}
+\rput[lb](6.22,1.1){\tabBank}
+\rput[lb](0.72,0.1){\tabAdresse}
+
+%Verbindung Kunde Bankverbindung
+\ncE{tabKunde}{tabBankverbindung}
+\ermputicon{Eins}
+\ermputicon[npos=1,nrot=-90]{N}
+
+%Verbindung Bankverbindung Bank
+\ncS{tabBankverbindung}{tabBank}
+\ermputicon[nrot=0]{ON}
+\ermputicon[npos=1,nrot=-180]{Eins}
+
+%Verbindung kunde adresse rechnung
+\ncS[offset=-0.5]{tabKunde}{tabAdresse}
+\nbput[nrot=90,npos=0.5]{\footnotesize Rechnung}
+\ermputicon[nrot=0]{ON}
+\ermputicon[npos=1,nrot=-180]{Eins}
+
+%Verbindung kunde adresse liefer
+\ncS[offset=+0.5]{tabKunde}{tabAdresse}
+\naput[nrot=90,npos=0.5]{\footnotesize Lieferung}
+\ermputicon[nrot=0]{ON}
+\ermputicon[npos=1,nrot=-180]{Eins}
+\end{pspicture}
+\endTeXtoEPS
+
+\end{document}

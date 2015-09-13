@@ -1,0 +1,135 @@
+\section{SQL -- Daten abfragen}
+
+\subsection{SELECT-Anweisung}
+
+Das Auslesen von Informationen aus Tabellen geschieht mit der
+\lstinline{SELECT}-Anweisung:
+
+\begin{lstlisting}
+SELECT `\slshape{spalte1, spalte2, \ldots}`
+FROM `\slshape{tabelle1, tabelle2, \ldots}`
+[WHERE `\slshape{Bedingung}`]
+[GROUP BY `\slshape{gruppe}`]
+[HAVING `\slshape{Gruppen\_Bedingung}`]
+[ORDER BY `\slshape{sortierspalten}`];
+\end{lstlisting}
+
+Hinter dem Schlüsselwort \lstinline{SELECT} gibt man einen oder mehrere
+Spaltennamen an, die ausgelesen werden sollen. Wenn man alle Spalten haben
+möchte, schreibt man \lstinline{*}. Wenn man Spalten aus verschiedenen Tabellen
+unterscheiden muss, kann man die Spaltenangaben nach folgendem Schema vornehmen:
+
+\texttt{\slshape{tabellenname.spaltenname}}
+
+Hinter dem Schlüsselwort \lstinline{FROM} gibt man die Tabelle oder die Tabellen
+an, aus denen man Daten auslesen möchte.
+
+Hinter \lstinline{WHERE} gibt man an, welche Bedingung die ausgewählten Zeilen
+erfüllen sollen.
+
+
+\subsubsection{Zeilen zählen}
+
+Mit der Funktion \lstinline{COUNT(}\texttt{\slshape{Ausdruck}}\lstinline{)} kann
+man die Anzahl von Zeilen zählen. Die folgende Anweisung zählt z.B. wie viele
+Zeilen sich in der Tabelle \myUserInput{auto} befinden:
+
+\begin{lstlisting}
+SELECT COUNT(*) FROM auto;
+\end{lstlisting}
+
+\textbf{Achtung:} vor der öffnenden Klammer darf kein Leerzeichen stehen, sonst
+gibt es einen Fehler! 
+
+
+\subsubsection{Duplikate entfernen}
+
+Mit dem Schlüsselwort \lstinline{DISTINCT} kann man aus einem Abfrageergebnis
+Duplikate herausschmeißen. Beispiel:
+
+\begin{lstlisting}
+SELECT job FROM angestellter;
+\end{lstlisting}
+
+ergibt:
+
+\texttt{Buchhalter\\
+Buchhalter\\
+Programmierer\\
+System-Administrator\\
+Programmierer\\
+Programmierer
+}
+
+Wenn man die Mehrfachnennungen im Ergebnis nicht wünscht, dann hilft
+
+\begin{lstlisting}
+SELECT DISTINCT job FROM angestellter;
+\end{lstlisting}
+
+Dieses ergibt nun:
+
+\texttt{Buchhalter\\
+Programmierer\\
+System-Administrator
+}
+
+
+\subsubsection{Gruppen bilden}
+
+Mit \lstinline{GROUP BY} kann man die abgerufenen
+Zeilen zu Gruppen zusammenfassen. Beispiel:
+
+\begin{lstlisting}
+SELECT COUNT(*), job
+FROM angestellter
+GROUP BY job;
+\end{lstlisting}
+
+Diese Anfrage zählt die Anzahl der
+Angestellten, die in den einzelnen Jobs tätig
+sind, und zwar gruppiert nach dem Job. Die
+Ausgabe könnte z.B. so aussehen:
+
+\texttt{2 Buchhalter\\
+3 Programmierer\\
+1 System-Administrator
+}
+
+
+\subsubsection{Gruppen-Bedingungen}
+
+Mit \lstinline{HAVING} kann man für ausgewählte Gruppen
+zusätzliche Bedingungen einführen. Beispiel:
+
+\begin{lstlisting}
+SELECT COUNT(*), job
+FROM angestellter
+GROUP BY job
+HAVING COUNT(*)=1;
+\end{lstlisting}
+
+Mit dieser Abfrage wählt man die Jobs im
+Unternehmen aus, für die jeweils nur ein
+Angestellter tätig ist. Das Ergebnis ist nun:
+
+\texttt{1 System-Administrator}
+
+
+\subsubsection{Suchergebnisse sortieren}
+
+Mit \lstinline{ORDER BY} kann man die Suchergebnisse nach einer oder mehr
+Spalten sortieren. Die Sortierung kann entweder aufsteigend (\lstinline{ASC})
+oder absteigend (\lstinline{DESC}) sein. Aufsteigend ist die
+Standard-Einstellung. Beispiel:
+
+\begin{lstlisting}
+SELECT *
+FROM angestellter
+ORDER BY job ASC, name DESC;
+\end{lstlisting}
+
+Die Zeilen werden zunächst nach dem Job in aufsteigender alphabetischer
+Reihenfolge sortiert. Falls zwei oder mehr Personen denselben Job haben, werden
+sie anschließend noch in umgekehrter alphabetischer Reihenfolge nach dem Namen
+sortiert.

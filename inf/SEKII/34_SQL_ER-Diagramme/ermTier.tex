@@ -1,0 +1,42 @@
+\documentclass[a4paper,landscape]{scrreprt}
+\usepackage[utf8x]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[table]{pstricks}
+\usepackage{pst-node, pst-tree, pst-dbicons, pst-eps}
+
+\renewcommand{\familydefault}{\sfdefault}
+\setkomafont{pageheadfoot}{\normalfont\sffamily}  % Serifenlose Schrift
+\usepackage{helvet}
+\KOMAoptions{DIV=last}
+
+%\DeclareUnicodeCharacter{00A0}{ }
+
+
+\input{pst-erm}
+\input{mycolor}
+%\input{myuml}
+\input{mytabs}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\newcommand{\tabTier}{
+ \ERMTable{tabTier}{\tabName tier}{%
+  \tabPK PK  & tier\_id\\
+  \tabDaten  & name\\
+  \tabDaten  & tierart\\
+  \tabDaten  & geschlecht\\
+  \tabDaten  & lebendig\\
+  \tabDaten  & geburtstag\\
+  \tabDaten  & todestag\\
+  }
+}
+
+\TeXtoEPS
+\begin{pspicture}(9.0,9.5)%\psgrid
+\rput[lb](0,0){\tabTier}
+\end{pspicture}
+\endTeXtoEPS
+
+\end{document}

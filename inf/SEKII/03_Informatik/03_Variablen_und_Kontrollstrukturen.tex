@@ -1,0 +1,110 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+
+\section{Variablen}
+
+Das Computer Berechnungen wie
+
+\begin{lstlisting}
+2 + 5
+12 * 7
+\end{lstlisting}
+
+ausführen können, wird euch nicht überraschen. Aber wie sollen die Ergebnisse
+abgespeichert werden. Oder wie könnte man solche Rechenvorschriften
+verallgemeinern (beispielsweise nicht \lstinline|2 + 5|, sondern allgemein die
+Summe von zwei Zahlen)?
+
+Dazu werden sogenannte \emph{Variablen} benutzt. Variablen sind Speicherorte im
+\glqq Gedächtnis\grqq\ des Computers, die wir als Programmierer über Namen
+ansprechen können.
+
+Damit können wir etwa schreiben
+
+\begin{lstlisting}
+a = 2
+b = 5
+summe = a + b
+PRINT summe
+\end{lstlisting}
+
+
+\section{Kontrollstrukturen}
+
+Wenn Probleme so beschrieben werden sollen, dass sie als Handlungsanweisung
+Schritt für Schritt zu einem vom Computer zu berechnenden Ergebnis führen, dann
+braucht man neben der einfachen Anweisung (etwa: Verdoppele eine gegebene Zahl
+und merke dir das Ergebnis) typischerweise auch sogenannte
+\emph{Kontrollstrukturen}.
+
+Vermutlich habt ihr solche Kontrollstrukturen bereits bei der Lösung der ersten
+Aufgabe benutzt.
+
+Etwa um in Abhängigkeit vom vorangegangen Ergebnis zu entscheiden, wie es weiter
+gehen soll, oder um einen (oder auch mehrere) Schritte der Berechnung wiederholt
+ausführen zu lassen.
+
+Obwohl es viele verschiedene Programmiersprachen gibt, teilen sich doch die
+meisten von Ihnen die gleichen Kontrollstrukturen. Was ihr hier in der Schule
+lernt wird euch in der Zukunft deshalb auch dann von direktem Nutzen sein, wenn
+ihr dann möglicherweise mit ganzen anderen Programmiersprachen arbeiten müsst oder
+wollt.
+
+
+\subsection{Bedingte Anweisung und Verzweigung}
+
+\emph{Bedingte Anweisung} werden im Unterschied zu normalen Anweisungen nur dann
+ausgeführt, wenn eine vorgenannte Bedingung erfüllt ist:
+
+\begin{lstlisting}
+FALLS (Ampelfarbe ist grün):
+    Die Kreuzung überqueren.
+\end{lstlisting}
+
+Nur wenn die Bedingung erfüllt ist, wird der folgende Anweisungsblock (eine
+oder auch mehrere Anweisungen, deren Ausführung durch die Bedingung
+kontrolliert wird) ausgeführt.
+
+Die Bedingte Anweisung wird zur \emph{Verzweigung}, wenn es für den Fall, dass
+die Bedingung nicht erfüllt ist, einen alternativen Anweisungsblock gibt:
+
+\begin{lstlisting}
+FALLS (Ampelfarbe ist grün):
+    Die Kreuzung überqueren.
+SONST:
+    Anforderungsknopf drücken.
+    An der Ampel warten.
+\end{lstlisting}
+
+In fast allen Programmiersprachen wird dies mit dem Schlüsselwort \lstinline|if|
+gekennzeichnet.
+
+
+\subsection{Wiederholungsanweisungen (Schleifen)}
+
+Als weitere Kontrollstruktur gibt es die \emph{Wiederholungsanweisung}, die oft
+auch als \emph{Schleife} bezeichnet wird. Auch hier kontrolliert eine Bedingung
+die Ausführung eines Anweisungsblockes. Im Unterschied zur Bedingten Anweisung,
+wird der folgende Anweisungsblock jedoch nicht maximal einmal ausgeführt,
+sondern beliebig oft.
+
+Wir können mit Hilfe einer Schleife die Handlungsanweisung für das Überqueren
+einer Fußgängerampel vervollständigen:
+
+\begin{lstlisting}
+FALLS (Ampelfarbe ist grün):
+    Die Kreuzung überqueren.
+SONST:
+    Anforderungsknopf drücken.
+    WIEDERHOLE SOLANGE (Ampel nicht grün):
+        An der Ampel warten.
+    Die Kreuzung überqueren.
+\end{lstlisting}

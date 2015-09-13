@@ -1,0 +1,55 @@
+\section{Umwandlung String $\leftrightarrow$ Zahl}
+
+Bei der Verwendung von Dialogen gibt es oft die Notwendigkeit zwischen Strings
+und Zahlenwerten zu konvertieren.
+
+\subsection{Umwandlung von Strings in Zahlen}
+
+\subsubsection{String $\rightarrow$ int}
+
+Die Klasse \myClass{Integer} besitzt folgende Methode zur Umwandlung eines
+Strings in eine ganze Zahl:
+
+\begin{lstlisting}
+public static int parseInt(String s)
+\end{lstlisting}
+
+Beispiel:
+
+\begin{lstlisting}
+String text = "10";
+int zahl = Integer.parseInt(text);
+\end{lstlisting}
+
+
+\subsubsection{String $\rightarrow$ double}
+
+Die Klasse \myClass{Double} besitzt folgende Methode zur Umwandlung eines
+Strings in eine Fließkommazahl:
+
+\begin{lstlisting}
+public static double parseDouble(String s)
+\end{lstlisting}
+
+Beispiel:
+
+\begin{lstlisting}
+String text = "5.25";
+double zahl = Double.parseDouble(text);
+\end{lstlisting}
+
+
+\subsection{Umwandlung von Zahlen in Strings}
+
+Am einfachsten wandelt man eine Zahl in einen String um, in dem man sie mit
+\verb|+| an einen Leerstring anhängt.
+
+Beispiel:
+
+\begin{lstlisting}
+int zahl = 10;
+String text = "" + zahl;
+\end{lstlisting}
+
+Dabei ist es unerheblich, ob es sich um einen Ganzzahl- oder einen
+Fließkommazahlwert handelt.

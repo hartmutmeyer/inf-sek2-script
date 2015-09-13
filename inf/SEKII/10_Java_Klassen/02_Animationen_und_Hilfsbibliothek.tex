@@ -1,0 +1,123 @@
+\section{Animationen erzeugen}
+
+Mit Hilfe der Klasse \myClass{javax.swing.Timer} kann man dafür sorgen, dass
+die \lstinline|myPaint()|-Routine in regelmäßigen Abständen immer wieder
+aufgerufen wird.
+
+Dies ermöglicht es einfache Animationen zu schreiben, indem man eine Figur, wie
+z.B. einen Ball, bei jedem neuen Aufruf von \lstinline|myPaint()| an einer
+anderen Position malt. Es entsteht dann der Eindruck einer Bewegung.
+Die Klasse \myClass{Timer} besitzt die folgenden Methoden:
+
+\bgroup
+\def\arraystretch{1.2}
+\begin{tabular}{|l|p{75mm}|}
+\hline
+\lstinline|Timer(int millisec, ActionListener frame)| &
+Über den Konstruktor wird dem Timer mitgeteilt, in welchem zeitlichen Abstand
+ein ActionEvent erzeugt werden soll. Der zweite Parameter benennt die Anwendung
+die auf den Event reagieren soll. In der Klasse \myClass{HJFrame} ist dies
+bereits fertig implementiert, so dass bei jedem so empfangenen ActionEvent das
+Fenster neu gezeichnet wird. Als zweiter Parameter wird deshalb von euch
+typischerweise \lstinline|this| verwendet.
+\\ \hline
+\lstinline|void start()| & 
+Mit dieser Methode wird der Timer gestartet.
+\\ \hline
+\lstinline|void stop()| &
+Durch Aufruf der Methode \lstinline|stop()| wird der wiederholte Aufruf der
+\lstinline|myPaint()|-Methode beendet. Nachdem \lstinline|stop()| aufgerufen
+wurde, ist ein erneuter Start möglich.
+\\ \hline
+\end{tabular}
+\egroup
+
+\subsection{Beispiel für eine Animation}
+
+Du findest die Datei \myFile{Animation.java} im Kurs-Repository.
+
+\begin{lstlisting}
+æimport java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Graphics;æ
+import javax.swing.Timer;æ
+import hilfe.*;
+
+public class Animation extends HJFrame {
+  // globale Variablen
+  private static final int WIDTH = 500;
+  private static final int HEIGHT = 500;
+  private static final Color BACKGROUND = Color.WHITE;
+  private static final Color FOREGROUND = Color.BLACK;æ
+  private int zaehler = 0;æ
+
+  public Animation(final String title) {
+    super(WIDTH, HEIGHT, BACKGROUND, FOREGROUND, title);
+    // eigene Initialisierung
+æ    Timer timer = new Timer(10, this);
+    timer.start();æ
+  }
+  
+  @Override
+  public void myPaint(Graphics g) {
+    // wird aufgerufen, wenn das Fenster neu gezeichnet wird
+æ    zaehler++;æ
+    g.drawLine(0, 0, æzaehleræ, æzaehleræ);
+    g.drawLine(WIDTH, HEIGHT, WIDTH-æzaehleræ, HEIGHT-æzaehleræ);
+    g.drawLine(0, HEIGHT, æzaehleræ, HEIGHT-æzaehleræ);
+    g.drawLine(WIDTH, 0, WIDTH-æzaehleræ, æzaehleræ);
+  }
+  
+  public static void main(final String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Animation anwendung = new Animation("Animation");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+}
+\end{lstlisting}
+
+
+\section{Klassen aus dem Package hilfe}
+
+Das Package \myPackage{hilfe} enthält neben der Klasse \myClass{HJFrame} weitere
+Vereinfachungen für Programmieraufgaben, die für euch mit den
+Standard-Java-Klassen aus dem JRE im Moment noch zu schwer zu programmieren
+sind. Damit Klassen aus dem Package \myPackage{hilfe} verwendet werden können,
+muss am Anfang einer Java-Datei folgende \lstinline|import|-Anweisung eingefügt
+werden:
+
+\begin{lstlisting}
+import hilfe.*;
+\end{lstlisting}
+
+\subsection{Zeichnen von Dreiecken}
+
+Zum Zeichnen von Dreiecken steht die Klasse \myClass{HZeichnen} zur Verfügung,
+die folgende Methoden besitzt:
+
+\begin{compactitem}
+\item
+\lstinline|static void drawDreieck(Graphics g, int x1, int y1, int x2, int y2, int x3, int y3)| 
+
+\lstinline|drawDreick()| malt ein hohles Dreieck mit den drei Eckpunkten (x1,
+y1), (x2, y2) und (x3, y3). Als erster Parameter muss ein Objekt der
+Klasse \myClass{Graphics} übergeben werden, da die Methode dieses Objekt zum
+Malen braucht.
+\item
+\lstinline|static void fillDreieck(Graphics g, int x1, int y1, int x2, int y2, int x3, int y3)|
+
+\lstinline|fillDreick()| malt ein gefülltes Dreieck mit den drei Eckpunkten (x1,
+y1), (x2, y2) und (x3, y3).
+\end{compactitem}
+
+Beispiel für die Verwendung der \lstinline|fillDreieck()|-Methode:
+
+\begin{lstlisting}
+HZeichnen.fillDreieck(g, 10, 90, 50, 90, 30, 60);
+\end{lstlisting}

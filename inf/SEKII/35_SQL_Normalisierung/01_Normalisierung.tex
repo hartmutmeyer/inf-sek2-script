@@ -1,0 +1,233 @@
+\chapter{Normalisierung}
+\renewcommand{\chaptertitle}{Normalisierung}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+Die Normalisierung ist ein Prozess, der zum Entfernen von Entwurfsfehlern aus
+einer Datenbank benutzt wird. 
+
+Ziel dabei ist es, \emph{Datenredundanzen} zu vermeiden. Mit anderen Worten:
+Eine Information (etwa die Telefonnummer eines Kunden) sollte nur an einer Stelle in
+der Datenbank vorliegen. Anderenfalls ergeben sich folgende Nachteile:
+
+\begin{compactitem}
+\item Erhöhter Pflegeaufwand: Sollte sich die Telefonnummer des Kunden ändern,
+dann muss man sie an mehreren Stellen in der Datenbank korrigieren.
+\item Drohende \emph{Inkonsistenzen} (auch als \emph{Anomalien} bezeichnet):
+Wenn es bei einer Änderung versäumt wurde bzw. misslang tatsächlich an allen
+Stellen das Datum (in unserem Beispiel: die Telefonnummer des Kunden) korrekt zu
+aktualisieren, dann enthält die Datenbank anschließend widersprüchliche
+Information. Und das ist fast noch schlimmer als Datenverlust! Den Datenverlust
+bemerkt man üblicherweise (und hat dann hoffentlich ein nicht all zu altes
+Backup), aber inkonsistente Daten können lange unbemerkt bleiben und in dieser
+Zeit schwere Folgeschäden verursachen
+\item Erhöhter Ressourcenbedarf: Speicherbedarf (auf jeden Fall) und
+Laufzeitverhalten (oft, aber nicht immer) der Datenbank werden durch redundante
+Datenhaltung negativ beeinflusst.
+\end{compactitem}
+
+Der Normalisierungsprozess besteht aus dem
+Aufteilen der Tabellen in immer kleinere Tabellen, die zusammen einen besseren
+Entwurf ergeben. Der Datenbank-Entwurf wird nacheinander zuerst in die
+1.~Normalform, dann in die 2.~Normalform und zuletzt in die 3.~Normalform
+gebracht. Jede Normalform legt eine Reihe von Regeln fest, die eine Datenbank
+erfüllen soll. Die höheren Normalformen schließen dabei die Regeln der darunter
+liegenden Normalformen mit ein.
+
+
+\section{Erster Entwurf einer Tabelle}
+
+In den folgenden Tabellen kennzeichnen kursiv gesetzte Attribute die
+Zugehörigkeit des Attributs zum Primärschlüssel.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{\em cd\_id} & \textbf{album} & \textbf{gründungsjahr} &
+\textbf{titelliste} \\ \hline
+4711 & Anastacia -- Not That Kind & 1999 & 1. Not That Kind, 
+\\
+& & & 2. I'm Outta Love, \\
+& & & 3. Cowboys \& and Kisses \\ \hline 
+4712 & Jefferson Airplane -- Surrealistic Pillow & 1965 & 1. White Rabbit \\
+\hline
+4713 & Anastacia -- Freak of Nature & 1999 & 1. Freak of Nature, \\
+& & &  2. Paid my Dues, \\
+& & & 3. Overdue Goodbye \\ \hline
+\end{tabular}
+\end{center}
+
+Welche Datenbank-Probleme bringt diese Form der Tabelle mit sich?
+
+
+\section{Erste Normalform}
+
+\textbf{Die Feldinhalte müssen frei von \emph{Wiederholungsgruppen} sein (ein
+Datenfeld darf keine Liste von gleichartigen Werten beinhalten).
+In jeder Zeile eines Datenfeldes darf also nur ein Wert stehen.}
+
+\textbf{Außerdem müssen die Feldinhalte \emph{atomar} sein. Damit meint man,
+dass die Information in den einzelnen Spalten der Tabelle nicht weiter
+aufteilbar sein dürfen. Etwa wäre ein Feld \lstinline|adresse|, welches die
+Komplette Anschrift enthält \emph{nicht} atomar.}
+
+Unser Beispiel oben enthält sowohl eine Wiederholungsgruppe (das Feld
+\lstinline|titel|) als auch ein Feld, welches nicht atomar ist
+(\lstinline|album|).
+
+\begin{minipage}{1.0\textwidth}
+Geänderte Tabelle (erfüllt die Bedingungen der ersten Normalform):
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|l|}\hline
+\textbf{\em cd\_id} & \textbf{album} & \textbf{interpret} &
+\textbf{gründungsjahr} & \textbf{\em track} & \textbf{titel}\\ \hline
+4711 & Not That Kind & Anastacia & 1999 & 1 & Not That Kind\\ \hline
+4711 & Not That Kind & Anastacia & 1999 & 2 & I’m Outta Love\\ \hline
+4711 & Not That Kind & Anastacia & 1999 & 3 & Cowboys \& Kisses\\ \hline
+4712 & Surrealistic Pillow & Jefferson Airplane & 1965 & 1 & White Rabbit\\
+\hline
+4713 & Freak of Nature & Anastacia & 1999 & 1 & Freak of Nature\\ \hline
+4713 & Freak of Nature & Anastacia & 1999 & 2 & Paid my Dues\\ \hline
+4713 & Freak of Nature & Anastacia & 1999 & 3 & Overdue Goodbye\\ \hline
+\end{tabular}
+\end{center}
+\end{minipage}
+
+(der Primärschlüssel der Tabelle setzt sich zusammen aus den Feldern
+\lstinline|cd_id| und \lstinline|track|)
+
+
+\section{Zweite Normalform}
+
+Zunächst zwei Definitionen:
+
+Ein Attribut einer Tabelle wird als \emph{funktional abhängig} vom
+Primärschlüssel bezeichnet, wenn sich aus dem Wert des Primärschlüssels
+eindeutig auf den Wert dieses Attributs schließen lässt (Bei Funktionen gilt: zu
+jedem x-Wert gehört genau ein y-Wert). Das klingt zwar etwas kompliziert, ist
+aber eigentlich eine Selbstverständlichkeit: Wäre diese funktionale
+Abhängigkeit nämlich für irgendein Attribut der Tabelle nicht gegeben, dann
+wäre der Primärschlüssel kein Primärschlüssel!
+
+Primärschlüssel können sich aber auch aus mehreren Attributen zusammen setzen.
+In diesem Fall benutzt man den Begriff der \emph{vollfunktionalen
+Abhängigkeit}, wenn ein Attribut tatsächlich erst durch die Kombination aller am
+Primärschlüssel beteiligten Attribute eindeutig identifiziert werden kann.
+
+\textbf{Zweite Normalform: Zusätzlich zu den Bedingungen der ersten Normalform
+muss jedes nicht dem Schlüssel angehörende Attribut \emph{vollfunktional} vom
+Primärschlüssel abhängig sein.}
+
+Der Interpret ist z.B.\ von der \lstinline|cd_id| abhängig, d.h.\ jeder
+\lstinline|cd_id| ist eindeutig ein Interpret zugeordnet. Der Track (der ja
+Teil des Primärschlüssels der Tabelle ist) wird also gar nicht gebraucht um den
+Interpreten zu bestimmen! Gleiches gilt übrigens auch für die Attribute
+\lstinline|album| und \lstinline|gründungsjahr|. Diese drei Attribute sind nicht
+\emph{vollfunktional} vom zusammengesetzten Primärschlüssel der Tabelle
+abhängig.
+
+Geänderte Tabellenstruktur (erfüllt die Bedingungen der zweiten Normalform):
+
+Tabelle \myUserInput{cd}:
+
+\vspace{1mm}
+
+\begin{tabular}{|l|l|l|l|}\hline
+\textbf{\em cd\_id} & \textbf{album} & \textbf{interpret} &
+\textbf{gründungsjahr}\\ \hline 
+4711 & Not That Kind & Anastacia & 1999\\ \hline
+4712 & Surrealistic Pillow & Jefferson Airplane & 1965\\ \hline
+4713 & Freak of Nature & Anastacia & 1999\\ \hline
+\end{tabular}
+
+\vspace{2mm}
+
+Tabelle \myUserInput{stück} (der Primärschlüssel der Tabelle setzt
+sich zusammen aus den Feldern \lstinline|cd_id| und \lstinline|track|):
+
+\vspace{1mm}
+
+\begin{tabular}{|l|l|l|}\hline
+\textbf{\em cd\_id} & \textbf{\em track} & \textbf{titel}\\ \hline
+4711 & 1 & Not That Kind\\ \hline
+4711 & 2 & I'm Outta Love\\ \hline
+4711 & 3 & Cowboys \& Kisses\\ \hline
+4712 & 1 & White Rabbit\\ \hline
+4713 & 1 & Freak of Nature\\ \hline
+4713 & 2 & Paid my Dues\\ \hline
+4713 & 3 & Overdue Goodbyes\\ \hline
+\end{tabular}
+
+Welche Schwachstellen bestehen in diesem Datenbankschema noch?
+
+
+\section{Dritte Normalform}
+
+\textbf{Zusätzlich zu den Bedingungen der ersten und zweiten Normalform, dürfen
+die Attribute, die nicht Teil des Primärschlüssels sind, nicht funktional
+voneinander abhängig sein.}
+
+Das Gründungsjahr ist vom Interpret, der bisher kein Schlüsselattribut ist,
+funktional abhängig. Die Tabellen werden also noch einmal aufgespalten:
+
+\begin{minipage}{0.48\textwidth}
+Tabelle \myUserInput{cd}:
+
+\vspace{2mm}
+
+\hspace{0mm}
+\begin{tabular}{|l|l|l|}\hline
+\textbf{\em cd\_id} & \textbf{album} & \textbf{interpret\_id}\\ \hline 
+4711 & Not That Kind       & 311\\ \hline
+4712 & Surrealistic Pillow & 312\\ \hline
+4713 & Freak of Nature     & 311\\ \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{0.52\textwidth}
+Tabelle \myUserInput{interpret}:
+
+\vspace{2mm}
+
+\begin{tabular}{|l|l|l|}\hline
+\textbf{\em interpret\_id} & \textbf{name} & \textbf{gründungsjahr}\\ \hline
+311 & Anastacia          & 1999\\ \hline
+312 & Jefferson Airplane & 1965\\ \hline
+\end{tabular}
+\end{minipage}
+
+\vspace{4mm}
+
+\begin{minipage}{1.0\textwidth}
+Tabelle \myUserInput{stück}:
+
+\vspace{2mm}
+
+\begin{tabular}{|l|l|l|}\hline
+\textbf{\em cd\_id} & \textbf{\em track} & \textbf{titel}\\ \hline
+4711 & 1 & Not That Kind\\ \hline
+4711 & 2 & I'm Outta Love\\ \hline
+4711 & 3 & Cowboys \& Kisses\\ \hline
+4712 & 1 & White Rabbit\\ \hline
+4713 & 1 & Freak of Nature\\ \hline
+4713 & 2 & Paid my Dues\\ \hline
+4713 & 3 & Overdue Goodbyes\\ \hline
+\end{tabular}
+\end{minipage}
+
+
+\section{Höhere Normalformen}
+
+Es existieren noch höhere Normalformen (vierte, fünfte, usw.), die jedoch
+hauptsächlich akademisch interessant sind. Sie werden in der Praxis nicht
+eingesetzt, da eine weitere Normalisierung einen zu hohen Aufwand bedeuten
+würde. Die dritte Normalform genügt zur Beseitigung typischer Datenredundanzen.
+
+
+\section{Lesetipp}
+
+\url{http://de.wikipedia.org/wiki/Normalisierung_(Datenbank)}

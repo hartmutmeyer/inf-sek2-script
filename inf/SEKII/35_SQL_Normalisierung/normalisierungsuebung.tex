@@ -1,0 +1,210 @@
+Die folgende Tabelle soll das Fortbildungssystem einer multinationalen Firma
+beschreiben, die Fortbildungszentren in verschiedenen Städten besitzt. Ein
+kursiv gesetztes Attribut kennzeichnet einen Primärschlüssel. Zum
+konzeptionellen Verständnis: Ein Dozent bietet immer nur Kurse an einem Ort an. Das ist nicht
+selbstverständlich, soll in diesem Fall aber so sein.
+
+\begin{tabular}{|r|r|r|r|r|r|r|r|}\hline
+\textbf{dozent} & \textbf{dozent} & \textbf{schule} &
+\textbf{schule} & \textbf{hörer} & \textbf{hörer} &
+\textbf{kurs} & \textbf{kurs}\\
+\textbf{\_id} & \textbf{\_name} & \textbf{\_id} &
+\textbf{\_ort} & \textbf{\_id} & \textbf{\_name} &
+ & \textbf{\_tage}\\
+\hline
+4711 & Alfred Meier & 001 & München & 8001 & Erwin Huber & Cobol & 10\\ \hline
+4750 & Stefan Schmidt & 003 & Wien & 8001, 8432 & Erwin Huber, & APL,
+Basic & 15, 5\\
+& & & & & Gerd Müller & & \\ \hline
+5000 & Wolfgang Adam & 003 & Wien & 8432 & Müller & Cobol & 10\\ \hline
+6000 & Eliza Wang & 004 & Berlin & 8001, 8432 & Erwin Huber,& Cobol, APL
+& 10, 15\\
+& & & & & Gerd Müller & & \\ \hline
+\end{tabular}
+
+Welche Datenbank-Probleme bringt diese Form der Tabelle mit sich?
+
+
+\section{Erste Normalform}
+
+\textbf{Die Feldinhalte müssen frei von \emph{Wiederholungsgruppen} sein (ein
+Datenfeld darf keine Liste von gleichartigen Werten beinhalten).
+In jeder Zeile eines Datenfeldes darf also nur ein Wert stehen.}
+
+\textbf{Außerdem müssen die Feldinhalte \emph{atomar} sein. Damit meint man,
+dass die Information in den einzelnen Spalten der Tabelle nicht weiter
+aufteilbar sein dürfen. Etwa wäre ein Feld \lstinline|adresse|, welches die
+Komplette Anschrift enthält \emph{nicht} atomar.}
+
+Unser Beispiel oben enthält sowohl eine Wiederholungsgruppe (die Felder
+\lstinline|hörer_id|, \lstinline|hörer_name|, \lstinline|kurs| und
+\lstinline|kurs_tage|) als auch zwei Felder, welche nicht atomar sind
+(\lstinline|dozent_name| und \lstinline|hörer_name|).
+
+\begin{minipage}{1.0\textwidth}
+Geänderte Tabelle (erfüllt die Bedingungen der ersten Normalform):
+
+\begin{center}
+\begin{tabular}{|r|r|r|r|r|r|r|r|r|r|}\hline
+\textbf{dozent} & \textbf{dozent\_} & \textbf{dozent\_} & \textbf{schule} &
+\textbf{schule} & \textbf{hörer} & \textbf{hörer\_} & \textbf{hörer\_} &
+\textbf{kurs} & \textbf{kurs}\\
+\textbf{\_id} & \textbf{vorname} & \textbf{nachname} & \textbf{\_id} &
+\textbf{\_ort} & \textbf{\_id}  & \textbf{vorname} & \textbf{nachname}
+& & \textbf{\_tage}\\
+\hline
+4711 & Alfred & Meier & 001 & München & 8001 & Erwin & Huber & Cobol & 10\\
+\hline 
+4750 & Stefan & Schmidt & 003 & Wien & 8001 & Erwin & Huber & APL & 15\\ 
+\hline
+4750 & Stefan & Schmidt & 003 & Wien & 8432 & Gerd & Müller & Basic & 5\\ 
+\hline 
+5000 & Wolfgang & Adam & 003 & Wien & 8432 & Gerd & Müller & Cobol & 10\\ 
+\hline
+6000 & Eliza & Wang & 004 & Berlin & 8001 & Erwin & Huber & Cobol & 10\\ 
+\hline
+6000 & Eliza & Wang & 004 & Berlin & 8432 & Gerd & Müller & APL & 15\\ 
+\hline
+\end{tabular}
+\end{center}
+\end{minipage}
+
+\section{Zweite Normalform}
+
+\textbf{Zusätzlich zu den Bedingungen der ersten Normalform muss nun jedes
+nicht dem Schlüssel angehörende Attribut funktional vom Primärschlüssel abhängig
+sein.}
+
+(Bei Funktionen gilt: zu jedem x-Wert gehört genau ein y-Wert.) 
+
+Der Dozentenname ist z.B.\ von der Dozentennummer abhängig, d.h.\ jeder
+Dozentennummer ist eindeutig ein Dozentenname zugeordnet. Da ein Dozent in der
+Regel mehrere Zuhörer besitzt, wird der Name eines (Zu)Hörers jedoch nicht
+eindeutig von der Dozentennummer bestimmt. Die Tabelle muss deshalb in mehrere
+kleine Tabellen unterteilt werden, die jeweils einen eigenen Primärschlüssel
+erhalten:
+
+\begin{minipage}{0.65\textwidth}
+Tabelle \myUserInput{dozent}:
+
+\vspace{2mm}
+
+\hspace{0mm}
+\begin{tabular}{|r|r|r|r|r|}\hline
+\textbf{\em dozent\_id} & \textbf{vorname} & \textbf{nachname}
+& \textbf{schule\_id} & \textbf{schule\_ort}\\ \hline 
+4711 & Alfred   & Meier   & 001 & München\\ \hline 
+4750 & Stefan   & Schmidt & 003 & Wien   \\ \hline
+5000 & Wolfgang & Adam    & 003 & Wien   \\ \hline
+6000 & Eliza    & Wang    & 004 & Berlin \\ \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{0.30\textwidth}
+Tabelle \myUserInput{hörer}:
+
+\vspace{2mm}
+
+\begin{tabular}{|r|r|r|}\hline
+\textbf{\em hörer\_id} & \textbf{vorname} & \textbf{nachname}\\ \hline
+8001 & Erwin & Huber  \\ \hline
+8432 & Gerd & Müller \\ \hline
+\end{tabular}
+\end{minipage}
+
+\vspace{2mm}
+
+Tabelle \myUserInput{kursbelegung} (der Primärschlüssel dieser Tabelle setzt
+sich zusammen aus den Felder \lstinline|dozent_id| und \lstinline|hörer_id|):
+
+\hspace{0mm}
+\begin{tabular}{|r|r|r|r|}\hline
+\textbf{\em dozent\_id} & \textbf{\em hörer\_id} & \textbf{kurs} &
+\textbf{kurs\_tage}\\ \hline 4711 & 8001 & Cobol & 10\\ \hline
+4750 & 8001 & APL   & 15\\ \hline
+4750 & 8432 & Basic &  5\\ \hline
+5000 & 8432 & Cobol & 10\\ \hline
+6000 & 8001 & Cobol & 10\\ \hline
+6000 & 8432 & APL   & 15\\ \hline
+\end{tabular}
+
+Welche Schwachstellen bestehen in diesem Datenbankschema noch?
+
+
+\section{Dritte Normalform}
+
+\textbf{Zusätzlich zu den Bedingungen der ersten und zweiten Normalform, dürfen
+die Attribute, die nicht Teil des Primärschlüssels sind, nicht funktional
+voneinander abhängig sein.}
+
+Der Schulort ist zum Beispiel von der Schulnummer, die bisher kein
+Schlüsselattribut ist, funktional abhängig. Die Tabellen werden also noch
+einmal aufgespalten:
+
+\begin{minipage}{0.7\textwidth}
+Tabelle \myUserInput{dozent}:
+
+\vspace{2mm}
+
+\hspace{0mm}
+\begin{tabular}{|r|r|r|r|}\hline
+\textbf{\em dozent\_id} & \textbf{vorname} & \textbf{nachname} &
+\textbf{schule\_id}\\ \hline 
+4711 & Alfred & Meier   & 001\\ \hline
+4750 & Stefan & Schmidt & 003\\ \hline
+5000 & Wolfgang & Adam    & 003\\ \hline
+6000 & Eliza & Wang    & 004\\ \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{0.20\textwidth}
+Tabelle \myUserInput{schule}:
+
+\vspace{2mm}
+
+\begin{tabular}{|r|r|}\hline
+\textbf{\em schule\_id} & \textbf{ort}\\ \hline
+001 & München\\ \hline
+003 & Wien   \\ \hline
+004 & Berlin \\ \hline
+\end{tabular}
+\end{minipage}
+
+\vspace{4mm}
+
+\begin{minipage}{0.4\textwidth}
+Tabelle \myUserInput{hörer}:
+
+\vspace{2mm}
+
+\begin{tabular}{|r|r|r|}\hline
+\textbf{\em hörer\_id} & \textbf{vorname} & \textbf{nachname}\\ \hline
+8001 & Erwin & Huber  \\ \hline
+8432 & Gerd & Müller \\ \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{0.40\textwidth}
+Tabelle \myUserInput{kursbelegung}:
+
+\vspace{2mm}
+
+\begin{tabular}{|r|r|r|}\hline
+\textbf{\em dozent\_id} & \textbf{\em hörer\_id} & \textbf{kurs} \\ \hline 
+4711 & 8001 & Cobol \\ \hline
+4750 & 8001 & APL   \\ \hline
+4750 & 8432 & Basic \\ \hline
+5000 & 8432 & Cobol \\ \hline
+6000 & 8001 & Cobol \\ \hline
+6000 & 8432 & APL   \\ \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{0.30\textwidth}
+Tabelle \myUserInput{kurs}:
+
+\vspace{2mm}
+
+\begin{tabular}{|r|r|}\hline
+\textbf{\em kurs} & \textbf{tage}\\ \hline
+Cobol & 10 \\ \hline
+APL   & 15 \\ \hline
+Basic &  5 \\ \hline
+\end{tabular}
+\end{minipage}

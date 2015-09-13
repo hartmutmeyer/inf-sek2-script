@@ -1,0 +1,66 @@
+\clearpage
+
+\section{SQL -- Übung 3: Erweiterte Haustierdatenbank}
+
+\subsection{Aufgabe 1: Daten eingeben}
+
+Gib nacheinander die folgenden Daten ein. Benutze dabei gegebenenfalls die
+\lstinline{INSERT}-Variante, bei der man nur einzelne Spalten angibt.
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Besitzer} & \textbf{besitzt die Tiere} \\ 
+\hline
+Firma, NULL, Zoo Lilliput, Obernstraße 54, 20012, Hamburg, 0721/34 34 12 &
+Bello, Lassie\\
+\hline
+Frau, Sandra, Sandelmann, Kullerweg 12, 28205, Bremen, NULL & 
+Daisy (Kanarienvogel)\\
+\hline
+Herr, Mirco, Sandelmann, Unterstraße 17, 28232, Bremen, 0421/123456 &
+Mausi, Blacky, Harald \\
+\hline
+Herr, Tobias, Winkelmann, NULL, NULL, NULL, NULL &
+Daisy (Schildkröte), Hasso\\
+\hline
+Frau, Sandra, Anderson, NULL, NULL, NULL, NULL &
+Maja\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\subsection{Aufgabe 2: Daten ändern}
+
+Die Adresse von Frau Anderson wurde nachgereicht: Wilhelminenweg 42, 28315,
+Bremen. Trage die Änderung in die Tabelle \myUserInput{besitzer} ein.
+
+
+\subsection{Aufgabe 3: Daten abfragen}
+
+Führe auf der erweiterten Datenbank die folgenden Abfragen durch:
+
+\begin{compactenum}[a)]
+\item Zeige ohne Verwendung der \lstinline{WHERE}-Klausel eine Tabelle mit
+allen Besitzern (Nachname und Vorname) und Tieren (Name und Tierart) an. Was
+für eine Tabelle wird erstellt?
+\item Zeige eine Liste mit allen Besitzern und den zu ihnen gehörenden Tieren
+an. Es sollen alle Spalten angezeigt werden.
+\item Zeige eine Tabelle mit allen Besitzern (Nachname und Vorname) und ihren
+Tieren (Name und Tierart) an. Sortiere die Liste in aufsteigender
+alphabetischer Reihenfolge zunächst nach dem Nachnamen und dann nach dem
+Vornamen.
+\item Zeige eine Tabelle mit allen Besitzern (Vor- und Nachname) und ihren
+lebendigen Tieren an (Name und Tierart). Sortiere die Liste nach der
+Tierart.
+\item Zeige alle Tiere von Mirco Sandelmann an (Name, Tierart und „lebendig“).
+\item Wähle alle Besitzer von Hunden aus. Zeige Vor- und Nachname der
+Besitzer sowie Name, Geburtstag und Todestag des Hundes an.
+\item Zeige eine Liste der Besitzer (Vor- und Nachname) und der Anzahl der
+Tiere an, die sie besitzen. Sortiere die Liste in umgekehrter alphabetischer
+Reihenfolge nach Nachnamen.
+\item Zeige alle Besitzer mit Vor- und Nachnamen an, die zwei oder mehr Tiere
+besitzen.
+\item Zähle die Anzahl der Besitzer, die einen Hund oder eine Katze besitzen.
+\end{compactenum}

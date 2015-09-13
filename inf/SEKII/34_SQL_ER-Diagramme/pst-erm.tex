@@ -1,0 +1,148 @@
+\makeatletter
+\setlength{\arrayrulewidth}{1pt}
+% Darstellung der Tabelle ohne Datentyp
+% 1 = Label
+% 2 = Tabellenname
+% 3 = Inhalt
+\newcommand{\ERMTable}[3]{%
+ \rnode{#1}{%
+  \begin{tabular}{|l|l|}%
+    \hline%
+    \multicolumn{2}{|c|}{\textbf{#2}}  \\ \hline%
+    #3%
+    \hline%
+  \end{tabular}%
+ }%
+}%
+
+
+% Darstellung der Tabelle mit Datentyp
+% 1 = Label
+% 2 = Tabellenname
+% 3 = Inhalt
+\newcommand{\ERMTableDatentyp}[3]{%
+ \rnode{#1}{
+  \begin{tabular}{|l|ll|}%
+   \hline%
+   \multicolumn{3}{|c|}{\textbf{#2}}  \\ \hline%
+   #3%
+   \hline
+  \end{tabular}%
+ }%
+}%
+
+\newcommand{\ermiconN}{%
+ \psline(-0.2,-0.3)(0.2,-0.3)			% Strich zur Mitte hin
+ \psline(-0.1,0)(0,-0.3)			% Linke Kante
+ \psline(0.1,0)(0,-0.3)				% Rechte Kante
+}
+
+\newcommand{\ermiconNurN}{%
+ \psline(-0.1,0)(0,-0.3)			% Linke Kante
+ \psline(0.1,0)(0,-0.3)				% Rechte Kante
+}
+
+\newcommand{\ermiconON}{
+ \psellipse*[linecolor=white](0,-0.4)(0.15,0.1)	%Hintergrund übermalen!
+ \psellipse[linecolor=black](0,-0.4)(0.15,0.1)	%Rand zeichnen
+ \psline(-0.1,0)(0,-0.3)			% Linke Kante
+ \psline(0.1,0)(0,-0.3)				% Rechte Kante
+}
+
+
+\newcommand{\ermiconEins}{%
+ \psline(-0.2,-0.3)(0.2,-0.3)			% Strich zur Mitte hin
+ \psline(-0.2,-0.2)(0.2,-0.2)			% Strich auf der Tabellenseite
+}
+
+\newcommand{\ermiconNurEins}{%
+ \psline(-0.2,-0.2)(0.2,-0.2)			% Strich auf der Tabellenseite
+}
+
+
+\newcommand{\ermiconOEins}{%
+ \psline(-0.2,-0.2)(0.2,-0.2)			% Strich auf der Tabellenseite
+ \psellipse*[linecolor=white](0,-0.4)(0.15,0.1)	%Hintergrund übermalen!
+ \psellipse[linecolor=black](0,-0.4)(0.15,0.1)	%Rand zeichnen
+}
+
+
+\newcommand{\ermputicon}[2][]{
+ \psset{npos=0,nrot=90}%
+ \psset{#1}%
+ \@ifundefined{ermicon#2}{%
+  \typeout{^^Fehler : Icon nicht definiert "#2"^^J}
+ }%
+ {}%
+ \ncput{\@nameuse{ermicon#2}}
+}
+
+
+% Nouvelles d\'efinition pour les interconnexions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Ces connecteurs sont une surcouche aux diff\'erents connecteurs
+% propos\'es par pstricks.
+% Leur but est de simplifier le trac\'e des liens en se restreingnant aux
+% directions horizontales et verticales.
+%
+% Le principe est d'indiquer dans le nom même de la commande le nombre
+% de segments à tracer et leur direction :
+%  - E, W, N, S pour Est, West, North, Sud
+%  - H, V pour Horizontal; Vertical
+%  - D pour diagonal
+%  - X pour indiff\'erent
+
+% Un seul segments
+% Effet de bord : en fait, un deuxieme segment est dessin\'e. Mais celui
+% n'apparait g\'en\'eralement pas car il longe la frontière de boite
+\newpsobject{ncE}{ncangle}{angleA=0,angleB=180,armB=0,npos=0.5,nodesepB=-0.5pt}
+% \newpsobject{ncE}{ncangle}{angleA=0,angleB=180,armB=0,npos=0.5}
+\newpsobject{ncW}{ncangle}{angleA=180,angleB=0,armB=0,npos=0.5}
+\newpsobject{ncN}{ncangle}{angleA=90,angleB=-90,armB=0,npos=0.5}
+\newpsobject{ncS}{ncangle}{angleA=-90,angleB=90,armB=0,npos=0.5}
+
+% Deux segments
+\newpsobject{ncEN}{ncangle}{angleA=0,angleB=-90,armB=0}
+\newpsobject{ncES}{ncangle}{angleA=0,angleB=90,armB=0}
+\newpsobject{ncWN}{ncangle}{angleA=180,angleB=-90,armB=0}
+\newpsobject{ncWS}{ncangle}{angleA=180,angleB=90,armB=0}
+\newpsobject{ncNE}{ncangle}{angleA=90,angleB=180,armB=0}
+\newpsobject{ncNW}{ncangle}{angleA=90,angleB=0,armB=0}
+\newpsobject{ncSE}{ncangle}{angleA=-90,angleB=180,armB=0}
+\newpsobject{ncSW}{ncangle}{angleA=-90,angleB=0,armB=0}
+
+% Trois segments
+% On peut utiliser armA ou armB pour imposer la longueur des extr\'emit\'es
+%
+% remplace \ncbar (connecteurs en forme de U)
+\newpsobject{ncEVW}{ncangles}{angleA=0,angleB=0}
+\newpsobject{ncWVE}{ncangles}{angleA=180,angleB=180}
+\newpsobject{ncSHN}{ncangles}{angleA=-90,angleB=-90}
+\newpsobject{ncNHS}{ncangles}{angleA=90,angleB=90}
+
+% connecteurs en forme de Z (mais \`a angles droits)
+\newpsobject{ncEVE}{ncangles}{angleA=0,angleB=180}
+\newpsobject{ncWVW}{ncangles}{angleA=180,angleB=0}
+\newpsobject{ncNHN}{ncangles}{angleA=90,angleB=-90}
+\newpsobject{ncSHS}{ncangles}{angleA=-90,angleB=90}
+
+
+% connecteurs 3 segments dont segment median en diagonale (incomplet)
+\newpsobject{ncEDE}{ncdiag}{angleA=0,angleB=180}
+\newpsobject{ncWDW}{ncdiag}{angleA=180,angleB=0}
+\newpsobject{ncNDN}{ncdiag}{angleA=90,angleB=-90}
+\newpsobject{ncSDS}{ncdiag}{angleA=-90,angleB=90}
+
+
+% quatre (voire trois) segments :
+\newpsobject{ncSXE}{ncangles}{angleA=-90,angleB=180}
+\newpsobject{ncSXW}{ncangles}{angleA=-90,angleB=0}
+\newpsobject{ncEXS}{ncangles}{angleA=0,angleB=90}
+\newpsobject{ncEXN}{ncangles}{angleA=0,angleB=-90}
+\newpsobject{ncWXS}{ncangles}{angleA=180,angleB=90}
+\newpsobject{ncWXN}{ncangles}{angleA=180,angleB=-90}
+\newpsobject{ncNXE}{ncangles}{angleA=90,angleB=180}
+\newpsobject{ncNXW}{ncangles}{angleA=90,angleB=0}
+
+\makeatother

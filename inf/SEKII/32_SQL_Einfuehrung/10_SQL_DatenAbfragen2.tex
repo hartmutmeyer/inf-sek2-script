@@ -1,0 +1,153 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section[\hspace{1mm} SQL -- Daten abfragen (Fortsetzung)]{SQL -- Daten abfragen (Fortsetzung)}
+
+\subsection{Kartesisches Produkt}
+
+Die Ergebnistabelle, die alle möglichen Zeilen aus der Kombination zweier
+Tabellen enthält, wird als das \textit{Kartesische Produkt} aus zwei Tabellen
+bezeichnet.
+
+Das Kartesische Produkt von einer Tabelle \myUserInput{a} mit einer Tabelle
+\myUserInput{b} unter Auswahl sämtlicher Spalten erhält man mit der
+SQL-Anweisung:
+
+\begin{lstlisting}
+SELECT * FROM a, b;
+\end{lstlisting}
+
+Das Ergebnis ist natürlich unsinnig. Statt dessen brauchen wir die Verknüpfung
+über die Fremdschlüssel-Primärschlüssel-Beziehung zwischen den beteiligten
+Tabellen:
+
+\begin{lstlisting}
+SELECT * FROM a, b
+WHERE fremdschlüssel_der_einen_tabelle = primärschlüssel_der_anderen_tabelle;
+\end{lstlisting}
+
+
+\subsection{LEFT JOIN und RIGHT JOIN}
+
+Gegeben sind die beiden Tabellen:
+
+%\begin{table}[h]
+%\hfill
+\begin{minipage}{0.30\textwidth}
+\myUserInput{besitzer}:\\ \\
+\begin{tabular}{|r|l|}
+\hline
+\textbf{\texttt{besitzer\_id}} & \textbf{\texttt{name}} \\ \hline
+\texttt{1} & \texttt{Anna} \\ \hline
+\texttt{2} & \texttt{Andrew} \\ \hline
+\texttt{3} & \texttt{Annabel} \\ \hline
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}{0.55\textwidth}
+\myUserInput{fahrzeug}:\\ \\
+\begin{tabular}{|l|r|}
+\hline
+\textbf{\texttt{fahrzeug}} & \textbf{\texttt{fahrzeug\_besitzer\_id}} \\ \hline
+\texttt{Fahrrad} & \texttt{2} \\ \hline
+\texttt{Auto} & \texttt{4} \\ \hline
+\texttt{Auto} & \texttt{3} \\ \hline
+\end{tabular}
+\end{minipage}
+%\hfill
+%\end{table}
+
+Die folgenden drei Abfragen demonstrieren die Wirkung eines
+\lstinline{LEFT JOIN} oder eines \lstinline{RIGHT JOIN} im Vergleich zu einer
+normalen Verknüpfung:
+
+\begin{lstlisting}
+SELECT * FROM besitzer, fahrzeug
+WHERE besitzer_id = fahrzeug_besitzer_id;
+\end{lstlisting}
+
+ergibt:
+
+\begin{tabular}{|r|l|l|r|}
+\hline
+\textbf{\texttt{besitzer\_id}} & \textbf{\texttt{name}} &
+\textbf{\texttt{fahrzeug}} & \textbf{\texttt{fahrzeug\_besitzer\_id}}\\
+\hline 
+\texttt{2} & \texttt{Andrew} & \texttt{Fahrrad} & \texttt{2}\\
+\hline
+\texttt{3} & \texttt{Annabel} & \texttt{Auto} & \texttt{3}\\
+\hline
+\end{tabular}
+
+\begin{lstlisting}
+SELECT * FROM besitzer LEFT JOIN fahrzeug
+ON besitzer_id = fahrzeug_besitzer_id;
+\end{lstlisting}
+
+ergibt:
+
+\begin{tabular}{|r|l|l|r|}
+\hline
+\textbf{\texttt{besitzer\_id}} & \textbf{\texttt{name}} &
+\textbf{\texttt{fahrzeug}} & \textbf{\texttt{fahrzeug\_besitzer\_id}}\\
+\hline
+\texttt{1} & \texttt{Anna} & \verb|[NULL]| & \verb|[NULL]|\\
+\hline 
+\texttt{2} & \texttt{Andrew} & \texttt{Fahrrad} & \texttt{2}\\
+\hline
+\texttt{3} & \texttt{Annabel} & \texttt{Auto} & \texttt{3}\\
+\hline
+\end{tabular}
+
+\begin{lstlisting}
+SELECT * FROM besitzer RIGHT JOIN fahrzeug 
+ON besitzer_id = fahrzeug_besitzer_id;
+\end{lstlisting}
+
+ergibt:
+
+\begin{tabular}{|r|l|l|r|}
+\hline
+\textbf{\texttt{besitzer\_id}} & \textbf{\texttt{name}} &
+\textbf{\texttt{fahrzeug}} & \textbf{\texttt{fahrzeug\_besitzer\_id}}\\
+\hline 
+\texttt{2} & \texttt{Andrew} & \texttt{Fahrrad} & \texttt{2}\\
+\hline
+\verb|[NULL]| & \verb|[NULL]| & \texttt{Auto} & \texttt{4}\\
+\hline
+\texttt{3} & \texttt{Annabel} & \texttt{Auto} & \texttt{3}\\
+\hline
+\end{tabular}
+
+
+\subsection{Verknüpfung einer Tabelle mit sich selbst}
+
+Gegeben ist die Tabelle \myUserInput{angestellter}:
+
+\begin{tabular}{|l|l|}
+\hline
+\textbf{\texttt{name}} & \textbf{\texttt{job}} \\ \hline
+\texttt{Jan Bauer} & \texttt{Buchhalter} \\ \hline
+\texttt{Talina Wendel} & \texttt{Programmierer} \\ \hline
+\texttt{Noah Richter} & \texttt{Programmierer} \\ \hline
+\texttt{Andrea Faust} & \texttt{Redakteur} \\ \hline
+\end{tabular}
+
+Um herauszufinden, wer denselben Job hat wie Talina Wendel, kann man die folgende Abfrage stellen:
+
+\begin{lstlisting}
+SELECT a2.name
+FROM angestellter a1, angestellter a2
+WHERE a1.name = 'Talina Wendel' AND a1.job = a2.job;
+\end{lstlisting}
+
+Es wird zweimal die Tabelle \myUserInput{angestellter} verwendet. Um die beiden
+Tabellen unterscheiden zu können erhalten sie Namen (ein sogenanntes Alias).
+\myUserInput{a1} bezeichnet die erste Angestellten-Tabelle und \myUserInput{a2}
+die zweite Angestellten-Tabelle.
+
+\textbf{Aufgabe:} Welche Ausgabe erzeugt die Abfrage?

@@ -1,0 +1,112 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{
+\makebox[1.60cm][r]{\thechapter}\\ \makebox[1.60cm][r]{ÜBUNG}}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{\thechapter\\
+ÜBUNG}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{SQL -- Übung 1: Eine einfache Haustierdatenbank}
+
+\subsection{Aufgabe 1: Datenbank erzeugen}
+
+Erzeuge eine Haustier-Datenbank. Die Datenbank soll zunächst nur die Tabelle
+\myUserInput{tier} mit folgenden Datenfeldern enthalten:
+
+\begin{compactitem}
+  \item \myUserInput{name} (muss immer angegeben werden)
+  \item \myUserInput{tierart} (muss immer angegeben werden)
+  \item \myUserInput{lebendig} (\myUserInput{ja}/\myUserInput{nein};
+  Standard-Wert: \myUserInput{ja})
+  \item \myUserInput{geschlecht}
+  (\myUserInput{männlich}/\myUserInput{weiblich}; Standard-Wert:
+  \myUserInput{weiblich})
+  \item \myUserInput{geburtstag} (kann unbekannt sein)
+  \item \myUserInput{todestag} (kann unbekannt sein oder kann leer sein, weil
+  das Tier noch lebt)
+\end{compactitem}
+
+Bitte halte beim Anlegen der Tabelle die Reihenfolge der Datenfelder exakt ein.
+Welche Datentypen sollten die einzelnen Datenfelder erhalten?
+
+
+\subsection{Aufgabe 2: Daten eingeben}
+
+Führe die folgenden Anweisungen bitte exakt aus, damit nachher alle für die
+weiteren Übungen dieselbe Tabelle haben:
+
+\begin{compactenum}[a)]
+\item Gib mit Hilfe der ersten Form der \lstinline{INSERT}-Anweisung die
+folgenden Datensätze in die Tabelle \myUserInput{tier} ein:
+
+\begin{compactitem}
+  \item Bello, Hund, ja, männlich, 01.05.2003, null
+  \item Daisy, Kanarienvogel, nein, weiblich, 06.12.1996, 17.08.2004
+  \item Mausi, Katze, ja, weiblich, 17.11.2002, null
+\end{compactitem}
+
+\item Gib mit Hilfe der zweiten Form der \lstinline{INSERT}-Anweisung die
+folgenden Datensätze ein.
+
+\begin{compactitem}
+  \item Daisy, Schildkröte
+  \item Lassie, Hund
+  \item Maja, Hund
+\end{compactitem}
+
+\item Gib mit Hilfe der zweiten Form der \lstinline{INSERT}-Anweisung die
+folgenden Datensätze ein:
+
+\begin{compactitem}
+  \item Hasso, Hund, männlich
+  \item Blacky, Katze, männlich
+  \item Harald, Hamster, männlich
+\end{compactitem}
+
+\item Nun sollen nachträglich noch einige Datensätze verändert werden:
+
+\begin{compactitem}
+  \item Trage für die Schildkröte Daisy den Geburtstag 06.12.2003 ein.
+  \item Die Hunde Lassie, Maja und Hasso stammen aus einem Wurf. Trage (mit einer 
+  einzigen, möglichst kurzen Anweisung) den Geburtstag 23.04.2004 für die drei
+  Hunde ein.
+  \item Der Hamster Harald ist verstorben. Trage für Harald (in einer einzigen
+  Anweisung) den Geburtstag 29.07.2001, den Todestag 15.09.2003 und ein ’nein’
+  für lebendig ein.
+\end{compactitem}
+\end{compactenum}
+
+
+\subsection{Aufgabe 3: Daten abfragen}
+
+Nachdem wir die Tabelle \myUserInput{tier} angelegt haben, wollen wir unsere
+Mini-Datenbank für Abfragen nutzen. Formuliere geeignete SQL-Anweisungen für die
+folgenden Abfragen an die Tabelle \myUserInput{tier}. Speichere die
+SQL-Anweisungen in einer Textdatei ab, damit du sie später noch weißt.
+
+\begin{compactenum}[a)]
+\item Zeige die gesamte Tabelle tier an.
+\item Zeige nur die Spalten \myUserInput{name} und \myUserInput{tierart} an.
+\item Liste die Spalten \myUserInput{name} und \myUserInput{tierart} auf.
+Sortiere dabei in aufsteigender alphabetischer Reihenfolge nach dem Namen. An
+zweiter Stelle soll nach der Tierart sortiert werden (auch aufsteigend).
+\item Zeige nur die Spalte \myUserInput{geburtstag} an. Sorge dafür, dass jeder
+Wert nur einmal angezeigt wird.
+\item Zeige die Spalten \myUserInput{name} und \myUserInput{tierart} für die
+Tiere an, die noch leben.
+\item Liste die Namen aller Tiere auf, die vor dem Jahr 2004 geboren wurden und
+ noch nicht tot sind. Sortiere die Namen in absteigender alphabetischer
+ Reihenfolge.
+\item Liste die gesamten Spalten aller Tiere auf, die weder Hund noch Katze
+sind.
+\item Zeige die Namen und die Geburtstage aller Tiere an, für die kein Todestag
+ angegeben wurde.
+\item Zähle wie viele Tiere nach dem 01.01.2003 geboren wurden.
+\item Liste auf, wie viele Tiere es von jeder Tierart gibt. Das Ergebnis soll
+eine Tabelle mit einer Spalte \myUserInput{tierart} sein und einer Spalte, die
+zu jeder Tierart die Anzahl angibt.
+\item Liste alle Tierarten auf, von denen es zwei oder mehr Tiere gibt.
+\item Zähle die Anzahl der unterschiedlichen Tierarten, die es gibt.
+\end{compactenum}

@@ -1,0 +1,282 @@
+\chapter{Nebenläufige Programmierung: Threads}
+\renewcommand{\chaptertitle}{Nebenläufige Programmierung: Threads}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+\section{Wofür benötigt man Threads?}
+
+Threads ermöglichen es ein Programm in mehrere Teile zu unterteilen, die
+unabhängig voneinander parallel ausgeführt werden. Jeder Thread (engl. für
+Faden) arbeitet eigenständig in seinem eigenen Tempo. Über Variablen können die
+Threads Informationen untereinander austauschen. Wenn ein Programm
+beispielsweise eine lange Berechnung durchführen muss, die mehrere Minuten
+dauert, so wäre es in einem \glqq normalen\grqq\ Programm während dieser Zeit
+nicht möglich auf Benutzereingaben zu reagieren. Wenn man die Berechnung dagegen
+in einem zweiten Thread durchführt, kann sich der Haupt-Thread weiterhin um
+Benutzereingaben kümmern. Weitere Beispiele für den Einsatz von Threads:
+
+\begin{compactitem}
+\item Wenn ein Text gedruckt wird, ist dies eine Aktion die relativ lange
+dauert. Wird der Druckvorgang in einem eigenen Thread durchgeführt, so steht der
+Haupt-Thread dem Benutzer während des Druckvorgangs für weitere Arbeitsaufträge
+zur Verfügung.
+
+\item Während auf Eingaben des Benutzers gewartet wird, sollen im Hintergrund
+aufwändige Berechnungen fortgeführt werden.
+\end{compactitem}
+
+Jede von Thread abgeleiteten Klasse muss die Methode \textbf{\lstinline|run()|}
+überschreiben. Diese wird automatisch ausgeführt sobald der Thread über die
+geerbte (und bei Bedarf ebenfalls überschriebene) Methode
+\textbf{\lstinline|start()|} aus der Basisklasse \myClass{Thread} gestartet
+wird.
+
+Der Methode \textbf{\lstinline|start()|} kommt dabei eine besondere Aufgabe zu:
+Sie sorgt dafür, dass der neue Thread aus Sicht des Betriebssystems als
+eigenständiger Prozess läuft. Nur so laufen die verschiedenen Threads
+tatsächlich parallel nebeneinander her. Würde man \lstinline|run()| hingegen
+direkt aufrufen (was technisch gesehen durchaus möglich ist), würde diese
+Methode -- wie alle anderen Methoden auch -- ganz normal ausgeführt. Und der
+nächste Programmschritt würde erst dann bearbeitet, wenn \lstinline|run()| seine
+Arbeit beendet hat.
+
+Obwohl es in der Basisklasse \myClass{Thread} eine Methode
+\textbf{\lstinline|stop()|} gibt, sollte man diese nicht verwenden um einen
+Thread zu beenden! Vielmehr sollte man über eine boolesche Variable, die den
+Zustand (läuft oder läuft nicht) des Threads festhält steuern, ob die Methode
+\lstinline|run()| weiter ausgeführt werden soll. Der Thread als Ganzes wird
+beendet, sobald die Methode \lstinline|run()| beendet ist. Siehe dazu das letzte
+Beispiel in diesem Kapitel.
+
+\begin{center}
+\begin{minipage}{1.0\textwidth}
+\begin{framed}
+\textbf{Merksatz:} \lstinline|run()| muss, \lstinline|start()| kann
+überschrieben werden. Und \lstinline|stop()| sollte man nicht verwenden.
+\end{framed}
+\end{minipage}
+\end{center}
+
+
+\section{Beispiel}
+
+\begin{compactenum}[a)]
+\item \textbf{Thread-Klasse}
+
+\begin{lstlisting}
+æimport javax.swing.JLabel;
+
+public class ZaehlThread æextends Threadæ {
+    JLabel lbl;
+    int index;
+    int zaehler = 0;
+
+    public ZaehlThread(JLabel lbl, int index) {
+        this.lbl = lbl;
+        this.index = index;
+    }
+
+    @Override
+    public void ærun()æ {
+        while (true) {
+            lbl.setText("Zaehler" + index + ": " + zaehler);
+            try {
+                Thread.æsleepæ(index * 1000);
+            }
+            catch (Exception e) {
+            }
+            zaehler++;
+        }
+    }
+}
+\end{lstlisting}
+
+Erläuterungen:
+
+\begin{compactenum}[1.]
+\item Um einen Thread zu programmieren muss man eine Klasse von der Superklasse
+\myClass{Thread} ableiten.
+\item Die Methode \lstinline|run()| wird vom System automatisch aufgerufen
+sobald der Thread gestartet wurde. Der Thread existiert bis die Methode
+\lstinline|run()| beendet ist.
+\item \lstinline|sleep()| ist eine statische Methode der Klasse
+\myClass{Thread}, die den aktuellen Thread für die angegebene Anzahl von
+Millisekunden schlafen legt (blockiert).
+\end{compactenum}
+
+\item \textbf{Frame}
+
+\begin{lstlisting}
+æimport java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+public class ThreadBeispiel extends JFrame {
+    // globale Variablen
+    private static final int WIDTH = 200;
+    private static final int HEIGHT = 120;
+    private JLabel label[];
+    private ZaehlThread thread[];
+
+    public ThreadBeispiel(final String title) {
+        super(title);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(new FlowLayout());
+        contentPane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setContentPane(contentPane);
+        label = new JLabel[3];
+        thread = new ZaehlThread[3];
+        for (int i = 0; i < 3; i++) {
+            label[i] = new JLabel();
+            label[i].setFont(new Font("Arial", Font.BOLD, 20));
+            contentPane.add(label[i]);
+            thread[i] = ænew ZaehlThreadæ(label[i], i + 1);
+            thread[i].æstart()æ;
+        }
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+    }
+
+    public static void main(final String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new ThreadBeispiel("Thread-Beispiel");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+}
+\end{lstlisting}
+
+Die Anwendung erzeugt ein oder mehrere Objekte der selbst geschriebenen
+Thread-Klasse. Anschließend werden die Threads durch den Aufruf der Methode
+\lstinline|start()| gestartet.
+
+\textbf{Fragen:}
+
+\begin{compactenum}[1.]
+\item Wie viele Threads besitzt dieses Beispiel-Programm?
+\item Wieso darf man die Thread-Methode \lstinline|run()| nicht direkt aufrufen?
+\end{compactenum}
+
+\end{compactenum}
+
+
+\section{Animation steuern mit einem eigenen Timer-Thread}
+
+Wenn man eine Animation programmieren möchte, muss in regelmäßigen Zeitabständen
+die Methode \lstinline|repaint()| aufgerufen werden. Dazu legt man einen eigenen
+Thread an, dessen einzige Aufgabe es ist die Zeit zu zählen und immer wieder mit
+\lstinline|repaint()| das Neu-Zeichnen des Frames und seiner Komponenten
+anzustoßen. Natürlich ist es nicht nötig, solch einen Timer selbst zu
+programmieren: Wir haben ja auch bislang schon immer die Klasse
+\myClass{javax.swing.Timer} für diesen Zweck verwendet. Aber es ist ein schönes
+Beispiel.
+
+\subsection{Beispiel}
+
+\begin{lstlisting}
+public class MyTimer extends Thread {
+    private int repaintMillisec;
+    private JFrame frame;
+    private boolean threadBeendet = false;
+
+    MyTimer(int millisec, JFrame app) {
+        repaintMillisec = millisec;
+        frame = app;
+    }
+
+    public void beenden() {
+        threadBeendet = true;
+    }
+
+    @Override	
+    public void run() {
+        while (!threadBeendet) {
+            try {
+                frame.repaint();
+                Thread.sleep(repaintMillisec);
+            }
+            catch (Exception e) {
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+Und die Fenster-Klasse, die den Timer benutzt:
+
+\begin{lstlisting}
+æimport java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+public class SpringendeBaelle extends JFrame {
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 500;
+    private static final Color BACKGROUND = Color.WHITE;
+    private JPanel zeichenflaeche;
+    private Ball b1, b2, b3;
+
+    public SpringendeBaelle(final String title) {
+        super(title);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(new BorderLayout(0, 0));
+        setContentPane(contentPane);
+        zeichenflaeche = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                myPaint(g);
+            }
+        };
+        zeichenflaeche.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        zeichenflaeche.setBackground(BACKGROUND);
+        contentPane.add(zeichenflaeche);
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+        b1 = new Ball(100, 100, 50, -10, Color.RED, false);
+        b2 = new Ball(200, 200, 150, -5, Color.GREEN, true);
+        b3 = new Ball(400, 50, 20, 7, Color.BLUE, true);
+æ        MyTimer timer = new MyTimer(30, this);
+        timer.start();
+æ    }
+	
+    public void myPaint(Graphics g) {
+        // wird aufgerufen, wenn das Fenster neu gezeichnet wird
+        b1.zeichnen(g);
+        b2.zeichnen(g);
+        b3.zeichnen(g);
+    }
+
+    public static void main(final String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new SpringendeBaelle("Springende Bälle");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+}
+\end{lstlisting} 

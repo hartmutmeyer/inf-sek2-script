@@ -1,0 +1,211 @@
+\clearpage
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{
+\makebox[1.60cm][r]{\thechapter}\\ \makebox[1.60cm][r]{ÜBUNG}}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\parbox[c][0.70cm][b]{1.60cm}{\thechapter\\
+ÜBUNG}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\section{Dialoge -- Übungen}
+
+Bearbeite die Aufgaben in der Datei \myFile{Dialoge.java}, welche du im
+Kurs-Repository findest.
+
+\subsection{Aufgabe 1: Zahl zwischen 1 und 100}
+
+\begin{compactenum}[a)]
+\item Schreibe eine Methode, die überprüft ob eine als Parameter übergebene
+ganze Zahl zwischen 1 und 100 liegt. Das Ergebnis wird als boolescher Wert
+zurück gegeben.
+
+\item Der Benutzer wird in einem Eingabe-Dialog nach einer Zahl gefragt, die an
+die Methode aus Teil (a) übergeben wird. Das Ergebnis wird in einem
+Ausgabe-Dialog angezeigt.
+\end{compactenum}
+
+
+\subsection{Aufgabe 2: Zahl kleiner als 10 oder größer als 20}
+
+\begin{compactenum}[a)]
+\item Schreibe eine Methode, die überprüft ob eine als Parameter übergebene
+ Fließkommazahl kleiner als 10 oder größer als 20 ist. Das Ergebnis wird als
+ boolescher Wert zurück gegeben.
+
+\item Der Benutzer wird in einem Eingabe-Dialog nach einer Zahl gefragt, die an
+die Methode aus Teil (a) übergeben wird. Das Ergebnis wird in einem
+Ausgabe-Dialog angezeigt.
+\end{compactenum}
+
+
+\subsection{Aufgabe 3: Gerade Zahl}
+
+\begin{compactenum}[a)]
+\item Schreibe eine Methode, die überprüft ob eine als Parameter übergebene
+ganze Zahl gerade (das heißt durch 2 teilbar) ist. Das Ergebnis wird als
+boolescher Wert zurück gegeben.
+
+\item Der Benutzer wird in einem Eingabe-Dialog nach einer Zahl gefragt, die an
+die Methode aus Teil (a) übergeben wird. Das Ergebnis wird in einem
+Ausgabe-Dialog angezeigt.
+\end{compactenum}
+
+
+\subsection{Aufgabe 4: Umwandlung von Notenpunkten in Noten}
+
+\begin{compactenum}[a)]
+
+\item Schreibe eine Methode, die eine Zensur in Punktangabe in die übliche
+ Notenbezeichnung aus der Mittelstufe umrechnet:
+
+\begin{tabular}{rcl}
+0 & $\rightarrow$ & 6 \\
+1 bis 3 & $\rightarrow$ & 5\\
+4 bis 6 & $\rightarrow$ & 4\\
+7 bis 9 & $\rightarrow$ & 3\\
+10 bis 12 & $\rightarrow$ & 2\\
+13 bis 15 & $\rightarrow$ & 1\\
+Alle anderen Werte & $\rightarrow$ & -1 (als Fehlerwert)\\
+\end{tabular}
+
+\item Der Benutzer wird in einem Eingabe-Dialog nach einer Zahl gefragt, die an
+die Methode aus Teil (a) übergeben wird. Das Ergebnis wird in einem Ausgabe-Dialog angezeigt.
+
+\item Der Benutzer soll nacheinander mehrere Zahlen überprüfen können ohne
+erneut auf den Button zu drücken. Rufe den Code aus Teilaufgabe (b) in einer
+Schleife wiederholt auf, bis der Benutzer den \myPMI{Abbrechen}-Button drückt.
+\end{compactenum}
+
+
+\subsection{Aufgabe 5: Mathe-Trainer}
+
+\begin{compactenum}[a)]
+
+\item In einem Eingabe-Dialog werden nacheinander die
+folgenden Rechenaufgaben angezeigt, die der
+Benutzer lösen muss:
+
+\vspace{3mm}
+
+\begin{tabular}{ccc}
+5*7 & 6*7 & 7*7\\
+5*8 & 6*8 & 7*8\\
+5*9 & 6*9 & 7*9\\
+\end{tabular}
+
+Verwende dazu zwei ineinander geschachtelte for- Schleifen. Die eine Schleife
+zählt die erste Zahl von 5 bis 7 hoch. Die andere Schleife zählt die zweite Zahl
+von 7 bis 9 hoch. Nachdem der Benutzer seine Lösung eingegeben hat, wird die
+Korrektheit der Lösung überprüft. In einem Ausgabedialog wird dann entweder
+\glqq Korrekt.\grqq\ ausgegeben oder es wird ausgegeben \glqq Falsch. Die
+richtige Lösung ist \emph{Lösung}.\grqq
+
+\item Erweitere das Programm so, dass der Benutzer nach Eingabe einer falschen
+ Lösung so lange wiederholt dieselbe Aufgabe erhält, bis er die Lösung korrekt
+ angegeben hat.
+\end{compactenum}
+
+
+\subsection{Aufgabe 6: Lösung quadratischer Gleichungen}
+
+Gleichungen der Form $x^2 + p \cdot x + q = 0$ können mit der $p$-$q$-Formel
+gelöst werden.
+
+Die p-q-Formel liefert zwei Lösungen:
+
+\begin{minipage}{0.32\textwidth}
+$$
+x_1 = - \frac{p}{2} + \sqrt{\left(\frac{p}{2}\right)^2 - q}
+$$
+\end{minipage}
+und 
+\begin{minipage}{0.32\textwidth}
+$$
+x_2 = - \frac{p}{2} - \sqrt{\left(\frac{p}{2}\right)^2 - q}
+$$
+\end{minipage}
+
+Frage den Benutzer in zwei Eingabe-Dialogen nach einem Wert für $p$ und $q$.
+Wandle die Benutzereingaben in Fließkommazahlen um und berechne zunächst den
+Wert unter der Wurzel. Falls dieser Wert negativ ist, wird in einem
+Ausgabe-Dialog \glqq keine Lösung\grqq\ ausgegeben, da man keinen Wert aus
+einer negativen Zahl ziehen kann. Falls der Wert 0 ist, gibt es nur eine Lösung,
+die in einem Ausgabe-Dialog angezeigt wird, nämlich $x = - \frac{p}{2}$. Falls
+der Wert positiv ist, gibt es zwei Lösungen. Berechne beide Lösungen und gib
+sie in einer zusammenhängenden Zeichenkette mit einem einzigen Ausgabe-Dialog
+aus.
+
+Teste dein Programm mit den Testdaten in der folgenden Tabelle.
+
+\begin{minipage}{0.58\textwidth}
+\begin{tabular}{|l|l|}\hline
+\textbf{Aufgabe} & \textbf{Lösung}
+\\ \hline
+$x^2 - 4 \cdot x - 5 = 0$ & $x_1 = 5$, $x_2 = -1$
+\\ 
+$x^2 + 7,9 \cdot x + 2,5 = 0$ & $x_1 = 0,330\ldots$, $x_2 = -7,569\ldots$
+\\ 
+$x^2 + 4,6 \cdot x - 1 = 0$ & $x_1 = 0,207\ldots$, $x_2 = -4,807\ldots$
+\\ 
+$x^2 + 4 \cdot x + 4 = 0$ & $x = -2$
+\\ 
+$x^2 - 5 \cdot x + 17 = 0$ & keine Lösung
+\\ 
+$x^2 + 0 \cdot x + 6 = 0$ & keine Lösung
+\\ \hline
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}{0.42\textwidth}
+\textbf{Mathematische Funktionen}
+
+\begin{lstlisting}
+double wurzel = Math.sqrt(3); æ// `$\sqrt{3}$`
+ædouble hoch = Math.pow(4,2);  æ// `$4^2$`
+\end{lstlisting}
+\end{minipage}
+
+
+\subsection{Aufgabe 7: Body Mass Index (BMI)}
+
+Der Body Mass Index wird von
+Ernährungswissenschaftlern verwendet, um festzustellen
+ob eine Person Über- oder Untergewicht hat. Der Body
+Mass Index berechnet sich nach folgender Formel:
+
+$$
+\textrm{BMI} = \frac{\textrm{Gewicht in kg}}{(\textrm{Größe in m})^2}
+$$
+
+Erwachsene gelten als normalgewichtig, wenn ihr BMI zwischen 18,5 und 25 liegt.
+Wenn ihr BMI über 25 liegt, haben sie Übergewicht. Wenn er unter 18,5 liegt,
+haben sie Untergewicht. Frage den Benutzern in zwei Eingabedialogen zuerst nach
+seinem Gewicht und dann nach seiner Größe (Achtung: Die Größe muss in Metern
+eingeben werden, also als Kommawert!). Wandle beide Werte in
+Fließkommazahlen um, berechne den BMI und gib in einem Ausgabedialog aus, ob der Benutzer
+Übergewicht, Untergewicht oder Normalgewicht hat.
+
+
+\subsection{Aufgabe 8: Niedersachsenticket}
+
+Ein Niedersachsenticket ist einen Tag gültig und kostet 28€ . Maximal 5 Personen
+können auf dem Ticket an Wochentagen in Regionalzügen durch Bremen, Hamburg und
+Niedersachsen fahren. Wie viel eine Person z.B. für eine Tagesfahrt von Bremen
+nach Hamburg zahlt, hängt von der Anzahl der Mitfahrer ab. Wenn beispielsweise 2
+Personen nach Hamburg fahren, zahlt jeder 28€ : 2 = 14€. Wenn statt dessen 6
+Personen mitfahren, müssen zwei Ticket gekauft werden. Jeder zahlt dann 56€ : 6
+= 9,33€.
+
+\begin{compactenum}[a)]
+\item Schreibe eine Methode, die als Parameter die Anzahl der Personen erhält
+und als Rückgabewert den Fahrpreis für jede einzelne Person ermittelt. Welchen
+Datentyp sollte man für den Parameter und den Rückgabewert wählen? 
+
+\item Der Benutzer wird in einem Eingabe-Dialog nach der Anzahl der Personen
+gefragt, die an die Methode aus Teil a) übergeben wird. Der berechnete
+Fahrpreis wird in einem Ausgabe-Dialog angezeigt.
+
+\item Der Benutzer soll nacheinander mehrere Zahlen eingeben können ohne erneut
+auf den Button zu drücken. Rufe den Code aus Teilaufgabe b) in einer Schleife
+wiederholt auf, bis der Benutzer den Abbrechen-Button drückt.
+\end{compactenum}

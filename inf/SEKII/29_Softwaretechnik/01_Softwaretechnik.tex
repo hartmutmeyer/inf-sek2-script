@@ -1,0 +1,226 @@
+\chapter{Softwaretechnik}
+\renewcommand{\chaptertitle}{Softwaretechnik}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+\lstset{style=myJava}
+
+{\em Softwaretechnik} (englischer Fachbegriff: {\em Software Engineering})
+beschreibt den Prozess der Software-Erstellung. Das beinhaltet neben der
+Programmierung, der Dokumentation  und den Tests auch die Planungs- und
+Wartungsphase.
+
+Ohne ein ausgewachsenes Projektmanagement ist dies nicht erfolgreich zu leisten.
+
+\section{Die Entwicklung eines Video-Überwachungssystems oder\\
+         warum die Firma LogoSoft Pleite ging}
+
+\subsection{Was vorher geschah}
+ 
+Anmerkung: Alle Namen und Daten in der folgenden Geschichte sind frei erfunden.
+Die Geschichte selbst hat sich so ähnlich aber wirklich zugetragen! Die Autorin
+hat nach ihren Erlebnissen beschlossen den Job als Softwareentwicklerin
+aufzugeben, um in der Schule für die Ausbildung fähigerer Generationen zu sorgen.
+
+September 2000: Die Firma LogoSoft ist ein kleines Software-Unternehmen, das
+seit ca.\ 10 Jahren vergeblich versucht, Geld durch den Verkauf von
+Videokonferenzsystemen zu verdienen. Die Videokonferenzsysteme wurden in der
+Firma ohne festen Auftrag entwickelt, in der Hoffnung, dass sie bei anderen
+Unternehmen reißenden Absatz finden. Die hergestellte Software ist qualitativ
+gut, aber der jährliche Umsatz von ca.\ 30 Systemen zu je 1500 € reicht nicht
+einmal aus, um die Gehälter der ca.\ 40 Mitarbeiter in einem einzigen Monat zu
+bezahlen. Glücklicherweise wird die Firma von einer Muttergesellschaft aus
+England finanziert, die seit Jahren auf den großen Durchbruch hofft. Allerdings
+dämmert es den Geschäftsführern in England inzwischen, dass man mit
+Videokonferenzsystemen wohl doch nicht das große Geld machen kann. Deshalb hat
+der Geschäftsführer der Firma LogoSoft die Anweisung erhalten, in Zukunft keine
+eigenen Produkte mehr zu entwickeln. Statt dessen sollen nur noch Produkte
+hergestellt werden, die von einem Kunden, d.h.\ einer anderen Firma, in Auftrag
+gegeben werden. Die Kosten werden in diesem Fall direkt von der auftraggebenden
+Firma bezahlt.
+
+Der Vertriebsleiter der Firma LogoSoft hat Kontakt zu der Firma BlueEye, die
+glaubt, dass es eine Marktlücke für preiswerte Video-Überwachungssysteme gibt.
+Sie wollen einen PC-basierten Videorekorder entwickeln lassen, der in der Lage
+ist, die Aufnahme von 32 im Haus verteilten Kameras aufzuzeichnen. Die
+aufgenommenen Bilder sollen auf der Festplatte des PCs abgespeichert werden.
+
+\subsection{Der Vertrag wird abgeschlossen}
+
+Oktober 2000: Der Vertriebsleiter, der Geschäftsführer und der
+Abteilungsleiter-Technik verhandeln mit der Firma BlueEye über die Erstellung
+des gewünschten Video-Überwachungssystems. Die Anforderungen an das System
+werden schriftlich festgelegt. Es wird abgesprochen, dass die 32 Kameras über
+eine spezielle Hardware-Karte an den PC angeschlossen werden, die von der
+Schwesterfirma HardSoft entwickelt wird. Die Firma LogoSoft übernimmt die
+Programmierung der Software auf der Hardware-Karte und der Software, die auf
+dem PC läuft. Damit das System so preiswert wie möglich wird, werden billige
+Hardware-Komponenten verwendet, die zum aktuellen Zeitpunkt eigentlich schon
+veraltet sind. Die Tatsache, dass das System durch die technische
+Weiterentwicklung in zwei Jahren keine befriedigende Leistung mehr bringen
+wird, wird ignoriert. Hauptsache Kosten sparen! Daher wird auch beschlossen,
+dass auf dem PC das Betriebssystem Linux eingesetzt wird, denn dies ist ein
+preiswertes Betriebssystem, das im Moment \glqq in\grqq\ ist. Das Betriebssystem
+Linux ist allerdings nicht für zeitkritische Anwendungen entwickelt worden. Das
+Video-Überwachungssystem muss Monate lang ohne Wartung Bilder aufzeichnen
+können. Dabei darf kein einziges Bild verloren gehen. Es wäre untragbar, wenn
+gerade das Bild, auf dem vielleicht der Einbrecher zu sehen ist, wegen
+Systemfehlern nicht abgespeichert werden würde. Ob das Betriebssystem Linux und
+die verwendeten Hardware-Komponenten in der Lage sind, diese Anforderungen zu
+erfüllen, wird nicht näher untersucht.
+
+Nachdem die technischen Details geklärt sind, erstellt ein erfahrener
+Software-Entwickler, ein sogenannter {\em Senior Developer}, einen Grobplan für
+die Entwicklung der Software. Er überlegt, aus welchen Komponenten sich das
+System zusammen setzen muss. Dann schätzt er die dafür benötigte Zeit ab. Er
+glaubt, das das System von vier gut eingearbeiteten Mitarbeitern in einem
+halben Jahr erstellt werden kann. Nach dieser Grob-Kalkulation errechnet die
+Vertriebsabteilung einen Festpreis, zu dem die Software an die Firma BlueEye
+verkauft wird. Der Preis, die Anforderungen an das System und der Termin, bis
+zu dem die Software fertig sein muss, werden in einem Vertrag schriftlich
+festgehalten. Die Firma LogoSoft verspricht, die Software bis zum Mai 2001 zu
+liefern. Im Sommer 2001 will die Firma BlueEye bereits die ersten
+Video-Überwachungssysteme verkaufen.
+
+\subsection{Das Projekt beginnt}
+
+November 2000: Die Arbeit an dem Video-Überwachungssystem in der Firma LogoSoft
+beginnt. Da die meisten Mitarbeiter in laufenden Projekten eingebunden sind
+(die alle nur wenig Geld einbringen), hat der Abteilungsleiter-Technik
+Probleme, die vierköpfige Software-Entwicklungs-Mannschaft zusammen zu stellen.
+Er ernennt Kai Menzel zum Projektleiter. Kai Menzel ist ein langjähriger,
+erfahrener Mitarbeiter, der jedoch noch nie ein eigenes Projekt geleitet hat.
+Als einzigen Vollzeit-Mitarbeiter erhält Kai einen neuen Kollegen der frisch
+von der Universität kommt, und noch niemals ein Programm entwickelt hat, das
+länger als fünf Din A4 Seiten ist. Die weiteren Mitarbeiter des neuen Projektes
+sind zwei Studenten (mit noch geringerer Programmiererfahrung), die halbtags in
+der Firma jobben. Alle drei verdienen noch nicht viel und sind für die Firma
+LogoSoft preiswerte Arbeitskräfte. Keiner der vier Personen hat jemals zuvor
+Software auf dem Betriebssystem Linux erstellt.
+
+Da man bei großen Projekten nicht einfach so drauf los programmieren kann,
+erstellt Kai Menzel als erstes eine gründliche Projektplanung. Er vertraut
+dabei voll auf die zuvor von dem Senior Developer erstellte Grob-Planung. Er
+definiert genau, welche Aufgaben die einzelnen Software-Komponenten erfüllen
+müssen. Die Vorgaben werden grafisch und verbal festgehalten. Diese Planung
+dauert mehrere Wochen. Anschließend entscheidet Kai, welcher Mitarbeiter welche
+Komponenten erstellt und stellt dafür einen genauen Zeitplan auf.
+
+\subsection{Ablauf des ersten halben Jahres}
+
+Dezember 2000: Die drei Mitarbeiter von Kai Menzel haben ihre Teilaufgaben
+zugewiesen bekommen und können mit ihrer Arbeit beginnen. Jeder der Mitarbeiter
+studiert genau die von Kai festgesetzten Anforderungen und macht sich dann
+einen detaillierten Plan, wie er die ihm zugewiesene Komponente programmieren
+will. Nach zwei bis drei Wochen Einarbeitung und Planung sind alle Mitarbeiter
+so weit, dass sie mit der Programmierung loslegen können. Wenn jetzt noch die
+benötigte Hardware da wäre \ldots
+
+Februar 2001: Kai Menzel und seine Mitarbeiter haben große Probleme mit den von
+der Firma HardSoft gelieferten Prototypen für die Hardware-Karte. Es wird
+mehrfach ein neuer Prototyp geliefert und immer wieder stellen sie fest, dass
+die Karte fehlerhaft ist. Bei den Hardware-Tests geht eine Menge Zeit verloren.
+Außerdem stellt sich heraus, dass die Programmierung durch die billigen
+Hardware-Komponenten zeitaufwendiger ist als angenommen. Der Zeitplan ist nicht
+mehr einzuhalten.
+
+April 2001: Das Projekt hinkt dem ursprünglichen Zeitplan hoffnungslos
+hinterher. Um noch zu retten was zu retten ist, beschließt der
+Abteilungsleiter-Technik, zwei erfahrene Softwareentwickler von ihren laufenden
+Projekten abzuziehen und sie in das Projekt \glqq Video-Überwachungssystem\grqq\
+zu stecken. Die beiden neuen Projekt-Mitarbeiter, Marco Zwickel und Eva
+Kaufmann, beginnen sich einzuarbeiten.
+
+
+\subsection{Das Projekt muss verlängert werden}
+
+Mai 2001: Die beiden neuen Projekt-Mitarbeiter, Marco und Eva, sind jetzt im
+Bilde und sind vom Zustand des Projektes entsetzt. Marco soll mit dem
+Frischling von der Uni zusammen die Software für die Hardware-Karte fertig
+stellen. Er stellt fest, das der Neuling aus Unerfahrenheit viele Fehler
+eingebaut hat. Ein großer Teil seiner Komponenten muss noch einmal überarbeitet
+werden. Eva hat die Aufgabe, die PC-Software zu schreiben, um die sich bisher
+überhaupt noch niemand gekümmert hat. Sie stellt fest, dass die veranschlagte
+Zeitschätzung für die Komponente unrealistisch niedrig ist. Statt wie
+vorgegeben einen Monat wird sie mindestens drei Monate zur Erstellung der
+Software benötigen. Außerdem stellen Marco und Eva fest, dass bei der Planung
+viele wichtige Überlegungen unterlassen wurden. Beide haben große Bedenken, ob
+das System, so wie es geplant ist, stabil laufen wird.
+
+Juni 2001: Auf dem Betriebssystem Linux treten unerwartete Probleme auf. Hätte
+man das System vielleicht doch vorher auf Tauglichkeit untersuchen sollen? Ein
+einzelner Mitarbeiter wird ca. drei Monate brauchen, um diese Probleme zu
+beseitigen. Der Abteilungsleiter-Technik sieht sich gezwungen, einen weiteren
+Softwareentwickler für das Projekt „Video-Überwachung“ abzustellen. Fast die
+gesamte Softwareentwicklungsabteilung ist jetzt in das Projekt eingebunden.
+
+
+\subsection{Der Geldhahn wird zugedreht}
+
+Juli 2001: Die Muttergesellschaft in England hat keine Geduld mehr mit der
+Firma LogoSoft. Einer der Gründe dafür ist sicher auch der katastrophalen
+Ablauf des Projekts Video-Überwachung. Es wird beschlossen, dass 15 der 40
+Mitarbeitern entlassen werden müssen. Da die Firma auf keinen einzigen
+Software-Entwickler verzichten kann, werden in der Abteilung \glqq Technik\grqq\
+fünf \glqq einfache\grqq\ Mitarbeiter entlassen, die kein Universitätsdiplom
+besitzen. Die entlassenen Techniker wurden bisher für die Wartung der Geräte,
+die Kundenbetreuung und den Test von fertigen Software-Komponenten eingesetzt.
+Für dieses Aufgaben steht jetzt niemand mehr zur Verfügung. Die Mitarbeiter
+sind von der Firmenpolitik irritiert.
+
+
+\subsection{Technische Mängel}
+
+August 2001: Das geplante Software-System ist fertig gestellt. Aber es
+funktioniert nicht. Es stellt sich heraus, dass das System zu langsam ist. Es
+ist nicht in der Lage die Bilder der 32 Kameras in der erforderlichen
+Geschwindigkeit aufzuzeichnen. In großen Software-Firmen ist es eine
+Selbstverständlichkeit, dass zu Beginn der Entwicklung mit einem abgespeckten
+Prototyp ausgetestet wird, ob alle Vorstellungen technisch umsetzbar sind. Die
+Firma LogoSoft hat jedoch um Kosten zu sparen auf diesen Schritt verzichtet.
+
+Die Projektleiter und der Senior Developer untersuchen hektisch, wie das System
+so abgeändert werden kann, dass die vorgegebenen Anforderungen doch noch
+erfüllt werden können. Schließlich finden sie eine Lösung. Einige Komponenten
+auf der Hardware-Karte müssen verändert werden, und die Software muss
+entsprechend umgeschrieben werden. Die Erweiterung wird mehrere Monate Zeit
+kosten.
+
+September 2001: Die in der Firma verbliebenen Mitarbeiter stellen fest, dass
+die Gehälter mit Verspätung ausgezahlt werden.
+
+
+\subsection{Die Test-Phase}
+
+November 2001: Die Software des Video-Überwachungssystems ist fertig gestellt.
+Nun beginnt eine mehrere Monate lange Testphase. Nachdem die \glqq
+einfachen\grqq\ Techniker von der Firma entlassen wurden, müssen die Tests von
+den Software-Entwicklern selbst durchgeführt werden. Da die Software-Entwickler
+ein höheres Gehalt kriegen, wird die Testphase für die Firma ungewöhnlich teuer.
+
+Bei den Langzeit-Tests, die jetzt durchgeführt werden, kommen naturgemäß noch
+eine Reihe Software-Fehler zutage, die von den Software-Entwicklern behoben
+werden müssen. Nach einer Fehlerbehebung müssen immer alle Tests noch einmal
+durchgeführt werden, und häufig kommen dann weitere Fehler zutage. Es gibt
+mehrere Zyklen mit einer Testphase und einer anschließenden Fehlerbehebung bis
+die Software endlich \glqq rund\grqq\ ist.
+
+Während dessen gehen jede Woche neue Kündigungen von Mitarbeitern ein, die sich
+wegen der schlechten finanziellen Lage der Firma nach einem neuen Job umgesehen
+haben. Auch aus der Führungsetage kündigen viele Mitarbeiter.
+
+
+\subsection{Das Ende}
+
+März 2002: Das Video-Überwachungssystem ist endlich fertig gestellt.
+
+Die Muttergesellschaft in England beschließt, die Firma LogoSoft nicht mehr
+finanziell zu unterstützen. Alle Mitarbeiter werden zum nächstmöglichen
+Zeitpunkt entlassen.
+
+Ob die Firma BlueEye es schafft, ihr Video-Überwachungssystem erfolgreich zu
+verkaufen oder ob sie ebenfalls Pleite geht, bleibt noch abzuwarten.

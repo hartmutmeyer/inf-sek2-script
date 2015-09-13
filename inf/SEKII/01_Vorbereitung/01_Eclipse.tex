@@ -1,0 +1,406 @@
+\chapter{Eclipse als Java-Entwicklungsumgebung}
+\newcommand{\chaptertitle}{Eclipse als Java-Entwicklungsumgebung}
+
+\lehead[]{\sf\hspace*{-2.00cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][r]{\thechapter}}}\hspace{0.17cm}\textcolor{lightblue}{\chaptertitle}}
+\rohead[]{\textcolor{lightblue}{\chaptertitle}\sf\hspace*{0.17cm}\textcolor{white}{\colorbox{lightblue}{\makebox[1.60cm][l]{\thechapter}}}\hspace{-2.00cm}}
+%\chead[]{}
+\rehead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+\lohead[]{\textcolor{lightblue}{AvHG, Inf, My}}
+
+
+\section{Vorbereitung}
+
+\subsection{Installation des Java-SDKs}
+
+Installiere das aktuelle JDK auf deinem Computer:
+
+\url{http://www.oracle.com/technetwork/java/javase/downloads/index.html}
+
+$\rightarrow$ \myPMI{JDK} $\rightarrow$ \myPMI{Download} $\rightarrow$
+\myPMI{Accept License Agreement}
+
+Aus der Liste wählst du die für dein Betriebssystem und Architektur (32bit oder
+64bit) passende Datei aus.
+
+\subsection{Anlegen eines Online-Repositories für deine Java-Dateien}
+
+Spätestens wenn mehrere Personen (oft dazu noch an unterschiedlichen Orten)
+gemeinsam an einem Software-Projekt arbeiten, macht es keinen Sinn mehr seine
+Programm-Quelltexte auf der lokalen Festplatte zu speichern. Vielmehr werden
+dann zentrale Versionsverwaltungssysteme – sogenannte Repositories –  benutzt, 
+die die Daten online an einer zentralen Stelle bereit halten. Siehe
+
+\url{http://de.wikipedia.org/wiki/Repository}
+
+Wir wollen Subversion benutzen. Beim Anbieter assembla.com kannst du dir hier
+
+\url{https://www.assembla.com/user/one_page_signup?space_type=public}
+
+kostenlos ein öffentliches Subversion-Repository anlegen. Dazu musst du dich
+allerdings registrieren (siehe Abbildung \ref{fig:assembla-account-creation}).
+
+\begin{figure}[h]
+  \centering
+   \includegraphics[width=1.0\textwidth]{./inf/SEKII/01_Vorbereitung/Assembla_Account_Creation.png}
+   \caption{Anlegen eines Accounts bei assembla.com}
+   \label{fig:assembla-account-creation}
+\end{figure}
+
+Bei \myUserInput{Select a Project Configuration} (siehe Abbildung
+\ref{fig:assembla-project-configuration}) wählst du \myUserInput{Task and Issue
+Management with Integrated Subversion Hosting}.
+
+\begin{figure}[h]
+  \centering
+   \includegraphics[width=1.0\textwidth]{./inf/SEKII/01_Vorbereitung/Assembla_Project_Configuration.png}
+   \caption{Projekt Konfiguration mit Subversion-Repository wählen}
+   \label{fig:assembla-project-configuration}
+\end{figure}
+
+Du kannst Eclipse auch ohne solch ein Subversion-Repository nutzen, wenn dir
+das lieber ist.
+
+\section{Eclipse herunterladen und installieren}
+
+Die jeweils aktuellste stabile Version von Eclipse findest du hier:	
+
+\url{http://www.eclipse.org/downloads/}
+
+Von den dort angebotenen Paketen solltest du die für dein Betriebssystem
+passende \glqq Eclipse IDE for Java Developers\grqq\ auswählen. Das
+Betriebsystem selbst (Windows, \mbox{MacOS X} oder Linux) wird dabei schon
+richtig erkannt -- du musst nur noch zwischen der 32bit- und der 64bit-Version
+wählen.
+
+Der Download ist mit deutlich über 100MB recht groß. Dafür ist die Installation
+denkbar einfach: Das Heruntergeladene Archiv wird einfach an einen Ort deiner
+Wahl (etwa unter \myFile{C:\textbackslash Programme}) entpackt. Du könntest das
+Archiv auch direkt auf einen USB-Stick entpacken und damit Eclipse überall
+nutzen können. Allerdings wird der Programmstart dadurch verlangsamt, da der
+Computer von Festplatte üblicherweise schneller lesen kann als vom USB-Stick.
+
+Wechsele nun in den Ordner, in dem Eclipse entpackt wurde. Etwa in
+\myFile{C:\textbackslash Programme\textbackslash eclipse} (evtl. muss das
+Programm zum Entpacken des Archivs mit Administrator-Rechten gestartet werden).
+Dort kannst du durch einen Rechtsklick auf die Ausführbare eclipse Datei im
+Kontextmenü:
+
+\begin{compactitem}
+
+\item Einen Eintrag für Eclipse im Windows-Startmenü erzeugen, indem du aus dem
+Kontext-Menü den Eintrag \myPMI{An Startmenü anheften} wählst.
+
+\item Eine Verknüpfung (Icon) auf dem Desktop anlegen, indem du aus dem
+Kontext-Menü \myPMI{Senden an\ldots} $\rightarrow$ \myPMI{Desktop} auswählst.
+
+\end{compactitem}
+
+Oder du kannst Eclipse dort auch einfach direkt starten.
+
+\section{Eclipse konfigurieren}
+
+\subsection{Zeichensatz festlegen}
+
+Damit ihr untereinander und mit mir problemlos Dateien austauschen könnt,
+solltet ihr als erstes den Zeichensatz festlegen, mit dem Eclipse eure
+Textdateien (also auch die Java-Quelltext Dateien) interpretiert. Dies ist im
+Besonderen bedeutsam für die Kodierung von Umlauten und sonstigen
+Sonderzeichen.
+
+In Eclipse: \myPMI{Window} $\rightarrow$ \myPMI{Preferences} $\rightarrow$
+\myPMI{General} $\rightarrow$ \myPMI{Workspace} $\rightarrow$ \myPMI{Text
+file encoding} $\rightarrow$ \myPMI{Other} $\rightarrow$ \myPMI{UTF-8}
+
+\subsection{Änderungen durch andere Programme im Workspace überwachen}
+
+Eclipse geht normalerweise davon aus, dass die Dateien im Eclipse-eigenen
+Arbeitsverzeichnis (Workspace) nur aus Eclipse selbst heraus angelegt, gelöscht
+oder verändert werden.
+
+Das hat zur Folge, dass Eclipse durcheinander kommen kann, wenn du
+beispielsweise mit einem externen Programm eine Datei im Workspace veränderst
+oder Dateien dort hinein kopierst, löscht oder umbenennst.
+Es ist aber leicht, Eclipse so einzustellen, dass externe Änderungen an Dateien
+im Workspace erkannt werden:
+
+\myPMI{Window} $\rightarrow$ \myPMI{Preferences} $\rightarrow$
+\myPMI{General} $\rightarrow$ \myPMI{Workspace} $\rightarrow$
+Häkchen setzen vor \myPMI{Refresh using native hooks or polling}.
+
+\subsection{Subversion Plugin „Subclipse“ installieren und dein eigenes
+Repository einbinden} 
+
+Als nächstes solltest du noch eine Erweiterung zu Eclipse installieren um später
+mit deinem Sub\-vers\-ion-Repository arbeiten zu können. In Eclipse:
+\myPMI{Help} $\rightarrow$ \myPMI{Eclipse Marketplace \ldots} $\rightarrow$ In
+das Feld \myPMI{Find:} \myUserInput{subclipse} eintragen und mit \myPMI{Go}
+bestätigen. In der Trefferliste (nach kurzer Suche) hinter \myPMI{Subclipse}
+auf \myPMI{Install} klicken $\rightarrow$ \myPMI{Next} $\rightarrow$
+\myPMI{Next} $\rightarrow$ \myPMI{Accept License Agreement} $\rightarrow$
+\myPMI{Finish}.
+
+Damit wird das Subclipse-Plugin installiert. Nach einem anschließend nötigen
+Neustart von Eclipse fügst du über \myPMI{Window} $\rightarrow$ \myPMI{Show
+View} $\rightarrow$ \myPMI{Other \ldots} $\rightarrow$ \myPMI{SVN}
+$\rightarrow$ \myPMI{SVN Repositories} den „SVN Repositories“-View hinzu
+(erscheint als zusätzlicher Reiter in dem Teilfenster unten). Ein Rechts-Klick
+in diesen View öffnet das dazu gehörige Kontext-Menü. Dort wählst du
+\myPMI{New} $\rightarrow$ \myPMI{Repository Location \ldots}. In dem Dialog
+gibst du dann als URL \url{https://subversion.assembla.com/svn/DEIN_REPOSITORY}
+an (den Namen deines Repositories hast du vorher bei der Registrierung bei
+assembla.com selber ausgewählt).
+
+Um mit Eclipse arbeiten zu können musst du zu aller erst ein „Projekt“ anlegen.
+Dazu im linken Teil-Fenster (dem sogenannten „Package-Explorer“) ein
+Rechts-Klick und dann im Kontext-Menü \myPMI{New} $\rightarrow$ \myPMI{Java
+Project} auswählen. Nach der Wahl des Projekt-Namens kann direkt auf
+\myPMI{Finish} geklickt werden. 
+
+Mit einem Rechts-Klick auf das neue Projekt (im Package-Explorer nun sichtbar)
+wählst du \myPMI{New} $\rightarrow$ \myPMI{Package}. Paket-Namen sollten immer
+mit einem kleinen Buchstaben beginnen. Indem du das Projekt „auffaltest“
+(Projekt $\rightarrow$ src) siehst du die vorhandenen Pakete des Projektes. Ein
+Rechts-Klick auf ein Paket und ein \myPMI{New} $\rightarrow$ \myPMI{Class}
+erzeugt einen Dialog, in dem man den Namen der neuen Java-Klasse wählen kann.
+Mit einem Rechts-Klick auf ein Projekt im Package-Explorer kann man das Projekt
+auch in das zuvor angelegte Subversion-Repository schieben: \myPMI{Team}
+$\rightarrow$ \myPMI{Share Project \ldots} $\rightarrow$ \myPMI{SVN}
+$\rightarrow$ \myPMI{Next} $\rightarrow$ \myPMI{Next} $\rightarrow$
+\myPMI{Finish}. Dies muss nur ein mal für ein Projekt getan werden! 
+
+Dieses Projekt ist nun im Repository angelegt und man kann ab sofort Dateien des
+Projekts in dieses Repository sichern (\myPMI{Team} $\rightarrow$
+\myPMI{Commit \ldots}) oder auch auf die Dateien aus dem Repository auf die
+lokale Festplatte bringen (\myPMI{Team} $\rightarrow$ \myPMI{Update to HEAD})
+-- etwa weil du zu Hause gearbeitet hast und nun in der Schule die Dateien auf
+dem aktuellen Stand haben möchtest.
+
+\subsection{Das Kurs-Repository einbinden}
+
+Alle Arbeitsblätter und sonstige Dateien werden euch über ein Kurs-Repository
+zur Verfügung gestellt. Um auf dieses Kurs-Repository zugreifen zu können,
+fügst du mit Rechts-Klick im Repository-View das Kontext-Menü. Dort wählst du
+\myPMI{New} $\rightarrow$ \myPMI{Repository Location \ldots}. In dem Dialog
+gibst du dann als URL \url{https://subversion.assembla.com/svn/avhg_lk13} an
+(der genaue Name eures Kursverzeichnisses wird dir von mir mitgeteilt).
+
+Im Repository View sollte nun nach kurzer Zeit neben deinem eigenen Repository
+auch die URL des Kurs-Repositories zu sehen sein. Dieses solltest du
+„aufklappen“ (Klick auf den Pfeil vor der URL).
+
+\begin{figure}[h]
+  \centering
+   \includegraphics[width=1.0\textwidth]{./inf/SEKII/01_Vorbereitung/Eclipse_Repository-View.png}
+   \caption{Der Repository-View in Eclipse}
+   \label{fig:eclipse-repository-view}
+\end{figure}
+
+Anschließend werden mehrere Ordner sichtbar (siehe Abbildung
+\ref{fig:eclipse-repository-view}). Mit Rechtsklick auf den Ordner \myFile{LK13}
+(bzw. den für euch passenden) bekommst du ein Kontext-Menü. Aus diesem wählst du
+den Eintrag \myPMI{Checkout \ldots}. Die folgende Dialog Box kannst direkt mit
+\myPMI{Finish} abschließen. Es dauert dann einige Zeit bis das Projekt aus dem
+Repository kopiert im Package-Explorer als eigenes Projekt auftaucht.
+
+Wichtig: Im Kurs-Repository hast du nur Lese-, aber keine Schreibrechte.
+Folglich kannst du lokale Änderungen auch nicht mit einem Commit in das
+Repository sichern. Wenn du Dateien aus dem Kurs-Repository ändern willst musst
+du diese deshalb immer zuerst in dein eigenes Repository kopieren. Dort kannst
+du sie dann bearbeiten und auch verändert mit einem Commit in dein eigenes
+Repository sichern. Falls du versehentlich doch mal etwas im Kurs-Repository
+verändert haben solltest (erkennbar am schwarzen Stern vor dem Ordner), dann
+kannst du diese Änderungen ganz einfach mit Rechtsklick auf den
+Ordner $\rightarrow$ \myPMI{Team} $\rightarrow$ \myPMI{Revert\ldots} rückgängig
+machen.
+
+
+\subsection{Zeilennummern anzeigen lassen}
+
+Beim Programmieren ist es hilfreich, sich im Editor die Zeilennummern anzeigen
+zu lassen. Dies stellst du wie folgt ein:
+
+\myPMI{Window} $\rightarrow$ \myPMI{Preferences} $\rightarrow$
+\myPMI{General} $\rightarrow$ \myPMI{Editors} $\rightarrow$ \myPMI{Text
+Editors} $\rightarrow$ \myPMI{Show line numbers}
+
+\subsection{Automatische Updates} 
+
+Eclipse kann automatisch nach Updates suchen:
+
+\myPMI{Window} $\rightarrow$ \myPMI{Preferences} $\rightarrow$
+\myPMI{Install/Update} $\rightarrow$ \myPMI{Automatic Updates} 
+
+In diesem Dialog ein Häkchen Setzen vor \myPMI{Automatically find new updates
+and notify me}. Außerdem im Abschnitt \myPMI{Update schedule} des selben
+Dialogs auf \myPMI{Look for updates on the following schedule:} $\rightarrow$
+\myPMI{Every Saturday} (oder ein beliebiger anderer Wochentag. Im Abschnitt
+\myPMI{Download options} wählst du \myPMI{Download new updates automatically
+and notify me when ready to install them}. Schließlich den Dialog mit
+\myPMI{OK} verlassen.
+
+\subsection{Package „hilfe“ importieren}
+
+Zunächst werdet ihr bei der Java-Programmierung noch häufiger auf Hilfs-Klasse
+\myClass{HJFrame} zurück greifen. Um diese nutzen zu können, müsst ihr in eurem
+Projekt ein Package \myPackage{hilfe} anlegen (Rechtsklick auf das Projekt
+$\rightarrow$ \myPMI{new} $\rightarrow$ \myPMI{package}) und in dieses
+anschließend die Dateien  \myFile{HJFrame.java}, \myFile{HZeichnen.java} und
+\myFile{EclipseJFrameHilfe.txt} importieren (Rechtsklick auf das Package
+$\rightarrow$ \myPMI{Import \ldots} $\rightarrow$ \myPMI{General}
+$\rightarrow$ \myPMI{File System} $\rightarrow$ \myPMI{Next} $\rightarrow$
+\myPMI{From directory:} (\myPMI{Browse} -- dort das Verzeichnis wählen, in dem
+die gewünschten Java-Dateien liegen) $\rightarrow$ \myPMI{Next} $\rightarrow$
+im folgenden Dialog alle gewünschten Dateien auswählen $\rightarrow$
+\myPMI{Finish}.
+
+Die Java-Dateien sollten jetzt im package \myPackage{hilfe} sichtbar sein.
+
+\subsection{Erzeugung eines Templates (Vorlage) für HJFrame}
+
+\myPMI{Window} $\rightarrow$ \myPMI{Preferences} $\rightarrow$ \myPMI{Java}
+$\rightarrow$ \myPMI{Editor} $\rightarrow$ \myPMI{Templates} $\rightarrow$
+\myPMI{New}
+
+Im folgenden Dialog als Namen \myUserInput{HJFrame}, als Beschreibung (kann
+auch weg gelassen werden) \myUserInput{Template für die Ableitung eigener
+Klassen von der HJFrame-Klasse} und in dem großen Textfeld \myPMI{Pattern} den
+Text (Copy \& Paste) aus der Datei \myFile{EclipseJFrameHilfe.txt} einfügen.
+Anschließend zwei mal mit \myPMI{OK} bestätigen.
+
+Um diese Vorlage zu nutzen genügt es im Editor die Zeichenfolge
+\myUserInput{HJFrame} einzutippen (Groß- und Kleinschreibung ist dabei egal) und
+durch ein \myUserInput{<Strg>-<Leertaste>} zu bestätigen.
+
+
+\subsection{Wahl eines externen PDF-Betrachters}
+
+Unter Windows werden PDF-Dateien zumindest in älteren Eclipse-Versionen direkt
+geöffnet. Störend dabei ist vor allem, dass Eclipse jedes Mal meint, die
+PDF-Datei habe sich verändert und es deshalb beim Schließen der PDF-Ansicht
+immer die Rückfrage gibt, ob die Änderungen in der Datei gespeichert werden
+sollen. Das ist unsinnig und irritierend und kann im schlimmsten Fall sogar zu
+Inkonsistenzen im Repository führen.
+
+Dieses Problem umgehst du, indem du Eclipse anweist, PDF-Dateien nicht selber
+anzuzeigen, sondern für diesen Zweck ein externes Programm zu benutzen:
+
+\myPMI{Window} $\rightarrow$ \myPMI{Preferences} $\rightarrow$ \myPMI{General}
+$\rightarrow$ \myPMI{Editors} $\rightarrow$ \myPMI{File Associations}
+
+Der folgende Dialog ist in einen oberen und einen unteren Bereich aufgeteilt.
+Zunächst klickst du auf \myPMI{Add \ldots} im oberen Bereich und gibst dann
+\myUserInput{*.pdf} ein. Anschließend wählst du im unteren Bereich ebenfalls
+\myPMI{Add \ldots} und klickst dann im folgenden Dialog auf den Radio-Button für
+\myPMI{external Programs}. Aus der folgenden Liste wählst du einen geeigneten
+PDF-Betrachter aus. Beispielsweise den Acrobat Reader. Nach Bestätigen mit
+\myPMI{OK} ist dieser Konfigurationsschritt abgeschlossen.
+
+Auf die gleiche Art und Weise könntest du auch für andere Dateitypen festlegen,
+mit welchen internen oder externen Betrachtern bzw.\ Editoren sie geöffnet
+werden sollen.
+
+
+\subsection{Installation des
+MySQL-Java-Connectors}\label{mysql-connector-installation}
+
+Zunächst musst du den Connector herunter laden:
+
+\url{http://dl.dropbox.com/u/31241540/mysql-connector-java-5.1.34-bin.jar}
+
+(Sobald wir im Unterricht bei SQL angekommen sind, wirst du diese Datei auch in
+unserem Kurs-Repository finden. Und bis dahin brauchst du dich um die
+Einbindung des Connectors auch noch nicht zu kümmern.)
+
+Rechtsklick auf dein Projekt $\rightarrow$ \myPMI{Import \ldots} $\rightarrow$
+\myPMI{General} $\rightarrow$ \myPMI{File System} $\rightarrow$ \myPMI{Next}
+$\rightarrow$ \myPMI{From directory:} (\myPMI{Browse} -- dort das Verzeichnis
+wählen, in dem die JAR-Datei des Connectors liegt) $\rightarrow$ \myPMI{Next}
+$\rightarrow$ im folgenden Dialog die gewünschte Datei auswählen $\rightarrow$
+\myPMI{Finish}.
+
+Rechtsklick auf deinen Projekt-Ordner im Package-Explorer $\rightarrow$
+\myPMI{Build Path} $\rightarrow$ \myPMI{Configure Build Path \ldots}
+$\rightarrow$ Wähle den Reiter \myPMI{Libraries} $\rightarrow$ \myPMI{Add JARs
+\ldots} $\rightarrow$ wähle \myFile{mysql-connector-java-5.1.34-bin.jar} in
+deinem Projekt $\rightarrow$ \myPMI{OK} $\rightarrow$ \myPMI{OK}.
+
+\subsection{Plugin „SQL-Explorer“ installieren und konfigurieren}
+
+\myPMI{Help} $\rightarrow$ \myPMI{Install New Software \ldots} $\rightarrow$
+\myPMI{Add} $\rightarrow$ bei Name: \myUserInput{SQL-Explorer} und bei Location:
+
+\url{http://eclipsesql.sourceforge.net/} 
+
+eintragen. Mit \myPMI{OK} bestätigen. Wenn man den nun sichtbaren Eintrag für
+\myPMI{SQL Explorer} auffaltet, sieht man möglicherweise mehrere Versionen des
+Plugins. Davon die aktuellste auwählen. Mit \myPMI{Next} bestätigen. Nochmals
+\myPMI{Next}. Dann \myPMI{I accept the terms of the license agreement}
+$\rightarrow$ \myPMI{Finish}. Die im Installationsverlauf erscheinende Warnung
+bezüglich der Installation nicht-signierter Inhalte mit \myPMI{OK} quittieren.
+Ebenso den Hinweis auf den nötigen Neustart von Eclipse.
+
+Anschließend muss noch die Verbindung zum lokalen MySQL-Server konfiguriert
+werden:
+
+\myPMI{Windows} $\rightarrow$ \myPMI{Show View} $\rightarrow$ \myPMI{Other
+\ldots} $\rightarrow$ \myPMI{SQL Explorer} $\rightarrow$ \myPMI{Connections}
+$\rightarrow$ \myPMI{OK} Im nun verfügbaren Connections-Tab (unten)
+$\rightarrow$ Rechtsklick $\rightarrow$ \myPMI{New Connection Profile \ldots}
+$\rightarrow$ Name: \myUserInput{MySQL localhost} $\rightarrow$ \myPMI{Add/Edit
+Drivers} $\rightarrow$ \myPMI{SQL Explorer} auffalten $\rightarrow$ \myPMI{JDBC
+Drivers} $\rightarrow$ Doppelklick auf  \myPMI{MySQL Driver} $\rightarrow$
+\myPMI{Extra Class Path} $\rightarrow$ \myPMI{Add JARs \ldots} $\rightarrow$
+Den Pfad zu \myFile{mysql-connector-java-5.1.34-bin.jar} (oder neuere Version)
+auf der lokalen Platte (vermutlich in einem Unter-Ordner des workspace-Ordners)
+auswählen.
+
+Siehe Abbildung \ref{fig:mysql-connector}.
+
+\begin{figure}[h]
+  \centering
+   \includegraphics[width=1.0\textwidth]{./inf/SEKII/01_Vorbereitung/MySQL-Driver.png}
+   \caption{Auswahl des MySQL-Connectors}
+   \label{fig:mysql-connector}
+\end{figure}
+
+$\rightarrow$ \myPMI{List Drivers} $\rightarrow$ \myPMI{OK}
+$\rightarrow$ \myPMI{OK} $\rightarrow$ Driver: \myPMI{MySQL Driver}
+$\rightarrow$ Häkchen Setzen bei \myPMI{Auto Logon} und \myPMI{Auto Commit}
+$\rightarrow$ Anpassen der URL auf \myUserInput{jdbc:mysql://localhost:3306/}
+$\rightarrow$ \myPMI{User:} „root“ $\rightarrow$
+\myPMI{Password:} „root“ $\rightarrow$\myPMI{OK}. 
+
+Siehe Abbildung \ref{fig:sql-explorer-connection-profile}.
+
+\begin{figure}[h]
+  \centering
+   \includegraphics[width=0.7\textwidth]{./inf/SEKII/01_Vorbereitung/SQL-Explorer_Connection-Profile.png}
+   \caption{Einstellungsdialog für die Verbindung zum lokalen MySQL-Server}
+   \label{fig:sql-explorer-connection-profile}
+\end{figure}
+
+Ab sofort werden SQL-Skripte in Eclipse mit dem SQL-Explorer geöffnet. In diesem
+kann (einen lokal laufenden MySQL-Server vorausgesetzt)  dann einfach eine
+Verbindung zum lokalen MySQL-Server hergestellt werden. Im Drop-Down-Menü,
+links von \myPMI{Limit Rows} in der Menüzeile des SQL-Explorer Fensters kann
+dazu einfach der Eintrag \myPMI{MySQL localhost/root} ausgewählt werden.
+
+\clearpage
+
+\section{Eclipse kennen lernen}
+
+Für die ersten Schritte in Eclipse empfehle ich dir
+
+\url{http://dl.dropbox.com/u/31241540/JavaBuch_Eclipse.html} 
+
+Dabei handelt es sich um ein Kapitel aus dem „Handbuch der Java-Programmierung“
+von Guido Krüger und Heiko Hansen. Dieses ist als HTML-Version kostenlos unter
+\url{http://www.javabuch.de/} zu finden oder als richtiges Buch (Addison-Wesley
+Verlag) auch zu kaufen.
+
+\begin{minipage}{\textwidth}
+Außerdem gibt es auf YouTube jede Menge Video-Tutorials zu Java mit Eclipse.
+Beispielsweise auch eine ganze Serie (von brauchbarer Qualität):
+
+\url{http://www.youtube.com/playlist?list=PL71C6DFDDF73835C2}
+\end{minipage}
